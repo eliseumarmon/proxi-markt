@@ -1,0 +1,89 @@
+---
+config:
+  layout: elk
+  theme: dark
+---
+classDiagram
+direction TB
+    class USUARIOS {
+	    +int id_usuario PK
+	    +string nombre_usuario NOT NULL
+	    +string email NOT NULL
+	    +string contrasenya NOT NULL
+	    +string telefono NOT NULL
+	    +string direccion
+	    +decimal longitud
+	    +decimal latitud
+	    +double puntuacio
+    }
+
+    class CATEGORIAS {
+	    +int id_categoria PK
+	    +string nombre_categoria NOT NULL
+    }
+
+    class PRODUCTOS {
+	    +int id_producto PK
+	    +int id_categoria FK NOT NULL
+	    +string nombre_producto NOT NULL
+	    +decimal precio NOT NULL
+	    +int stock_total NOT NULL
+	    +enum estado NOT NULL
+    }
+
+    class CHAT {
+	    +int id_chat PK
+	    +int id_comprador FK NOT NULL
+	    +int id_vendedor FK NOT NULL
+	    +int id_producto FK NOT NULL
+    }
+
+    class MENSAJES {
+	    +int id_mensaje PK
+	    +int id_chat FK NOT NULL
+	    +int id_envio FK NOT NULL
+	    +text contenido NOT NULL
+    }
+
+    class PUNTOS_ENTREGA {
+	    +int id_punto PK
+	    +int id_usuario FK NOT NULL
+	    +decimal longitud NOT NULL
+	    +decimal latitud NOT NULL
+	    +string nombre_punto NOT NULL
+    }
+
+    class COMPRAVENTAS {
+	    +int id_compraventa PK
+	    +int id_producto FK NOT NULL
+	    +int id_comprador FK NOT NULL
+	    +int id_vendedor FK NOT NULL
+	    +int id_punto FK NOT NULL
+	    +int cantidad_total NOT NULL
+	    +enum estado NOT NULL
+    }
+
+    class VALORACIONES {
+	    +int id_valoracion PK
+	    +int id_venta FK NOT NULL
+	    +int id_resenyador FK NOT NULL
+	    +int id_resenyado FK NOT NULL
+	    +enum valoracion NOT NULL
+	    +text comentario
+    }
+
+    USUARIOS "1" -- "0..*" PRODUCTOS : publica
+    CATEGORIAS "1" -- "0..*" PRODUCTOS : clasifica
+    USUARIOS "1" -- "0..*" PUNTOS_ENTREGA : asigna
+    USUARIOS "1" -- "0..*" CHAT : escribe (comprador)
+    USUARIOS "1" -- "0..*" CHAT : recibe (vendedor)
+    PRODUCTOS "1" -- "0..*" CHAT : motiva
+    CHAT "1" -- "0..*" MENSAJES : contiene
+    USUARIOS "1" -- "0..*" MENSAJES : envía (id_envio)
+    USUARIOS "1" -- "0..*" COMPRAVENTAS : compra (comprador)
+    USUARIOS "1" -- "0..*" COMPRAVENTAS : vende (vendedor)
+    PRODUCTOS "1" -- "0..*" COMPRAVENTAS : objeto_de
+    PUNTOS_ENTREGA "1" -- "0..*" COMPRAVENTAS : tiene_lugar
+    COMPRAVENTAS "1" -- "0..*" VALORACIONES : genera
+    USUARIOS "1" -- "0..*" VALORACIONES : deja (resenyador)
+    USUARIOS "1" -- "0..*" VALORACIONES : obtiene (resenyado)
