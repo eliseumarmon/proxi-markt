@@ -1,0 +1,13 @@
+name: proxi_markt
+services:
+  mysql:
+    image: mysql:8.0
+    env_file:
+      - ./docker/database/.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/database/base.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3306:3306
+volumes:
+  mysql_data:
