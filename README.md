@@ -32,19 +32,13 @@ El producte final ha de ser una plataforma (aplicació web/app i servidor) que p
 
 ## Funcionalitats Clau
 
-El sistema haurà de demostrar les competències de DAW implementant les següents funcionalitats
-essencials:
+El sistema haurà de demostrar les competències de DAW implementant les següents funcionalitats essencials:
 
-**1. Punts d'entrega:** Els venedors seran els responsables d’establir els punts d’entrega en mà.
-Aquestes ubicacions poden ser, per exemple, a la granja, un mercat local o un altre punt d'acord
-entre comprador i venedor.
-**2. Xat integrat:** Permet la comunicació directa entre venedors i compradors per coordinar la
-comanda i, si es desitja, acordar altres detalls, com l'entrega a domicili.
-**3. Notificacions:** Els usuaris rebran actualitzacions sobre l'estat de les comandes, confirmacions
-d'acceptació, i notificacions quan arribi el moment d'anar a recollir els productes.
+**1. Punts d'entrega:** Els venedors seran els responsables d’establir els punts d’entrega en mà. Aquestes ubicacions poden ser, per exemple, a la granja, un mercat local o un altre punt d'acord entre comprador i venedor.
+**2. Xat integrat:** Permet la comunicació directa entre venedors i compradors per coordinar la comanda i, si es desitja, acordar altres detalls, com l'entrega a domicili.
+**3. Notificacions:** Els usuaris rebran actualitzacions sobre l'estat de les comandes, confirmacions d'acceptació, i notificacions quan arribi el moment d'anar a recollir els productes.
 
-**NOTA:** El pagament es farà en efectiu o per un altre mètode acordat entre comprador i venedor fora
-de l'aplicació, en el mateix moment de la recollida.
+**NOTA:** El pagament es farà en efectiu o per un altre mètode acordat entre comprador i venedor fora de l'aplicació, en el mateix moment de la recollida.
 
 ## Actors implicats
 
@@ -54,20 +48,13 @@ L'agricultor o venedor és qui ofereix els productes per vendre a través de l'a
 
 Accions possibles de l'Agricultor/Venedor:
 
-**1. Crear un perfil de venedor:** Els agricultors poden crear el seu perfil, incloent la seva ubicació i
-els productes que ofereixen.
-**2. Publicar productes:** Poden afegir els productes a la plataforma amb descripcions, fotos, preus i
-quantitats disponibles.
+**1. Crear un perfil de venedor:** Els agricultors poden crear el seu perfil, incloent la seva ubicació i els productes que ofereixen.
+**2. Publicar productes:** Poden afegir els productes a la plataforma amb descripcions, fotos, preus i quantitats disponibles.
 **3. Gestionar l'inventari:** Actualitzen la quantitat de productes segons la disponibilitat.
-**4. Establir punts d'entrega:** Els venedors defineixen els punts d'entrega en mà per a cada
-producte, com ara la seva granja, mercat local, o algun punt acordat. Poden incloure informació
-com adreces concretes o llocs de trobada específics.
-**5. Acceptar comandes:** Quan un comprador fa una reserva, el venedor pot acceptar o rebutjar la
-comanda segons la disponibilitat.
-**6. Comunicar-se amb el comprador:** Si el comprador vol acordar una entrega a domicili o altres
-detalls específics, poden parlar-ho a través de la comunicació interna de l'aplicació.
-**7. Valorar els compradors:** Després de la transacció, el venedor pot deixar una valoració per
-ajudar a establir la confiança dins de la comunitat.
+**4. Establir punts d'entrega:** Els venedors defineixen els punts d'entrega en mà per a cada producte, com ara la seva granja, mercat local, o algun punt acordat. Poden incloure informació com adreces concretes o llocs de trobada específics.
+**5. Acceptar comandes:** Quan un comprador fa una reserva, el venedor pot acceptar o rebutjar la comanda segons la disponibilitat.
+**6. Comunicar-se amb el comprador:** Si el comprador vol acordar una entrega a domicili o altres detalls específics, poden parlar-ho a través de la comunicació interna de l'aplicació.
+**7. Valorar els compradors:** Després de la transacció, el venedor pot deixar una valoració per ajudar a establir la confiança dins de la comunitat.
 
 ### Compradors
 
@@ -75,44 +62,30 @@ Els compradors són usuaris que volen adquirir productes locals directament dels
 
 Accions possibles del Comprador:
 
-**1. Crear un perfil de comprador:** Els compradors poden crear el seu perfil amb la seva informació
-personal i ubicació.
-**2. Buscar productes:** Podran cercar els productes disponibles segons la categoria, preu, o
-localització.
-**3. Realitzar una reserva de producte:** Poden reservar els productes que els interessin, indicant la
-quantitat i el punt d’entrega establert pel venedor.
-**4. Posar-se en contacte amb el venedor:** Si volen acordar una entrega a domicili o discutir altres
-detalls (com el temps o el lloc exacte de la recollida), poden comunicar-se amb el venedor a
-través de l'aplicació.
-**5. Valoració del venedor, el producte i l'entrega:** Un cop completada la transacció, el comprador
-pot deixar una valoració sobre l’experiència de compra, d'entrega i del producte.
+**1. Crear un perfil de comprador:** Els compradors poden crear el seu perfil amb la seva informació personal i ubicació.
+**2. Buscar productes:** Podran cercar els productes disponibles segons la categoria, preu, o localització.
+**3. Realitzar una reserva de producte:** Poden reservar els productes que els interessin, indicant la quantitat i el punt d’entrega establert pel venedor.
+**4. Posar-se en contacte amb el venedor:** Si volen acordar una entrega a domicili o discutir altres detalls (com el temps o el lloc exacte de la recollida), poden comunicar-se amb el venedor a través de l'aplicació.
+**5. Valoració del venedor, el producte i l'entrega:** Un cop completada la transacció, el comprador pot deixar una valoració sobre l’experiència de compra, d'entrega i del producte.
 
 ## 2. Desplegament
 
-L'aplicació s'haurà de desplegar i configurar en un entorn de producció. Ja siga en Azure, AWS o
-servidor dedicat. A més s'haurà de fer la comunicació via https, tindre un sistema de control de
-sessions i intentar protegir la informació el màxim possible.
+L'aplicació s'haurà de desplegar i configurar en un entorn de producció. Ja siga en Azure, AWS o servidor dedicat. A més s'haurà de fer la comunicació via https, tindre un sistema de control de sessions i intentar protegir la informació el màxim possible.
 
 ## 3. Presentació i documentació
 
-En la data que es determine, s'haurà de tindre el projecte desplegat de forma que siga accessible
-públicament. A més, es farà una presentació de l'aplicació que serà avaluada.
+En la data que es determine, s'haurà de tindre el projecte desplegat de forma que siga accessible públicament. A més, es farà una presentació de l'aplicació que serà avaluada.
 
-A banda, tot el desenvolupament s'allotjarà en un github amb la documentació corresponent
-(descripció, manual, posada en funcionament,...)
+A banda, tot el desenvolupament s'allotjarà en un github amb la documentació corresponent (descripció, manual, posada en funcionament,...)
 
 ## 4. Metodologia de Treball (SCRUM)
 
-El projecte s’aborda de manera integradora durant 240 hores (8 setmanes). El grup es dividirà en
-equips de desenvolupament i s’aplicarà la metodologia àgil SCRUM. El professorat tindrà el rol de
-Product Owner, mentre que un component del grup exercirà de Scrum Master.
-El treball es dividirà en Sprints d’una setmana de durada, amb reunions de Sprint Planning, Daily
-Scrum, Sprint Review i Sprint Retrospective.
+El projecte s’aborda de manera integradora durant 240 hores (8 setmanes). El grup es dividirà en equips de desenvolupament i s’aplicarà la metodologia àgil SCRUM. El professorat tindrà el rol de Product Owner, mentre que un component del grup exercirà de Scrum Master.
+El treball es dividirà en Sprints d’una setmana de durada, amb reunions de Sprint Planning, Daily Scrum, Sprint Review i Sprint Retrospective.
 
 ## 5. Integració de l'Itinerari Personal per a l'Ocupabilitat II (IPO II)
 
-Per assegurar el desenvolupament de les competències d'emprenedoria, anàlisi de l'entorn i inserció
-laboral, l'equip de desenvolupament haurà de realitzar un conjunt d'activitats vinculades a IPE II.
+Per assegurar el desenvolupament de les competències d'emprenedoria, anàlisi de l'entorn i inserció laboral, l'equip de desenvolupament haurà de realitzar un conjunt d'activitats vinculades a IPE II.
 
 L'equip haurà de validar la idea de negoci a través de diverses activitats:
 
@@ -124,8 +97,7 @@ L'equip haurà de validar la idea de negoci a través de diverses activitats:
 
 ## 6. Desenvolupament de Competències Personals i Socials
 
-Aquestes activitats s'avaluaran de forma continuada (Observació directa del treball en equip) durant
-els Daily Scrums i la resta de reunions:
+Aquestes activitats s'avaluaran de forma continuada (Observació directa del treball en equip) durant els Daily Scrums i la resta de reunions:
 
 **1. Treball en Equip i Lideratge:** Participar activament en l'establiment d'objectius i en la presa de decisions, cooperant i compartint el lideratge.
 **2. Comunicació i Presentació:** Incorporar tècniques i recursos de presentació i comunicació, tant orals com escrits, adequats per a una comunicació efectiva.
