@@ -9,172 +9,316 @@ La base de dades de ProxiMarkt servix per a guardar i organitzar tota la informa
 
 ## Diagrama Entitat - Relació amb atributs
 
-![Diagrama Entitat Relació amb atributs](img/diagrama.jpeg)
+![Diagrama Entitat Relació amb atributs](diagrama_mermaid/diagrama_oscuro.svg)
 
-### Relacions
+### Relaciones
 
-**Productos <---> Usuarios (1:N)**
+#### Chats - Mensajes
 
-    Un Usuario puede realizar uno o varios Pedidos, y cada Pedido pertenece a un solo Usuario.
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-**Mensajes <---> Chats (N:1)**
+flowchart LR
+    id1[CHATS] <-- (1:M) --> id2[MENSAJES]
+```
 
-    Cada mensaje pertenece a un único chat; un chat puede contener varios mensajes.
+Cada mensaje pertenece a un único chat; un chat puede contener varios mensajes.
 
-**Mensajes <---> usuarios (N:1)**
+#### Mensajes - Usuarios
 
-    Cada mensaje es enviado por un único usuario; un usuario puede enviar muchos mensajes.
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-**Puntos_entrega <---> Usuarios (N:1)**
+flowchart LR
+    id1[MENSAJES] <-- (1:M) --> id2[USUARIOS]
+```
 
-    Cada punto de entrega pertenece a un usuario; un usuario puede tener varios puntos de entrega.
+Cada mensaje es enviado por un único usuario; un usuario puede enviar muchos mensajes.
 
-**Usuarios <---> Productos (1:N)**
+#### Usuarios - Puntos_entrega
 
-    Un usuario puede publicar varios productos; cada producto pertenece a un único usuario.
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-**Chats <---> Productos (N:1)**
+flowchart LR
+    id1[USUARIOS] <-- (1:M) --> id2[PUNTOS_ENTREGA]
+```
 
-    Cada chat está asociado a un producto; un producto puede tener varios chats.
+Cada punto de entrega es asignado por un usuario; un usuario puede asignarse varios puntos de entrega.
 
-**Productos <---> Categorias (N:1)**
+#### Usuarios - Productos
 
-    Cada producto pertenece a una categoría; una categoría puede tener muchos productos.
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-**Prodcutos <---> Compraventas (1:N)**
+flowchart LR
+    id1[USUARIOS] <-- (1:M) --> id2[PRODUCTOS]
+```
 
-    Un producto puede estar en varias compraventas; cada compraventa corresponde a un producto.
+Un usuario puede publicar varios productos; cada producto pertenece a un único usuario.
 
-**Compraventas <---> Reseñas (1:N)**
+#### Chats - Productos
 
-    Una compraventa puede generar varias reseñas; cada reseña pertenece a una compraventa.
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-**Puntos_entrega <---> Compraventas (1:N)**
+flowchart LR
+    id1[CHATS] <-- (1:M) --> id2[PRODUCTOS]
+```
 
-    Un punto de entrega puede usarse en varias compraventas; cada compraventa usa un único punto de entrega.
+Cada chat está asociado a un único producto; un producto puede tener varios chats simuláneos (mismo vendedor, diferentes compradores).
 
-**Usuarios <---> Compraventas (Comprar)  (1:N)**
+#### Categorías - Productos
 
-    Un usuario puede realizar varias compras; cada compraventa tiene un comprador
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-**Usuarios <---> Compraventas (Vender)  (1:N)**
+flowchart LR
+    id1[CATEGORIAS] <-- (1:M) --> id2[PRODUCTOS]
+```
 
-    Un usuario puede realizar varias ventas; cada compraventa tiene un vendedor.
+Cada producto pertenece a una categoría; una categoría puede tener muchos productos.
 
-**Usuarios <---> Reseñas (Obtener) (1:N)**
+En un futuro se espera implementar que un producto pertenezca a varias categorías. E incluso que una categoría pueda tener subcategorías.
 
-    Un usuario puede recibir varias reseñas; cada reseña valora a un usuario.
+#### Productos - Compraventas
 
-**Usuarios <---> Reseñas (Dejar) (1:N)**
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-    Un usuario puede dejar varias reseñas; cada reseña es creada por un usuario.
+flowchart LR
+    id1[PRODUCTOS] <-- (1:M) --> id2[COMPRAVENTAS]
+```
 
-**Usuarios <---> Chats (Escribir) (1:N)**
+Cada producto puede generar varias compraventas; cada compraventa corresponde a un único producto.
 
-    Un usuario puede escribir en varios chats; cada chat tiene mensajes escritos por usuarios.
+#### Compraventas - Reseñas
 
-**Usuarios <---> Chats (Recibir) (1:N)**
+```mermaid
+---
+config:
+    theme: neutral
+---
 
-    Un usuario puede recibir varios chats; cada chat está dirigido a un usuario.
+flowchart LR
+    id1[COMPRAVENTAS] <-- (1:M) --> id2[RESEÑAS]
+```
 
-### Atributs
+Una compraventa puede generar un máximo de 2 reseñas (comprador y vendedor); cada reseña pertenece a una única compraventa.
+
+#### Puntos_entrega - Compraventas
+
+```mermaid
+---
+config:
+    theme: neutral
+---
+
+flowchart LR
+    id1[PUNTOS_ENTREGA] <-- (1:M) --> id2[COMPRAVENTA]
+```
+
+Una compraventa puede tener lugar en un único punto de entrega. En un punto de entrega ocurren muchas operaciones de compraventa.
+
+#### Usuarios - Compraventas
+
+```mermaid
+---
+config:
+    theme: neutral
+---
+
+flowchart LR
+    id1[USUARIOS] <-- (1:M) --> id2[COMPRAVENTAS]
+    id1[USUARIOS] <-- (1:M) --> id2[COMPRAVENTAS]
+```
+
+Un único usuario con rol de comprador participa en la compraventa.
+Un único usuario con rol de vendedor participa en la compraventa.
+Cada usuario puede realizar muchas compraventas.
+
+#### Usuarios - Reseñas
+
+```mermaid
+---
+config:
+    theme: neutral
+---
+
+flowchart LR
+    id1[USUARIOS] <-- (1:M) --> id2[RESEÑAS]
+    id1[USUARIOS] <-- (1:M) --> id2[RESEÑAS]
+```
+
+En cada reseña participa un único usuario reseñador.
+En cada reseña participa un único usuario reseñado.
+Un usuario puede tener muchas reseñas.
+
+#### Usuarios - Chats
+
+```mermaid
+---
+config:
+    theme: neutral
+---
+
+flowchart LR
+    id1[USUARIOS] <-- (1:M) --> id2[CHATS]
+    id1[USUARIOS] <-- (1:M) --> id2[CHATS]
+```
+
+Un chat tiene dos únicos participantes (comprador - vendedor).
+Los usuarios pueden tener muchos chats.
+
+### Tablas y campos
 
 #### **Tabla usuarios**
 
-- id_usuario int AUTO_INCREMENT PRIMARY KEY,
-- nombre_usuario VARCHAR(255) UNIQUE,
-- email varchar(255) UNIQUE,
-- contraseña varchar(255),
-- telefono VARCHAR(20) UNIQUE,
-- direccion varchar(255) UNIQUE,
-- longitud DECIMAL(10,8),
-- latitud DECIMAL(10,8),
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-- modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON
-- UPDATE CURRENT_TIMESTAMP,
-- puntuacio DOUBLE DEFAULT 0
+```sql
+CREATE TABLE USUARIOS(
+    id_usuario int AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    contrasenya VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20) UNIQUE NOT NULL, 
+    direccion VARCHAR(255),
+    longitud DECIMAL(10,8),
+    latitud DECIMAL(10,8),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    puntuacio DOUBLE DEFAULT 0
+);
+
+```
 
 #### **Tabla categorias**
 
-- id_categoria int AUTO_INCREMENT PRIMARY KEY,
-- nombre_categoria varchar(255)
+```sql
+CREATE TABLE CATEGORIAS(
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_categoria VARCHAR(255) NOT NULL 
+);
+```
 
 #### **Tabla productos**
 
-- id_producto int AUTO_INCREMENT PRIMARY KEY,
-- nombre_producto VARCHAR(255),
-- descripcion TEXT,
-- precio DECIMAL(10,2),
-- stock_total int,
-- stock_reserva int,
-- stock_real int,
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-- imagen VARCHAR(255),
-- id_categoria int,
-- estado ENUM('agotado', 'reservado', 'disponible'),
-- FOREIGN KEY (id_categoria) REFERENCES CATEGORIAS(id_categoria)
+```sql
+CREATE TABLE PRODUCTOS(
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_producto VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL,
+    stock_total INT NOT NULL DEFAULT 0,
+    stock_reserva INT NOT NULL DEFAULT 0,
+    stock_real INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    imagen VARCHAR(255),
+    id_categoria INT,
+    estado ENUM('agotado', 'reservado', 'disponible'), 
+    FOREIGN KEY (id_categoria) REFERENCES CATEGORIAS(id_categoria)
+);
+```
 
 #### **Tabla chat**
 
-- id_chat int AUTO_INCREMENT PRIMARY KEY,
-- id_comprador int,
-- id_vendedor int,
-- id_producto int,
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-- modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON
-- UPDATE CURRENT_TIMESTAMP,
-- FOREIGN KEY (id_comprador) REFERENCES USUARIOS(id_usuario),
-- FOREIGN KEY (id_vendedor) REFERENCES USUARIOS(id_usuario),
-- FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto),
-- UNIQUE (id_comprador, id_vendedor, id_producto)
+```sql
+CREATE TABLE CHATS(
+    id_chat INT AUTO_INCREMENT PRIMARY KEY,
+    id_comprador INT,
+    id_vendedor INT,
+    id_producto INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_comprador) REFERENCES USUARIOS(id_usuario),
+    FOREIGN KEY (id_vendedor) REFERENCES USUARIOS(id_usuario),
+    FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto),
+    UNIQUE (id_comprador, id_vendedor, id_producto)
+);
+```
 
 #### **Tabla mensajes**
 
-- id_mensaje int AUTO_INCREMENT PRIMARY KEY,
-- id_chat int,
-- id_envio int,
-- contenido TEXT,
-- FOREIGN KEY (id_chat) REFERENCES CHAT(id_chat),
-- FOREIGN KEY (id_envio) REFERENCES USUARIOS(id_usuario)
+```sql
+CREATE TABLE MENSAJES(
+    id_mensaje INT AUTO_INCREMENT PRIMARY KEY,
+    id_chat INT,
+    id_envio INT,
+    contenido TEXT NOT NULL,
+    FOREIGN KEY (id_chat) REFERENCES CHAT(id_chat),
+    FOREIGN KEY (id_envio) REFERENCES USUARIOS(id_usuario)
+);
+```
 
 #### **Tabla puntos entrega**
 
-- id_usuario int,
-- longitud DECIMAL(10,8),
-- latitud DECIMAL(10,8),
-- nombre_punto VARCHAR(255),
-- direccion_punto VARCHAR(255),
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-- modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON
-- UPDATE CURRENT_TIMESTAMP,
-- FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+```sql
+CREATE TABLE PUNTOS_ENTREGA(
+    id_punto INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    longitud DECIMAL(10,8) NOT NULL,
+    latitud DECIMAL(10,8) NOT NULL,
+    nombre_punto VARCHAR(255) NOT NULL,
+    direccion_punto VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+);
+```
 
 #### **Tabla compraventas**
 
-- id_compraventa int AUTO_INCREMENT PRIMARY KEY,
-- id_producto int,
-- id_comprador int,
-- id_vendedor int,
-- cantidad_total int,
-- id_punto int,
-- estado ENUM('pendiente', 'en curso', 'completado', 'cancelado'),
-- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-- FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto),
-- FOREIGN KEY (id_vendedor) REFERENCES USUARIOS(id_usuario),
-- FOREIGN KEY (id_comprador) REFERENCES USUARIOS(id_usuario),
-- FOREIGN KEY (id_punto) REFERENCES PUNTOS_ENTREGA(id_punto)
+```sql
+CREATE TABLE COMPRAVENTAS(
+    id_compraventa INT AUTO_INCREMENT PRIMARY KEY,
+    id_producto INT,
+    id_comprador INT,
+    id_vendedor INT,
+    cantidad_total INT NOT NULL,
+    id_punto INT,
+    estado ENUM('pendiente', 'en curso', 'completado', 'cancelado'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto),
+    FOREIGN KEY (id_vendedor) REFERENCES USUARIOS(id_usuario),
+    FOREIGN KEY (id_comprador) REFERENCES USUARIOS(id_usuario),
+    FOREIGN KEY (id_punto) REFERENCES PUNTOS_ENTREGA(id_punto)
+);
+```
 
----
 #### **Tabla valoraciones**
 
-- id_valoracion int AUTO_INCREMENT PRIMARY KEY,
-- id_venta INT,
-- id_reseñador int,
-- id_reseñado int,
-- valoracion ENUM('1','2','3','4','5'),
-- comentario TEXT,
-- fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-- FOREIGN KEY (id_venta) REFERENCES COMPRAVENTAS(id_compraventa),
-- FOREIGN KEY (id_reseñador) REFERENCES USUARIOS(id_usuario),
-- FOREIGN KEY (id_reseñado) REFERENCES USUARIOS(id_usuario),
-- UNIQUE (id_venta, id_reseñador, id_reseñado)
+```sql
+CREATE TABLE VALORACIONES(
+    id_valoracion INT AUTO_INCREMENT PRIMARY KEY,
+    id_venta INT,
+    id_resenyador INT,
+    id_resenyado INT,
+    valoracion ENUM('1','2','3','4','5') NOT NULL,
+    comentario TEXT,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    FOREIGN KEY (id_venta) REFERENCES COMPRAVENTAS(id_compraventa),
+    FOREIGN KEY (id_resenyador) REFERENCES USUARIOS(id_usuario),
+    FOREIGN KEY (id_resenyado) REFERENCES USUARIOS(id_usuario),
+    UNIQUE (id_venta, id_resenyador, id_resenyado)
+);
+```
