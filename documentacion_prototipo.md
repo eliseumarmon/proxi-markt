@@ -22,7 +22,7 @@ Al pensar en la creación del logo de la aplicación pensamos en algo minimalist
 
 - Color de letra: #FFFFFF.
 
-- Tipografía es: Clear Sans. 
+- Tipografía es: Clear Sans.
 
 ![Logo pequeño](img/logo_peq.png)
 
