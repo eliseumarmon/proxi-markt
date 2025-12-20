@@ -136,7 +136,7 @@ config:
 ---
 
 flowchart LR
-    id1[PUNTOS_ENTREGA] <-- (1:M) --> id2[COMPRAVENTA]
+    id1[PUNTOS_ENTREGA] <-- (1:M) --> id2[COMPRAVENTAS]
 ```
 
 Una compraventa puede tener lugar en un único punto de entrega. En un punto de entrega ocurren muchas operaciones de compraventa.
@@ -197,7 +197,7 @@ Los usuarios pueden tener muchos chats.
 
 ```sql
 CREATE TABLE USUARIOS(
-    id_usuario int AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     contrasenya VARCHAR(255) NOT NULL,
