@@ -42,35 +42,50 @@
 </script>
 
 <style scoped>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 .login-contenedor {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: #ffffff;
-  padding: 20px;
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
 .contenido-responsive {
   width: 100%;
-  max-width: 480px;
+  max-width: 500px;
   text-align: center;
+  margin: 0 auto;
 }
 
 .logo {
-  max-width: 200px;
-  height: auto;
-  margin-bottom: 15px;
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 15px;
+  border-radius: 12px;
 }
 
 .descripcion {
   color: #6b7280;
-  font-size: 0.95rem;
-  margin-bottom: 30px;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
   line-height: 1.4;
 }
 
