@@ -44,9 +44,14 @@
 </script>
 
 <style scoped>
+  body, html {
+  margin: 0;
+  padding: 0;
+}
+
 .form-card {
   background: white;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #E5E7EB;
   border-radius: 12px;
   padding: 35px 30px;
   text-align: left;
@@ -65,7 +70,7 @@ h3 {
 }
 
 .subtitle {
-  color: #6b7280;
+  color: #6B7280;
   font-size: 0.95rem;
   margin-bottom: 25px;
 }
@@ -79,14 +84,14 @@ label {
   font-weight: 600;
   font-size: 0.9rem;
   margin-bottom: 8px;
-  color: #1f2937;
+  color: #1F2937;
 }
 
 input {
   width: 100%;
   padding: 12px 15px;
-  background-color: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  background-color: #F3F4F6;
+  border: 1px solid #E5E7EB;
   border-radius: 8px;
   font-size: 0.95rem;
   color: #333;
@@ -96,20 +101,20 @@ input {
 }
 
 input:focus {
-  background-color: #fff;
-  border-color: #d1d5db;
+  background-color: #FFF;
+  border-color: #D1D5DB;
   box-shadow: 0 0 0 3px rgba(0, 176, 80, 0.1);
 }
 
 input::placeholder {
-  color: #9ca3af;
+  color: #9CA3AF;
 }
 
 .btn-submit {
   width: 100%;
   padding: 14px;
-  background-color: #4ca626;
-  color: white;
+  background-color: #4CA626;
+  color: #FFF;
   font-weight: bold;
   font-size: 1rem;
   border: none;
@@ -120,6 +125,6 @@ input::placeholder {
 }
 
 .btn-submit:hover {
-  background-color: #009e47;
+  background-color: #009E47;
 }
 </style>
