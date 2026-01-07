@@ -1,5 +1,5 @@
 <template>
-  <div class="login-contenedor">
+  <div class="login-contenedor" :class="{ 'centrado': eleccionActual === 'login' }">
     <div class="contenido-responsive">
       <div>
         <img src="../assets/logos/logo_gr.png" alt="Logo grande ProxiMarket" class="logo"/>
@@ -48,17 +48,24 @@ body, html {
 }
 
 .login-contenedor {
-  /* position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
   box-sizing: border-box;
   font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+}
+
+.login-contenedor.centrado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  padding: 0;
+  overflow: hidden;
 }
 
 .contenido-responsive {
