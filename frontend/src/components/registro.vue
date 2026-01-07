@@ -109,8 +109,8 @@ input {
   width: 100%;
   padding: 12px 15px;
   background-color: #F3F4F6;
-  border: 1px solid transparent;
-  border-radius: 6px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
   font-size: 0.95rem;
   color: #333;
   outline: none;
@@ -121,6 +121,7 @@ input {
 input:focus {
   background-color: #FFF;
   border-color: #D1D5DB;
+  box-shadow: 0 0 0 3px rgba(0, 176, 80, 0.1);
 }
 
 input::placeholder {
