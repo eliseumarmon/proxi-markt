@@ -4,13 +4,8 @@
     <p class="subtitle">Únete a la comunidad de ProxiMarket</p>
 
     <form @submit.prevent="enviarInfo">
-      <div id="nombreCompleto">
-        <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" id="nombre" placeholder="Juan"/><br><br>
-
-        <label for="apellidos">Apellidos</label>
-        <input type="text" name="apellidos" id="apellidos" placeholder="García"/><br><br>
-      </div>
+      <label for="nombre">Nombre</label>
+      <input type="text" name="nombre" id="nombre" placeholder="Juan García"/><br><br>
 
       <label for="email">Email</label>
       <input type="email" name="email" id="email" placeholder="tu@gmail.com"/><br><br>
@@ -20,9 +15,6 @@
 
       <label for="telefono">Teléfono</label>
       <input type="text" name="telefono" id="telefono" placeholder="123456789"/><br><br>
-
-      <label for="direccion">Dirección</label>
-      <input type="text" name="direccion" id="direccion" placeholder="Calle Ejemplo 123"/><br><br>
 
       <button type="submit" class="btn-submit">Crear Cuenta</button>
     </form>
