@@ -1,7 +1,7 @@
 <template>
   <div id="iniciarSesion" class="form-card">
     <h3>Iniciar Sesión</h3>
-    <p class="subtitle">Accede a tu cuenta de ProxyMarket</p>
+    <p class="subtitle">Accede a tu cuenta de ProxiMarkt</p>
 
     <form @submit.prevent="enviarInfo">
       <div class="form-group">

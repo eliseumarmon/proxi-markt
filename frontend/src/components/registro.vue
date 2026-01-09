@@ -1,7 +1,7 @@
 <template>
   <div class="form-card">
     <h3>Crear Cuenta</h3>
-    <p class="subtitle">Únete a la comunidad de ProxiMarket</p>
+    <p class="subtitle">Únete a la comunidad de ProxiMarkt</p>
 
     <form @submit.prevent="enviarInfo">
 
