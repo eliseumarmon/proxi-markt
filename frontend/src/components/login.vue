@@ -1,17 +1,17 @@
 <template>
   <div id="iniciarSesion" class="form-card">
     <h3>Iniciar Sesión</h3>
-    <p class="subtitle">Accede a tu cuenta de ProxyMarket</p>
+    <p class="subtitle">Accede a tu cuenta de ProxiMarkt</p>
 
     <form @submit.prevent="enviarInfo">
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" placeholder="tu@email.com"/>
+        <input v-model="form.email" type="email" name="email" id="email" placeholder="tu@email.com"/>
       </div>
 
       <div class="form-group">
         <label for="contrasenya">Contraseña</label>
-        <input type="password" name="contrasenya" id="contrasenya" placeholder="••••••••"/>
+        <input v-model="form.contrasenya" type="password" name="contrasenya" id="contrasenya" placeholder="••••••••"/>
       </div>
 
       <button type="submit" class="btn-submit">Iniciar Sesión</button>
@@ -22,24 +22,39 @@
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
+  import { useRouter } from 'vue-router'
 
-  const email = ref('');
-  const contrasenya = ref('');
+  const router = useRouter()
 
-  const enviarInfo = () => {
-      if (!email.value || !contrasenya.value) {
-          alert("Rellena los campos obligatorios");
-          return;
-      }
+  const form = ref({
+    email: "",
+    contrasenya:""
+  })
 
-      const info = {
-          email: email.value,
-          contrasenya: contrasenya.value
-      };
+  const enviarInfo = async () => {
 
-      console.log("Enviando login:", info);
-      
-      axios.post('/api/login', info);
+    const { email, contrasenya } = form.value;
+
+    if (!email || !contrasenya) {
+        alert("Rellena los campos obligatorios");
+        return;
+    }
+
+    console.log("Enviando login:", form.value);
+    
+    const login = await axios.post('http://localhost:8080/api/login', form.value);
+
+    if(login.status === 200){
+
+      console.log(login.data)
+
+      router.push('/mapa')
+
+      form.value = {
+        email: '',
+        contrasenya: ''
+      }; 
+    }
   }
 </script>
 
