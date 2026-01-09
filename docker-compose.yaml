@@ -1,0 +1,38 @@
+name: proxi_markt
+services:
+  mysql:
+    image: mysql:8.0
+    env_file:
+      - ./docker/database/.env.database
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/database/base.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3306:3306
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/php/conf.d/99-xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug.ini
+    env_file: ./docker/.env.app
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+volumes:
+  mysql_data:
