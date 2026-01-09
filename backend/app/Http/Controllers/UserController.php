@@ -21,6 +21,6 @@ class UserController extends UserController
             
         ]);
 
-        return respose()->json(['message'=>'Creado'],201);
+        return response()->json(['message'=>'Creado'],201);
     }
 }
