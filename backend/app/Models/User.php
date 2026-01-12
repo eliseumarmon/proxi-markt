@@ -12,7 +12,6 @@ class User extends Authenticatable
     //activa el metodo createtoken
     use HasApiTokens, Notifiable;
 
-    protected $primaryKey = 'id';
     protected $table = 'usuarios';
     protected $fillable = [
         'nombre_usuario',
