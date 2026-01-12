@@ -1,28 +1,22 @@
 <template>
   <div class="form-card">
     <h3>Crear Cuenta</h3>
-    <p class="subtitle">Únete a la comunidad de ProxiMarket</p>
+    <p class="subtitle">Únete a la comunidad de ProxiMarkt</p>
 
     <form @submit.prevent="enviarInfo">
-      <div id="nombreCompleto">
-        <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" id="nombre" placeholder="Juan"/><br><br>
 
-        <label for="apellidos">Apellidos</label>
-        <input type="text" name="apellidos" id="apellidos" placeholder="García"/><br><br>
-      </div>
+        <label for="nombre">Nombre</label>
+        <input v-model="form.nombre_usuario" type="text" name="nombre" id="nombre" placeholder="Juan Garcia"/><br><br>
+
 
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" placeholder="tu@gmail.com"/><br><br>
+      <input v-model="form.email" type="email" name="email" id="email" placeholder="tu@gmail.com"/><br><br>
 
       <label for="contrasenya">Contraseña</label>
-      <input type="password" name="contrasenya" id="contrasenya" placeholder="••••••••"/><br><br>
+      <input v-model="form.contrasenya" type="password" name="contrasenya" id="contrasenya" placeholder="••••••••"/><br><br>
 
       <label for="telefono">Teléfono</label>
-      <input type="text" name="telefono" id="telefono" placeholder="123456789"/><br><br>
-
-      <label for="direccion">Dirección</label>
-      <input type="text" name="direccion" id="direccion" placeholder="Calle Ejemplo 123"/><br><br>
+      <input v-model="form.telefono" type="text" name="telefono" id="telefono" placeholder="123456789"/><br><br>
 
       <button type="submit" class="btn-submit">Crear Cuenta</button>
     </form>
@@ -33,31 +27,42 @@
   import { ref } from "vue";
   import axios from "axios";
 
-  const nombre = ref("");
-  const apellidos = ref("");
-  const email = ref("");
-  const contrasenya = ref("");
-  const telefono = ref("");
-  const direccion = ref("");
+  const form = ref({
+    nombre_usuario: "",
+    email: "",
+    contrasenya: "",
+    telefono: ""
+  });
 
-  const enviarInfo = () => {
-    if (!nombre.value || !email.value || !contrasenya.value || !telefono.value) {
+  const enviarInfo = async () => {
+
+    const { nombre_usuario, email, contrasenya, telefono } = form.value;
+
+    if (!nombre_usuario || !email || !contrasenya || !telefono ) {
       alert("Rellena los campos obligatorios");
       return;
     }
 
-  const info = {
-    nombre: nombre.value,
-    apellidos: apellidos.value,
-    email: email.value,
-    contrasenya: contrasenya.value,
-    telefono: telefono.value,
-    direccion: direccion.value,
-  };
+  try {
+      console.log("Enviando registro: ", form.value);
 
-  console.log("Enviando registro: ", info);
+      const registrar = await axios.post("http://localhost:8080/api/register", form.value);
 
-  axios.post("/api/register", info);
+      if (registrar.status === 201) {
+        alert("Cuenta creada con éxito");
+        
+        form.value = {
+          nombre_usuario: "",
+          email: "",
+          contrasenya: "",
+          telefono: ""  
+        };
+      }
+    } catch (error) {
+      console.error("Error en la petición:", error);
+      alert("Hubo un error al conectar con el servidor");
+    }
+
 };
 </script>
 

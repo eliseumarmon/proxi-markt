@@ -3,10 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends Authenticatable
 {
-    protected $primaryKey = 'id';
+    //activa el metodo createtoken
+    use HasApiTokens, Notifiable;
+
     protected $table = 'usuarios';
     protected $fillable = [
         'nombre_usuario',
@@ -14,4 +19,10 @@ class User extends Model
         'contrasenya',
         'telefono',
     ];
+
+    //esta es la columna clave que el createtoken es fija
+    public function getAuthPassword()
+    {
+        return $this->contrasenya;
+    }
 }
