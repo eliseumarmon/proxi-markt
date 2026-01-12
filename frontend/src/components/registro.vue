@@ -4,15 +4,10 @@
     <p class="subtitle">Únete a la comunidad de ProxiMarkt</p>
 
     <form @submit.prevent="enviarInfo">
-<<<<<<< HEAD
-      <label for="nombre">Nombre</label>
-      <input type="text" name="nombre" id="nombre" placeholder="Juan García"/><br><br>
-=======
 
         <label for="nombre">Nombre</label>
         <input v-model="form.nombre_usuario" type="text" name="nombre" id="nombre" placeholder="Juan Garcia"/><br><br>
 
->>>>>>> 90a3850227dbe6e4fc859113ae4e05744ac78e97
 
       <label for="email">Email</label>
       <input v-model="form.email" type="email" name="email" id="email" placeholder="tu@gmail.com"/><br><br>
@@ -21,11 +16,7 @@
       <input v-model="form.contrasenya" type="password" name="contrasenya" id="contrasenya" placeholder="••••••••"/><br><br>
 
       <label for="telefono">Teléfono</label>
-<<<<<<< HEAD
-      <input type="text" name="telefono" id="telefono" placeholder="123456789"/><br><br>
-=======
       <input v-model="form.telefono" type="text" name="telefono" id="telefono" placeholder="123456789"/><br><br>
->>>>>>> 90a3850227dbe6e4fc859113ae4e05744ac78e97
 
       <button type="submit" class="btn-submit">Crear Cuenta</button>
     </form>
