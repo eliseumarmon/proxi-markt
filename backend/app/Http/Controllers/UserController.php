@@ -22,14 +22,23 @@ class UserController extends Controller
             return response()->json([ 'message'=>'Faltan campos' ], 400 );
         }
         
-        $HashedPassword = Hash::make($request->contrasenya);
+        // $HashedPassword = Hash::make($request->contrasenya);
 
-        DB::insert('INSERT INTO usuarios (nombre_usuario, email, contrasenya, telefono) VALUES (?, ?, ?, ?)', [
-            $request->nombre_usuario,
-            $request->email,
-            $HashedPassword,
-            $request->telefono
+        $user = User::create([
+            'nombre_usuario' => $request->nombre_usuario,
+            'email' => $request->email,
+            'contrasenya' => Hash::make($request->contrasenya),
+            'telefono' => $request->telefono
         ]);
+
+        $user->save();
+        
+        // DB::insert('INSERT INTO usuarios (nombre_usuario, email, contrasenya, telefono) VALUES (?, ?, ?, ?)', [
+        //     $request->nombre_usuario,
+        //     $request->email,
+        //     $HashedPassword,
+        //     $request->telefono
+        // ]);
 
         return response()->json([ 'message'=>'Creado' ], 201 );
     }
