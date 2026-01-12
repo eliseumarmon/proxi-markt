@@ -3,7 +3,6 @@
   import 'leaflet/dist/leaflet.css'
   import { ref, nextTick, onMounted } from 'vue'
   import axios from 'axios'
-  import Navbar from './Nav.vue'
 
   let map;
 
@@ -103,7 +102,6 @@
 
 </script>
 <template>
-  <Navbar></Navbar>
   <div>
     <button @click="GuardarPuntoEntrega">Crear punto de entrega</button>
 
