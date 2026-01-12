@@ -31,6 +31,7 @@ class UserController extends Controller
             'telefono' => $request->telefono
         ]);
 
+        return response()->json(['message'=>'Creado'],201);
         $user->save();
         
         // DB::insert('INSERT INTO usuarios (nombre_usuario, email, contrasenya, telefono) VALUES (?, ?, ?, ?)', [
