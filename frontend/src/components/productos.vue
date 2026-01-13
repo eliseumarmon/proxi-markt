@@ -13,7 +13,7 @@
 
 </script>
 
-<style>
+<style scoped>
 body {
   min-width: 400px;
   padding-top: 100px;

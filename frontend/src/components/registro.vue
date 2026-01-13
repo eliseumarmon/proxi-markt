@@ -67,9 +67,19 @@
 </script>
 
 <style scoped>
-body, html {
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
 }
 
 .form-card {
@@ -80,8 +90,6 @@ body, html {
   text-align: left;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   width: 100%;
-  max-width: none;
-  box-sizing: border-box;
 }
 
 h3 {
@@ -120,7 +128,6 @@ input {
   color: #333;
   outline: none;
   transition: all 0.2s;
-  box-sizing: border-box;
 }
 
 input:focus {
@@ -149,5 +156,28 @@ input::placeholder {
 
 .btn-submit:hover {
   background-color: #009E47;
+}
+
+@media (min-width: 1200px) {
+  .form-card {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
+  .form-card {
+    width: 100%;
+    max-width: none;
+    padding: 25px 20px;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
 }
 </style>

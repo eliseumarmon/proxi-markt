@@ -58,7 +58,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   padding: 0;
@@ -148,12 +148,6 @@ input::placeholder {
 }
 
 @media (min-width: 1200px) {
-  .form-card {
-    max-width: 500px;
-  }
-}
-
-@media (max-width: 1199px) and (min-width: 769px) {
   .form-card {
     max-width: 500px;
   }
