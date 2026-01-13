@@ -16,9 +16,7 @@ class Producto extends Model
         'nombre_producto',
         'descripcion',
         'precio',
-        'stock_total',    
-        'stock_reserva',  
-        'stock_real',     
+        'stock',    
         'imagen',
         'estado'
     ];

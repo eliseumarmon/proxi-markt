@@ -15,7 +15,7 @@ class Categoria extends Model
         'nombre_categoria'
     ];
 
-    // Relación inversa: Una categoría tiene muchos productos
+   
     public function productos()
     {
         return $this->hasMany(Producto::class, 'id_categoria');

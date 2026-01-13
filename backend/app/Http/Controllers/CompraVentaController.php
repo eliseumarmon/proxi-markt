@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class CompraVentaController extends Controller
 {
-    /**
-     * Registrar una nueva compraventa (Reserva)
-     */
+
     public function store(Request $request)
     {
-        // 1. Validación de datos de entrada
+        
         $request->validate([
             'id_producto'   => 'required|exists:productos,id',
             'id_comprador'  => 'required|exists:usuarios,id',
@@ -23,11 +21,10 @@ class CompraVentaController extends Controller
             'cantidad_total'=> 'required|integer|min:1',
         ]);
 
-        // 2. Buscar el producto
+ 
         $producto = Producto::findOrFail($request->id_producto);
         $cantidad = $request->cantidad_total;
 
-        // 3. Verificar si hay stock real suficiente
         if ($producto->stock_real < $cantidad) {
             return response()->json([
                 'message' => 'No hay suficiente stock disponible.',
@@ -35,11 +32,9 @@ class CompraVentaController extends Controller
             ], 400);
         }
 
-        // 4. Usar una Transacción de Base de Datos para asegurar que no haya errores
         try {
             DB::beginTransaction();
 
-            // A. Crear la Compraventa
             $compraventa = CompraVenta::create([
                 'id_producto'   => $request->id_producto,
                 'id_comprador'  => $request->id_comprador,
@@ -49,10 +44,8 @@ class CompraVentaController extends Controller
                 'estado'        => 'pendiente', // Estado inicial
             ]);
 
-            // B. Actualizar Stock: Se mueve de 'real' a 'reserva'
-            // El stock_total NO cambia aún, solo se "aparta" el producto
+
             $producto->increment('stock_reserva', $cantidad);
-            // Nota: stock_real se recalcula automáticamente por el método booted() del modelo Producto
 
             DB::commit();
 
@@ -67,9 +60,6 @@ class CompraVentaController extends Controller
         }
     }
 
-    /**
-     * Finalizar una venta (Cuando el comprador recoge el producto)
-     */
     public function completarVenta($id)
     {
         $venta = CompraVenta::findOrFail($id);
@@ -78,23 +68,5 @@ class CompraVentaController extends Controller
             return response()->json(['message' => 'La venta no se puede completar'], 400);
         }
 
-        try {
-            DB::beginTransaction();
-
-            // 1. Cambiar estado
-            $venta->update(['estado' => 'completado']);
-
-            // 2. Descontar del Stock Total definitivamente
-            $producto = $venta->producto;
-            $producto->decrement('stock_total', $venta->cantidad_total);
-            $producto->decrement('stock_reserva', $venta->cantidad_total);
-            
-            DB::commit();
-            return response()->json(['message' => 'Venta finalizada y stock descontado']);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['message' => 'Error al completar la venta'], 500);
-        }
     }
 }
