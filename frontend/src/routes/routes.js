@@ -1,5 +1,6 @@
 import login from '../views/login.vue';
 import PerfilUsuario from '../components/PerfilUsuario.vue';
+import productos from '../components/productos.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
@@ -13,11 +14,11 @@ const routes = [
     //     name: 'dashboard',
     //     component: dashboard
     // },
-    // {
-    //     path: '/productos',
-    //     name: 'productos',
-    //     component: productos
-    // },
+    {
+        path: '/productos',
+        name: 'productos',
+        component: productos
+    },
     {
         path: '/mapa',
         name: 'mapa',
