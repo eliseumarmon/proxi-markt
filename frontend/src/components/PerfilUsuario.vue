@@ -145,8 +145,14 @@
 </template>
 
 <style>
-body{
+body {
   min-width: 400px;
   padding-top: 100px;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 150px; 
+  }
 }
 </style>
