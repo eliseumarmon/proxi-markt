@@ -22,7 +22,7 @@
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
-  import { useRouter } from 'vue-router'
+  import { useRouter } from 'vue-router';
 
   const router = useRouter()
 
@@ -59,9 +59,13 @@
 </script>
 
 <style scoped>
-  body, html {
+* {
   margin: 0;
   padding: 0;
+}
+
+body{
+  min-width: 400px;
 }
 
 .form-card {
@@ -141,5 +145,28 @@ input::placeholder {
 
 .btn-submit:hover {
   background-color: #009E47;
+}
+
+@media (min-width: 1200px) {
+  .form-card {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
+  .form-card {
+    width: 100%;
+    max-width: none;
+    padding: 25px 20px;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
 }
 </style>
