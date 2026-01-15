@@ -1,6 +1,8 @@
 <?php
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PuntoEntregaController;
 use Illuminate\Support\Facades\Route;
 
 //Rutas de productos
@@ -18,5 +20,13 @@ Route::put('/productos/{id}', [ProductoController::class, 'update']);
 
 //Rutas de usuarios
 Route::get('/users', [UserController::class, 'index']);
-Route::post('/register', [UserController::class, 'store']);
-Route::post('/login', [UserController::class, 'login']);
+
+Route::post('/register', [AuthController::class, 'createUser'])
+    ->name('register');
+Route::post('/login', [AuthController::class, 'loginUser'])
+    ->name('login');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/puntosuser', [PuntoEntregaController::class, 'puntosPorVendedor']);
+    Route::post('/insertarpunto', [PuntoEntregaController::class, 'store']);
+});

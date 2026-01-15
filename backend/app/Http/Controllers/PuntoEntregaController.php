@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PuntoEntrega;
+use App\Http\Requests\PuntosEntregaRequest;
 
 class PuntoEntregaController extends Controller
 {
@@ -19,28 +20,33 @@ class PuntoEntregaController extends Controller
     /**
      * Listar puntos de entrega de un vendedor específico
      */
-    public function puntosPorVendedor($userId)
+    public function puntosPorVendedor(Request $request)
     {
-        $puntos = PuntoEntrega::where('id_usuario', $userId)->get();
+        $user = $request->user();
+        $puntos = PuntoEntrega::where('id_usuario', $user->id)->get();
         return response()->json($puntos);
     }
 
     /**
      * Crear un nuevo punto de entrega (Para el agricultor)
      */
-    public function store(Request $request)
+    public function store(PuntosEntregaRequest $request) 
     {
-        $request->validate([
-            'id_usuario'      => 'required|exists:usuarios,id',
-            'nombre_punto'    => 'required|string|max:255',
-            'direccion_punto' => 'nullable|string|max:255',
-            'longitud'        => 'required|numeric',
-            'latitud'         => 'required|numeric',
+        // 1. Los datos ya vienen validados gracias al Request
+        // 2. Extraemos el usuario del token de Sanctum
+        $user = $request->user();
+
+        // 3. Creamos el punto asociándolo al ID del usuario autenticado
+        $punto = PuntoEntrega::create([
+            'id_usuario'      => $user->id, 
+            'nombre_punto'    => $request->nombre_punto,
+            'direccion_punto' => $request->direccion_punto,
+            'longitud'        => $request->longitud,
+            'latitud'         => $request->latitud,
         ]);
 
-        $punto = PuntoEntrega::create($request->all());
-
         return response()->json([
+            'status'  => true,
             'message' => 'Punto de entrega creado correctamente',
             'data'    => $punto
         ], 201);

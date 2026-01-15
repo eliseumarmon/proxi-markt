@@ -32,7 +32,6 @@
   })
 
   const enviarInfo = async () => {
-
     const { email, contrasenya } = form.value;
 
     if (!email || !contrasenya) {
@@ -40,20 +39,21 @@
         return;
     }
 
-    console.log("Enviando login:", form.value);
-    
-    const login = await axios.post('http://localhost:8080/api/login', form.value);
+    try {
+        const login = await axios.post('http://localhost:8080/api/login', form.value);
 
-    if(login.status === 200){
+        if (login.status === 200) {
+            const token = login.data.token;
+            localStorage.setItem('token', token); 
 
-      console.log(login.data)
+            console.log("Token guardado con éxito");
+            router.push('/mapa');
 
-      router.push('/mapa')
-
-      form.value = {
-        email: '',
-        contrasenya: ''
-      }; 
+            form.value = { email: '', contrasenya: '' }; 
+        }
+    } catch (error) {
+        console.error("Error en el login:", error.response?.data || error.message);
+        alert("Credenciales incorrectas");
     }
   }
 </script>
