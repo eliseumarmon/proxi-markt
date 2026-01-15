@@ -1,6 +1,7 @@
 import login from '../views/login.vue';
 import PerfilUsuario from '../components/PerfilUsuario.vue';
 import productos from '../components/productos.vue';
+import dashboard from '../components/dashboard.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
@@ -9,11 +10,11 @@ const routes = [
         name: 'login',
         component: login
     },
-    // {
-    //     path: '/dashboard',
-    //     name: 'dashboard',
-    //     component: dashboard
-    // },
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: dashboard
+    },
     {
         path: '/productos',
         name: 'productos',
