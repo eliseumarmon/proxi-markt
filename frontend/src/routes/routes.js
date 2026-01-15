@@ -1,6 +1,7 @@
 import login from '../views/login.vue';
 import PerfilUsuario from '../components/PerfilUsuario.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import publicar from '../components/publicar.vue';
 
 const routes = [
     {
@@ -12,6 +13,12 @@ const routes = [
         path: '/mapa',
         name: 'mapa',
         component: PerfilUsuario
+    },
+
+    {
+        path: '/publicar',
+        name: 'publicar',
+        component: publicar
     }
 ];
 

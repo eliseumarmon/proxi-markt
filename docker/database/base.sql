@@ -26,8 +26,6 @@ CREATE TABLE productos (
     descripcion TEXT,
     precio DECIMAL(10, 2) NOT NULL,
     stock_total INT NOT NULL DEFAULT 0,
-    stock_reserva INT NOT NULL DEFAULT 0,
-    stock_real INT NOT NULL DEFAULT 0,
     imagen VARCHAR(255),
     estado ENUM(
         'agotado',

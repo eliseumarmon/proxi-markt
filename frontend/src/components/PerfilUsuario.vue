@@ -3,7 +3,7 @@
   import 'leaflet/dist/leaflet.css'
   import { ref, nextTick, onMounted } from 'vue'
   import axios from 'axios'
-  import Navbar from './Nav.vue'
+ // import Navbar from './Nav.vue'
 
   let map;
 
