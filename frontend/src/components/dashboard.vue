@@ -150,6 +150,7 @@ body {
   opacity: 0.9;
   z-index: 2;
 }
+
 .caja p {
   font-size: 28px;
   font-weight: 700;
@@ -168,7 +169,6 @@ body {
   background-color: rgba(255, 255, 255, 0.25);
   border-radius: 10px;
 }
-
 
 .cajas-informacion-uno .caja:nth-child(1) {
   background-image: linear-gradient(to left, #009e5b, #20c97e);
