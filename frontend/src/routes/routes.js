@@ -24,22 +24,22 @@ const routes = [
         path: '/mapa',
         name: 'mapa',
         component: PerfilUsuario
-    }
+    },
     // {
     //     path: '/mensajes',
     //     name: 'mensajes',
     //     component: mensajes
-    // }
+    // },
     // {
     //     path: '/comandas',
     //     name: 'comandas',
     //     component: comandas
-    // }
+    // },
     // {
     //     path: '/publicar',
     //     name: 'publicar',
     //     component: publicar
-    // }
+    // },
     // {
     //     path: '/cuenta',
     //     name: 'cuenta',
