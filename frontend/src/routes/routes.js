@@ -2,6 +2,7 @@ import login from '../views/login.vue';
 import PerfilUsuario from '../components/PerfilUsuario.vue';
 import productos from '../components/productos.vue';
 import dashboard from '../components/dashboard.vue';
+import comandas from '../components/comandas.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
@@ -30,11 +31,11 @@ const routes = [
     //     name: 'mensajes',
     //     component: mensajes
     // },
-    // {
-    //     path: '/comandas',
-    //     name: 'comandas',
-    //     component: comandas
-    // },
+    {
+        path: '/comandas',
+        name: 'comandas',
+        component: comandas
+    }
     // {
     //     path: '/publicar',
     //     name: 'publicar',

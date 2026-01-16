@@ -48,7 +48,7 @@
 
       console.log(login.data)
 
-      router.push('/mapa')
+      router.push('/productos')
 
       form.value = {
         email: '',

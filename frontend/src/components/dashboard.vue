@@ -10,30 +10,30 @@
       <div class="caja">
         <h3>Mis productos</h3>
         <p>2</p>
-        <img src="../assets/iconos/stock.png" alt="Mis productos">
+        <img src="../assets/iconos/brote.png" alt="Mis productos" class="icono">
       </div>
 
       <div class="caja">
         <h3>Stock total</h3>
         <p>55</p>
-        <img src="../assets/iconos/stock.png" alt="Stock total">
+        <img src="../assets/iconos/ingresos.png" alt="Stock total">
       </div>
 
       <div class="caja">
         <h3>Ventas pendientes</h3>
         <p>3</p>
-        <img src="../assets/iconos/stock.png" alt="Ventas pendientes">
+        <img src="../assets/iconos/info.png" alt="Ventas pendientes">
       </div>
 
       <div class="caja">
         <h3>Ingresos</h3>
         <p>5.40€</p>
-        <img src="../assets/iconos/stock.png" alt="Ingresos">
+        <img src="../assets/iconos/euro.png" alt="Ingresos">
       </div>
     </div>
     <div class="cajas-informacion-dos">
       <div class="ventas">
-        <img src="../assets/iconos/stock.png" alt="Ventas recientes" class="icono">
+        <img src="../assets/iconos/carrito.png" alt="Ventas recientes" class="icono">
         <h3>Ventas Recientes</h3>
         <div class="producto-ventas">
           <p id="nombre-producto">Lechuga Fresca</p>
@@ -44,7 +44,7 @@
       </div>
 
       <div class="productos">
-        <img src="../assets/iconos/stock.png" alt="Productos disponibles" class="icono">
+        <img src="../assets/iconos/disponibles.png" alt="Productos disponibles" class="icono">
         <h3>Productos disponibles</h3>
         <div class="producto-disponible">
           <p id="nombre-producto">Lechuga Fresca</p>
@@ -145,15 +145,14 @@ body {
 }
 
 .caja h3 {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 20px;
   opacity: 0.9;
   z-index: 2;
 }
 
 .caja p {
   font-size: 28px;
-  font-weight: 700;
+  font-weight: bold;
   margin-top: 5px;
   z-index: 2;
 }
@@ -213,7 +212,7 @@ body {
 .ventas .icono, .productos .icono {
   display: inline-block;
   vertical-align: middle;
-  width: 24px;
+  width: 30px;
   margin-right: 10px;
   margin-bottom: 20px;
 }
