@@ -272,17 +272,20 @@ body {
   font-weight: bold;
   color: #333;
 }
+
 .producto-disponible #info {
   grid-column: 1;
   grid-row: 2;
   font-size: 13px;
   color: #888;
 }
+
 .producto-disponible #precio-producto {
   grid-column: 2;
   grid-row: 1;
   text-align: right;
 }
+
 .producto-disponible #stock-disponible {
   grid-column: 2;
   grid-row: 2;
@@ -298,11 +301,13 @@ body {
 .compras-producto {
   grid-template-columns: 1fr auto;
 }
+
 .compras-producto #nombre-producto {
   grid-column: 1;
   grid-row: 1;
   font-weight: bold;
 }
+
 .compras-producto #info {
   grid-column: 1;
   grid-row: 2;
@@ -322,6 +327,7 @@ body {
   border-radius: 4px;
   margin-top: 5px;
 }
+
 .compras-producto #precio { 
   grid-column: 2;
   grid-row: 1 / span 3;
