@@ -1,8 +1,12 @@
+import { createRouter, createWebHistory } from 'vue-router';
+
 import login from '../views/login.vue';
 import PerfilUsuario from '../components/PerfilUsuario.vue';
 import productos from '../components/productos.vue';
 import dashboard from '../components/dashboard.vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import miCuenta from '../components/miCuenta.vue'
+import Ubicacion from '../components/ubicacion.vue';
+import publicar from '../components/publicar.vue'
 
 const routes = [
     {
@@ -24,7 +28,7 @@ const routes = [
         path: '/mapa',
         name: 'mapa',
         component: PerfilUsuario
-    }
+    },
     // {
     //     path: '/mensajes',
     //     name: 'mensajes',
@@ -35,16 +39,21 @@ const routes = [
     //     name: 'comandas',
     //     component: comandas
     // }
-    // {
-    //     path: '/publicar',
-    //     name: 'publicar',
-    //     component: publicar
-    // }
-    // {
-    //     path: '/cuenta',
-    //     name: 'cuenta',
-    //     component: miCuenta
-    // }
+    {
+        path: '/publicar',
+        name: 'publicar',
+        component: publicar
+    },
+    {
+        path: '/cuenta',
+        name: 'cuenta',
+        component: miCuenta
+    },
+    {
+        path: '/ubicacion',
+        name: 'ubicacion',
+        component: Ubicacion
+    }
 ];
 
 const router = createRouter({

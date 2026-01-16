@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -12,10 +13,10 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        // Traemos solo los que tienen stock real y están marcados como disponibles
+        // Nota: En tu SQL no existe stock_real, así que filtramos solo por stock_total
         $productos = Producto::with('categoria')
             ->where('estado', 'disponible')
-            ->where('stock_real', '>', 0)
+            ->where('stock_total', '>', 0)
             ->get();
 
         return response()->json($productos);
@@ -28,23 +29,30 @@ class ProductoController extends Controller
     {
         $request->validate([
             'id_categoria'    => 'required|exists:categorias,id',
+            'id_puntoentrega' => 'required|exists:puntos_entrega,id', 
             'nombre_producto' => 'required|string|max:255',
             'descripcion'     => 'nullable|string',
             'precio'          => 'required|numeric|min:0',
             'stock_total'     => 'required|integer|min:1',
-            'imagen'          => 'nullable|string', // Aquí podrías manejar subida de archivos luego
+            'imagen'          => 'nullable|image|max:2048',
         ]);
 
-        // Al crear el producto, stock_reserva empieza en 0.
-        // El stock_real se calculará solo en el modelo gracias al método booted()
+        $user = $request->user();
+        $rutaImagen = null;
+
+        if ($request->hasFile('imagen')) {
+            $rutaImagen = $request->file('imagen')->store('productos', 'public');
+        }
+
         $producto = Producto::create([
             'id_categoria'    => $request->id_categoria,
+            'id_usuario'      => $user->id, 
+            'id_puntoentrega' => $request->id_puntoentrega, 
             'nombre_producto' => $request->nombre_producto,
             'descripcion'     => $request->descripcion,
             'precio'          => $request->precio,
             'stock_total'     => $request->stock_total,
-            'stock_reserva'   => 0,
-            'imagen'          => $request->imagen,
+            'imagen'          => $rutaImagen, 
             'estado'          => 'disponible',
         ]);
 
@@ -52,7 +60,7 @@ class ProductoController extends Controller
             'message' => 'Producto publicado con éxito',
             'producto' => $producto
         ], 201);
-    }
+    } // Aquí termina la función store correctamente
 
     /**
      * Ver detalle de un producto específico
@@ -64,7 +72,7 @@ class ProductoController extends Controller
     }
 
     /**
-     * Actualizar datos del producto (Ej: el agricultor quiere cambiar el precio o añadir stock)
+     * Actualizar datos del producto
      */
     public function update(Request $request, $id)
     {

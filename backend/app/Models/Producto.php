@@ -13,12 +13,12 @@ class Producto extends Model
 
     protected $fillable = [
         'id_categoria',
+        'id_usuario',
+        'id_puntoentrega', 
         'nombre_producto',
         'descripcion',
         'precio',
-        'stock_total',    
-        'stock_reserva',  
-        'stock_real',     
+        'stock_total',
         'imagen',
         'estado'
     ];

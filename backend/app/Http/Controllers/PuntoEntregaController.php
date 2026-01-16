@@ -55,9 +55,16 @@ class PuntoEntregaController extends Controller
     /**
      * Eliminar un punto de entrega
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $punto = PuntoEntrega::findOrFail($id);
+        $user = $request->user();
+        // Buscamos el punto que coincida con el ID Y que pertenezca al usuario autenticado
+        $punto = PuntoEntrega::where('id', $id)->where('id_usuario', $user->id) ->first();
+
+        if (!$punto) {
+            return response()->json(['message' => 'No se encontró el punto o no tienes permiso'], 404);
+        }
+
         $punto->delete();
 
         return response()->json(['message' => 'Punto de entrega eliminado']);

@@ -19,6 +19,9 @@ class User extends Authenticatable
         'email',
         'contrasenya',
         'telefono',
+        'direccion',
+        'longitud',
+        'latitud'
     ];
 
     //esta es la columna clave que el createtoken es fija

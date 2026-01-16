@@ -19,15 +19,27 @@ CREATE TABLE categorias (
     nombre_categoria VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE puntos_entrega (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    longitud DECIMAL(10, 8) NOT NULL,
+    latitud DECIMAL(10, 8) NOT NULL,
+    nombre_punto VARCHAR(255) NOT NULL,
+    direccion_punto VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
+);
+
 CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_categoria INT,
+    id_usuario INT,
+    id_puntoentrega INT,
     nombre_producto VARCHAR(255) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10, 2) NOT NULL,
     stock_total INT NOT NULL DEFAULT 0,
-    stock_reserva INT NOT NULL DEFAULT 0,
-    stock_real INT NOT NULL DEFAULT 0,
     imagen VARCHAR(255),
     estado ENUM(
         'agotado',
@@ -36,7 +48,9 @@ CREATE TABLE productos (
     ),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_categoria) REFERENCES categorias (id)
+    FOREIGN KEY (id_categoria) REFERENCES categorias (id),
+    Foreign Key (id_usuario) REFERENCES usuarios(id),
+    Foreign Key (id_puntoentrega) REFERENCES puntos_entrega(id)
 );
 
 CREATE TABLE chats (
@@ -65,18 +79,6 @@ CREATE TABLE mensajes (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id_chat) REFERENCES chats (id),
     FOREIGN KEY (id_envio) REFERENCES usuarios (id)
-);
-
-CREATE TABLE puntos_entrega (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
-    longitud DECIMAL(10, 8) NOT NULL,
-    latitud DECIMAL(10, 8) NOT NULL,
-    nombre_punto VARCHAR(255) NOT NULL,
-    direccion_punto VARCHAR(255),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
 );
 
 CREATE TABLE compraventas (
@@ -118,3 +120,5 @@ CREATE TABLE valoraciones (
         id_resenyado
     )
 );
+
+INSERT INTO categorias (nombre_categoria) VALUES ('Fruta'), ('Verdura'), ('Derivados de animales'), ('Bebidas artesanales');

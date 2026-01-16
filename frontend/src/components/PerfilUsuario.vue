@@ -111,7 +111,7 @@
 </script>
 <template>
   <navbar></navbar>
-  <div>
+  <div class="contenedor-pagina">
     <button @click="GuardarPuntoEntrega">Crear punto de entrega</button>
 
     <div v-if="activarMapa" id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
@@ -152,9 +152,20 @@
 </template>
 
 <style scoped>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   min-width: 400px;
-  padding-top: 100px;
+}
+
+
+.contenedor-pagina{
+  margin-top: 80px;
+  padding: 20px 50px;
 }
 
 @media (max-width: 768px) {

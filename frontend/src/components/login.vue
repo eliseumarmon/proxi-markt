@@ -47,7 +47,7 @@
             localStorage.setItem('token', token); 
 
             console.log("Token guardado con éxito");
-            router.push('/mapa');
+            router.push('/ubicacion');
 
             form.value = { email: '', contrasenya: '' }; 
         }
