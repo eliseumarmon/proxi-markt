@@ -14,7 +14,6 @@ erDiagram
 		string direccion  ""  
 		decimal longitud  ""  
 		decimal latitud  ""  
-		double puntuacio  "default 0"  
 		timestamp created_at  "NN"  
 		timestamp updated_at  ""  
 	}
@@ -61,6 +60,7 @@ erDiagram
 		int id_chat FK "NN"  
 		int id_envio FK "NN"  
 		text contenido  "NN"  
+		boolean leido "default false"
 		timestamp created_at  "NN"  
 		timestamp updated_at  ""  
 	}
@@ -71,8 +71,11 @@ erDiagram
 		int id_comprador FK "NN"  
 		int id_vendedor FK "NN"  
 		int id_punto FK ""  
-		int cantidad_total  "NN"  
-		enum estado  ""  
+		int cantidad  "NN"  
+		decimal precio  "NN"  
+		decimal precio_total  "VIRTUAL"  
+		date fecha_prevista  ""  
+		enum estado  "default 'pendiente'"  
 		timestamp created_at  "NN"  
 		timestamp updated_at  ""  
 	}
@@ -80,9 +83,9 @@ erDiagram
 	VALORACIONES {
 		int id PK ""  
 		int id_venta FK "NN, U1"  
-		int id_resenyador FK "NN, U1"  
-		int id_resenyado FK "NN, U1"  
-		enum valoracion  "NN"  
+		int id_valorador FK "NN, U1"  
+		int id_valorado FK "NN, U1"  
+		tinyint valoracion  "NN"  
 		text comentario  ""  
 		timestamp created_at  "NN"  
 		timestamp updated_at  ""  
