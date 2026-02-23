@@ -125,11 +125,11 @@ El lliurament del projecte requerirà tant els components tècnics com la docume
 
 | Sprint | Data | Tasques |
 | --- | --- | --- |
-| 1 | 18 | Desembre Prototip i creació inicial de la base de dades |
-| 2 | 9 | Gener Gestió d'usuaris, login i mapes |
-| 3 | 16 | Gener Gestió de vendes (venedor) |
-| 4 | 23 | Gener Gestió de comandes (comprador) |
-| 5 | 30 | Gener Filtre de productes i búsqueda |
-| 6 | 6 | Febrer Comunicacions i valoracions |
-| 7 | 13 | Febrer Desplegament i proves |
-| 8 | 20 | Febrer Entrega i exposicions |
+| 1 | 18 Desembre | Prototip i creació inicial de la base de dades |
+| 2 | 9 Gener | Gestió d'usuaris, login i mapes |
+| 3 | 16 Gener | Gestió de vendes (venedor) |
+| 4 | 23 Gener | Gestió de comandes (comprador) |
+| 5 | 30 Gener | Filtre de productes i búsqueda |
+| 6 | 6 Febrer | Comunicacions i valoracions |
+| 7 | 13 Febrer | Desplegament i proves |
+| 8 | 20 Febrer | Entrega i exposicions |

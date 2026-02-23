@@ -20,11 +20,20 @@ markdown_extensions:
 
 # Configuración de navegación
 nav:
-  - Inicio: index.md
-  - Iniciar proyecto: documentacion_iniciar_proyecto.md
-  - Base de datos: documentacio_bd.md
-  - Prototipo: documentacion_prototipo.md
-  - Documentación código: documentacion_codigo.md
+  - Información general:
+    - Presentación y onboarding: index.md
+    - Arquitectura del proyecto: arquitectura.md
+    - Iniciar y desplegar (paso a paso): documentacion_iniciar_proyecto.md
+  - Modelado de datos:
+    - Base de datos y entidad-relación: documentacio_bd.md
+  - Desarrollo técnico:
+    - Documentación REST Backend (Laravel): documentacion_backend.md
+    - Documentación UI Frontend (Vue): documentacion_componentes.md
+  - Infraestructura Cloud (AWS):
+    - Guía de despliegue (Free Tier): aws_free_tier/Guia_Despliegue_AWS.md
+    - Post-Mortem y arquitectura: aws_free_tier/Despliegue de ProxiMarkt en AWS.md
+  - Diseño:
+    - Prototipo visual: documentacion_prototipo.md
 
 # Plugins adicionales
 plugins:
