@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="/img/favicon.ico">
-        <title>Proxi Markt Documentation</title>
+        <title>Proxi Markt</title>
         <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/fontawesome.min.css" rel="stylesheet">
         <link href="/css/brands.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="/.">Proxi Markt Documentation</a>
+                <a class="navbar-brand" href="/.">Proxi Markt</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,17 +34,66 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="/." class="nav-link">Inicio</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Información general</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="/." class="dropdown-item">Presentación y onboarding</a>
+</li>
+                                    
+<li>
+    <a href="/arquitectura/" class="dropdown-item">Arquitectura del proyecto</a>
+</li>
+                                    
+<li>
+    <a href="/documentacion_iniciar_proyecto/" class="dropdown-item">Iniciar y desplegar (paso a paso)</a>
+</li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="/documentacion_iniciar_proyecto/" class="nav-link">Iniciar proyecto</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Modelado de datos</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="/documentacio_bd/" class="dropdown-item">Base de datos y entidad-relación</a>
+</li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="/documentacio_bd/" class="nav-link">Base de Datos</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Desarrollo técnico</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="/documentacion_backend/" class="dropdown-item">Documentación REST Backend (Laravel)</a>
+</li>
+                                    
+<li>
+    <a href="/documentacion_componentes/" class="dropdown-item">Documentación UI Frontend (Vue)</a>
+</li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="/documentacion_prototipo/" class="nav-link">Prototipo</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Infraestructura Cloud (AWS)</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="/aws_free_tier/Guia_Despliegue_AWS/" class="dropdown-item">Guía de despliegue (Free Tier)</a>
+</li>
+                                    
+<li>
+    <a href="/aws_free_tier/Despliegue%20de%20ProxiMarkt%20en%20AWS/" class="dropdown-item">Post-Mortem y arquitectura</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Diseño</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="/documentacion_prototipo/" class="dropdown-item">Prototipo visual</a>
+</li>
+                                </ul>
                             </li>
                         </ul>
 

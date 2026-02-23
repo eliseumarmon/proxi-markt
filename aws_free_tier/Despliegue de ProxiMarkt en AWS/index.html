@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Post-Mortem y arquitectura - Proxi Markt</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Proxi Markt</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Información general</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../.." class="dropdown-item">Presentación y onboarding</a>
+</li>
+                                    
+<li>
+    <a href="../../arquitectura/" class="dropdown-item">Arquitectura del proyecto</a>
+</li>
+                                    
+<li>
+    <a href="../../documentacion_iniciar_proyecto/" class="dropdown-item">Iniciar y desplegar (paso a paso)</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Modelado de datos</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../documentacio_bd/" class="dropdown-item">Base de datos y entidad-relación</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Desarrollo técnico</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../documentacion_backend/" class="dropdown-item">Documentación REST Backend (Laravel)</a>
+</li>
+                                    
+<li>
+    <a href="../../documentacion_componentes/" class="dropdown-item">Documentación UI Frontend (Vue)</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Infraestructura Cloud (AWS)</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Guia_Despliegue_AWS/" class="dropdown-item">Guía de despliegue (Free Tier)</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Post-Mortem y arquitectura</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Diseño</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../documentacion_prototipo/" class="dropdown-item">Prototipo visual</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../Guia_Despliegue_AWS/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../documentacion_prototipo/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#despliegue-de-proximarkt-en-aws" class="nav-link">Despliegue de ProxiMarkt en AWS</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#arquitectura-desplegada" class="nav-link">Arquitectura desplegada</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pros-y-contras-de-las-decisiones-arquitectonicas" class="nav-link">Pros y contras de las decisiones arquitectónicas</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#dificultades-encontradas-y-soluciones-aplicadas" class="nav-link">Dificultades encontradas y soluciones aplicadas</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#guia-paso-a-paso-del-despliegue-realizado" class="nav-link">Guía paso a paso del despliegue realizado</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="despliegue-de-proximarkt-en-aws">Despliegue de ProxiMarkt en AWS</h1>
+<p>Este documento registra todas las fases, decisiones arquitectónicas, problemas encontrados y sus soluciones detalladas durante el despliegue a producción de ProxiMarkt (Vue + Laravel + MySQL) en Amazon Web Services (AWS) utilizando un modelo distribuido.</p>
+<hr />
+<h2 id="arquitectura-desplegada">Arquitectura desplegada</h2>
+<p>Adoptamos una arquitectura orientada a microservicios distribuidos aprovechando estrictamente componentes elegibles para la <strong>AWS Free Tier (Capa Gratuita)</strong>:</p>
+<ol>
+<li><strong>Frontend (Amazon S3 + CloudFront):</strong> Single Page Application en Vue generada mediante Vite. Alojada de forma estática y privada en S3, expuesta mediante CloudFront (CDN) para proveer entrega rápida global, caché eficiente y HTTPS gratuito.</li>
+<li><strong>Backend (Amazon EC2):</strong> Servidor API REST Laravel corriendo sobre Ubuntu 24.04 con Apache2 y PHP 8.3 (<code>t2.micro</code> o <code>t3.micro</code>).</li>
+<li><strong>Base de Datos (Amazon RDS):</strong> Instancia gestionada MySQL 8.x (<code>db.t3.micro</code>) aislada en red interna VPC y sin acceso público mediante configuraciones estrictas de <em>Security Groups</em>.</li>
+</ol>
+<hr />
+<h2 id="pros-y-contras-de-las-decisiones-arquitectonicas">Pros y contras de las decisiones arquitectónicas</h2>
+<h3 id="frontends-en-s3-cloudfront-spa-distribuido">Frontends en s3 + CloudFront (SPA distribuido)</h3>
+<ul>
+<li><strong>PROS:</strong> Rendimiento máximo gracias a la distribución global de edge locations (CDN). Seguridad extra (el bucket de origen S3 es privado, el acceso se realiza por Origin Access Control). Coste cercano a $0 por volumen bajo y tráfico TLS/SSL gratuito provisto por AWS CloudFront de forma nativa (ahorrándonos la gestión y el mantenimiento de renovar certificados vía <em>Let's Encrypt</em> en el propio servidor).</li>
+<li><strong>CONTRAS:</strong> Mayor complejidad en enrutamientos y gestión de cachés (invalidaciones obligatorias). SPA como Vue requiere reglas especializadas de <em>Error Pages</em> (forzar 403 y 404 a <code>/index.html</code>) para procesar las rutas del lado de cliente.</li>
+</ul>
+<h3 id="ec2-con-apache-stateless-api">Ec2 con apache (stateless API)</h3>
+<ul>
+<li><strong>PROS:</strong> Control absoluto sobre módulos del servidor de aplicaciones (PHP-FPM, mod_rewrite, cronjobs de Laravel) sin pagar la cuota de Elastic Beanstalk y asumiendo todo el control SysAdmin.</li>
+<li><strong>CONTRAS:</strong> Mantenimiento (parches de SO) dependientes de nosotros. Como las fotos (Storage) actualmente se alojan aquí, hemos bloqueado la capacidad de <em>Load Balancing</em>, haciéndola temporalmente <em>Stateful</em> (la pérdida de esta EC2 implicaría la pérdida del disco).</li>
+</ul>
+<div style="page-break-before:always";/>
+
+<h3 id="rds-managed">RDS managed</h3>
+<ul>
+<li><strong>PROS:</strong> Backups automáticos diarios, parches automáticos y separación de responsabilidades que evita ahogar los recursos de la máquina EC2 en consultas complejas.</li>
+<li><strong>CONTRAS:</strong> Es el elemento de AWS que más velozmente consume el Free Tier (750h se consumen el mismo mes si está 24/7 vivo).</li>
+</ul>
+<h3 id="proxy-inverso-en-cloudfront-la-solucion-maestra">Proxy inverso en CloudFront (la solución maestra)</h3>
+<p>En lugar de exponer directamente la API EC2 de manera insegura, o generar certificados locales para la API, optamos por usar CloudFront como proxy TLS.</p>
+<ul>
+<li><strong>PROS:</strong> Evitamos el bloqueo estricto de navegadores modernos (<code>blocked:mixed-content</code>) que impide enviar peticiones POST de un HTTPS seguro a una conexión HTTP desnuda. Permite llamadas relativas <code>/api/*</code>.</li>
+<li><strong>CONTRAS:</strong> Requirió configurar minuciosamente comportamientos temporales estrictos en CloudFront (Políticas <code>AllViewer</code> origin request, deshabilitar Cachés en este Path) y ajustes en Apache (<code>ServerAlias *</code>) para ignorar los <em>Host headers</em> inyectados por la Content Delivery Network.</li>
+</ul>
+<hr />
+<h2 id="dificultades-encontradas-y-soluciones-aplicadas">Dificultades encontradas y soluciones aplicadas</h2>
+<p>El despliegue requirió resolver en tiempo real numerosos bloqueos técnicos inherentes a la comunicación entre sistemas independientes en la nube:</p>
+<ol>
+<li>
+<p><strong>Fallos de Conexión Base de Datos (Seguridad / Setup):</strong></p>
+<ul>
+<li><em>Problema:</em> Laravel devolvió <em>Connection Refused</em> o error de Base de Datos Inexistente.</li>
+<li><em>Causa:</em> SGs mal configurados en RDS o BBDD no importada. Laravel 11 asume SQLite local por defecto en caso de fallo u omisión en variables.</li>
+<li><em>Solución:</em> Autorizar SG a la máquina EC2, vaciar caché de configuración de Laravel (<code>config:cache</code>) y volcar SQL manual indicando flag de host externo (<code>-h [endpoint-rds]</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Pérdida de Configuración en el Build de Vue (Vite + Entorno Windows):</strong></p>
+<ul>
+<li><em>Problema:</em> Al subir a S3, Axios fallaba redirigiendo erróneamente porque <code>VITE_API_URL</code> estaba indefinida (<em>undefined</em>).</li>
+<li><em>Causa:</em> Conflictos en la ocultación de archivos <code>.env.production</code> por Windows y mala inyección durante <code>npm run build</code> en el intérprete de terminal local.</li>
+<li><em>Solución:</em> Forzamos primero URLs absolutas crudas en <code>axios.js</code> y posteriormente, implementamos proxy inverso permitiendo recular al modelo relativo seguro y estático (<code>/api/...</code>), aislando a la SPA de la IP.</li>
+</ul>
+</li>
+<li>
+<p><strong>Respuestas Engañosas (200 OK HTML devueltas por API /register):</strong></p>
+<ul>
+<li><em>Problema:</em> Petición POST finalizaba sin fallo pero no registraba usuarios, devolviendo la vista genérica HTML de Front.</li>
+<li><em>Causa:</em> Para eludir falsos 404s en S3 vinculados a la SPA, la regla Custom Error Page empaquetaba los 404 a la API (Apache rechazando por Host Mismatch) enmascarándolos.</li>
+<li><em>Solución:</em> Edición del VirtualHost configurado por el Bash Script inicial, inyectándole directiva comodín (<code>ServerAlias *</code>), y apagando site por defecto de Ubuntu.</li>
+</ul>
+</li>
+<li>
+<p><strong>Permisos de Escritura de Servidor Web (Permission Denied Laravel.log / Storage):</strong></p>
+<ul>
+<li><em>Problema:</em> HTTP 500 Subiendo catálogo o fotos.</li>
+<li><em>Causa:</em> El usuario CLI (<code>ubuntu</code>) tomó dominio recursivo de la estructura, privando al pool del Server Web (<code>www-data</code>).</li>
+<li><em>Solución:</em> Cesión de propiedad usando <code>chown -R www-data:www-data</code> únicamente en <code>storage</code> y <code>bootstrap/cache</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Reconstrucciones Relativas en Storage de Vue (Mixed Content Persistent):</strong></p>
+<ul>
+<li><em>Problema:</em> Al intentar mostrar imágenes de CloudFront, el CDN caía en bloqueos Mixtos porque las imágenes renderizaban la IP explícita proveniente del helper <code>storage.js</code>.</li>
+<li><em>Solución:</em> Se restauró el helper de modo que devuelva prefijos vacíos forzados (<code>const api = "/api"</code>) permitiendo a los visualizadores resolver como <code>/storage/productos/...</code> heredando el Origin SSL general.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="guia-paso-a-paso-del-despliegue-realizado">Guía paso a paso del despliegue realizado</h2>
+<p>Para futuras referencias, este fue el orden cronológico y las acciones exactas realizadas en la consola de AWS y en el código:</p>
+<h3 id="1-preparacion-de-la-base-de-datos-rds">1. Preparación de la base de datos (RDS)</h3>
+<ol>
+<li>Creamos una base de datos MySQL 8 (<code>db.t3.micro</code>) en la capa gratuita de Amazon RDS.</li>
+<li>La configuramos como privada (sin acceso público) y creamos un Security Group (<code>rds-sg-proximarkt</code>).</li>
+<li>Para inicializar la estructura, nos conectamos vía SSH a la EC2 y usamos el cliente <code>mysql</code>. Se descubrió que la base de datos no existía por lo que se tuvo que crear y volcar las tablas manualmente:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mysql<span class="w"> </span>-h<span class="w"> </span>&lt;rds-endpoint&gt;.rds.amazonaws.com<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mysql&gt;<span class="w"> </span>CREATE<span class="w"> </span>DATABASE<span class="w"> </span>proximarkt_db<span class="p">;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mysql&gt;<span class="w"> </span>exit<span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>mysql<span class="w"> </span>-h<span class="w"> </span>&lt;rds-endpoint&gt;.rds.amazonaws.com<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p<span class="w"> </span>proximarkt_db<span class="w"> </span>&lt;<span class="w"> </span>base.sql
+</span></code></pre></div>
+<div style="page-break-before:always";/>
+
+<h3 id="2-preparacion-del-servidor-backend-ec2">2. Preparación del servidor Backend (ec2)</h3>
+<ol>
+<li>Lanzamos una instancia Ubuntu 24.04 (<code>t2/t3.micro</code>) abriendo los puertos 22 (SSH), 80 (HTTP) y 443 (HTTPS), con entrada permitida al SG de la RDS (p. 3306).</li>
+<li>Tuvimos problemas con el script de <strong>User Data</strong> (<code>setup_ec2.sh</code>) ya que no se ejecutó, y descargarlo vía <code>wget</code> desde GitHub trajo un archivo vacío en blanco. Por ende, ejecutamos los comandos de instalación de Apache, PHP 8.3 y Composer de manera 100% manual por SSH:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>apache2<span class="w"> </span>curl<span class="w"> </span>git<span class="w"> </span>unzip<span class="w"> </span>-y
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>software-properties-common<span class="w"> </span>-y
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>sudo<span class="w"> </span>add-apt-repository<span class="w"> </span>ppa:ondrej/php<span class="w"> </span>-y
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>php8.3<span class="w"> </span>php8.3-cli<span class="w"> </span>php8.3-common<span class="w"> </span>php8.3-mysql<span class="w"> </span>php8.3-zip<span class="w"> </span>php8.3-gd<span class="w"> </span>php8.3-mbstring<span class="w"> </span>php8.3-curl<span class="w"> </span>php8.3-xml<span class="w"> </span>php8.3-bcmath<span class="w"> </span>libapache2-mod-php8.3<span class="w"> </span>-y
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>php<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;copy(&#39;https://getcomposer.org/installer&#39;, &#39;composer-setup.php&#39;);&quot;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>php<span class="w"> </span>composer-setup.php
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>sudo<span class="w"> </span>mv<span class="w"> </span>composer.phar<span class="w"> </span>/usr/local/bin/composer
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>php<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;unlink(&#39;composer-setup.php&#39;);&quot;</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>sudo<span class="w"> </span>a2enmod<span class="w"> </span>rewrite
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+</span></code></pre></div>
+<ol>
+<li>Clonamos el repositorio, generamos el entorno de producción e instalamos las dependencias:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>/var/www
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>clone<span class="w"> </span>&lt;URL_REPO&gt;
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">cd</span><span class="w"> </span>backend
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Editamos .env introduciendo credenciales del RDS y DB_CONNECTION=mysql</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>nano<span class="w"> </span>.env
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>composer<span class="w"> </span>install<span class="w"> </span>--optimize-autoloader<span class="w"> </span>--no-dev
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>php<span class="w"> </span>artisan<span class="w"> </span>config:cache
+</span></code></pre></div>
+<ol>
+<li>Poblamos los datos iniciales requeridos mediante Seeders:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>php<span class="w"> </span>artisan<span class="w"> </span>db:seed<span class="w"> </span>--class<span class="o">=</span>CategoriaSeeder<span class="w"> </span>--force
+</span></code></pre></div>
+<div style="page-break-before:always";/>
+
+<h3 id="3-ajustes-de-permisos-y-reparacion-de-apache">3. Ajustes de permisos y reparación de apache</h3>
+<ol>
+<li>Creamos el archivo host virtual manualmente (<code>sudo nano /etc/apache2/sites-available/proximarkt.conf</code>) con el siguiente bloque de configuración. Cabe destacar la adición del comodín <code>ServerAlias *</code> en lugar de sólo el <code>ServerName</code>, un paso vital para esquivar las mutaciones de Host Headers que provocaba el Proxy Inverso de CloudFront:</li>
+</ol>
+<div class="language-apache highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">&lt;VirtualHost</span><span class="w"> </span><span class="s">*:80</span><span class="nt">&gt;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nb">ServerName</span><span class="w"> </span>api.proximarkt.com
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nb">ServerAlias</span><span class="w"> </span>*
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nb">DocumentRoot</span><span class="w"> </span><span class="sx">/var/www/proxi-markt/backend/public</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">&lt;Directory</span><span class="w"> </span><span class="s">/var/www/proxi-markt/backend/public</span><span class="nt">&gt;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nb">Options</span><span class="w"> </span>Indexes<span class="w"> </span>FollowSymLinks
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="nb">AllowOverride</span><span class="w"> </span><span class="k">All</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="nb">Require</span><span class="w"> </span><span class="k">all</span><span class="w"> </span>granted
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nt">&lt;/Directory&gt;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nb">ErrorLog</span><span class="w"> </span>${APACHE_LOG_DIR}/proximarkt_error.log
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nb">CustomLog</span><span class="w"> </span>${APACHE_LOG_DIR}/proximarkt_access.log<span class="w"> </span>combined
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nt">&lt;/VirtualHost&gt;</span>
+</span></code></pre></div>
+<ol>
+<li>Deshabilitamos el sitio por defecto de Ubuntu, habilitamos el nuestro y aplicamos permisos finales:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>a2dissite<span class="w"> </span><span class="m">000</span>-default.conf
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sudo<span class="w"> </span>a2ensite<span class="w"> </span>proximarkt.conf
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>www-data:www-data<span class="w"> </span>/var/www/proxi-markt/backend/storage<span class="w"> </span>/var/www/proxi-markt/backend/bootstrap/cache
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>php<span class="w"> </span>artisan<span class="w"> </span>storage:link
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+</span></code></pre></div>
+<div style="page-break-before:always";/>
+
+<h3 id="4-preparacion-del-frontend-s3">4. Preparación del Frontend (s3)</h3>
+<ol>
+<li>Creamos un cubo (Bucket) en Amazon S3 (<code>proximarkt-frontend-bucket</code>) configurando todos sus accesos como bloqueados al público.</li>
+<li>Forzamos URLs relativas estáticas (<code>/api</code> y <code>/storage</code>) en <code>api/axios.js</code> y <code>utils/storage.js</code> esquivando variables del <code>.env</code>.</li>
+<li>Compilamos en local el código optimizado:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span>frontend
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>npm<span class="w"> </span>install
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>npm<span class="w"> </span>run<span class="w"> </span>build
+</span></code></pre></div>
+<ol>
+<li>Subimos manualmente el contenido de la carpeta <code>/dist</code> devuelta al S3 (o vía AWS CLI <code>aws s3 sync dist/ s3://proximarkt-frontend-bucket --delete</code>).</li>
+</ol>
+<h3 id="5-la-red-de-distribucion-segura-cloudfront">5. La red de distribución segura (CloudFront)</h3>
+<ol>
+<li>Creamos una distribución apuntando hacia el Bucket S3 originado.</li>
+<li>Aplicamos políticas OAC (Origin Access Control) devolviendo a S3 una policy en JSON que autorizó únicamente a CloudFront para leer sus archivos (antes esto se hacía manual ahora se encarga CloudFront de todo).</li>
+<li>Configuramos la obligatoriedad de <strong>Redirección de HTTP hacia HTTPS</strong>.</li>
+<li><strong>Configuración para Vue Router (El "Cerebro" de la SPA):</strong> Editamos las <em>Error Pages</em> forzando respuestas a los errores 403 y 404 para que emitieran código <code>200 OK</code> devolviendo <code>/index.html</code>.</li>
+<li><em>¿Por qué es necesario esto?</em> En una aplicación SPA (Single Page Application) como Vue, toda la web es un único archivo <code>index.html</code>. Si un usuario recarga directamente la página en la URL <code>/auth</code>, CloudFront buscará una carpeta física llamada "auth" en Amazon S3. Como esa carpeta no existe, S3 devolverá un <code>404 Not Found</code> (o <code>403 Access Denied</code>). Al forzar que esos errores devuelvan siempre el <code>index.html</code> madre con un estado <code>200</code>, logramos que el "cerebro" Javascript de Vue tome el control en el navegador del usuario y monte la vista correcta de <code>/auth</code> dinámicamente.</li>
+<li><strong>Implementación de Proxy Inverso (Backend + Storage):</strong></li>
+<li>Añadimos el EC2 como Origen secundario, esquivando la restricción de IP de CloudFront al utilizar el <strong>DNS Público de IPv4</strong> (<code>ec2-x-x-x-x...compute.amazonaws.com</code>) gratuito de la propia instancia Amazon EC2.</li>
+<li>Creamos Behavior para <code>/api/*</code> (<code>AllViewer</code> origin request, Caché Deshabilitada, TODOS los métodos HTTP permitidos).</li>
+<li>Creamos Behavior para <code>/storage/*</code> (Caché Optimizada <code>CachingOptimized</code>, métodos GET).</li>
+</ol>
+<h3 id="finalizacion">Finalización</h3>
+<p>Tras vaciar la caché de CloudFront (<code>/* Invalidations</code>) varias veces para refrescar el código del CDN, la arquitectura Cloud Native entró en funcionamiento global de forma óptima a coste casi nulo.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

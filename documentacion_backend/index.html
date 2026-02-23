@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Documentación REST Backend (Laravel) - Proxi Markt</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Proxi Markt</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Información general</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href=".." class="dropdown-item">Presentación y onboarding</a>
+</li>
+                                    
+<li>
+    <a href="../arquitectura/" class="dropdown-item">Arquitectura del proyecto</a>
+</li>
+                                    
+<li>
+    <a href="../documentacion_iniciar_proyecto/" class="dropdown-item">Iniciar y desplegar (paso a paso)</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Modelado de datos</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../documentacio_bd/" class="dropdown-item">Base de datos y entidad-relación</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Desarrollo técnico</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Documentación REST Backend (Laravel)</a>
+</li>
+                                    
+<li>
+    <a href="../documentacion_componentes/" class="dropdown-item">Documentación UI Frontend (Vue)</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Infraestructura Cloud (AWS)</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../aws_free_tier/Guia_Despliegue_AWS/" class="dropdown-item">Guía de despliegue (Free Tier)</a>
+</li>
+                                    
+<li>
+    <a href="../aws_free_tier/Despliegue%20de%20ProxiMarkt%20en%20AWS/" class="dropdown-item">Post-Mortem y arquitectura</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Diseño</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../documentacion_prototipo/" class="dropdown-item">Prototipo visual</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../documentacio_bd/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../documentacion_componentes/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#documentacion-del-backend-laravel" class="nav-link">Documentación del Backend (Laravel)</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#1-patron-de-arquitectura" class="nav-link">1. Patrón de arquitectura</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2-modelos-de-eloquent-tablas-principales" class="nav-link">2. Modelos de Eloquent (tablas principales)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3-validacion-inicial-formrequests" class="nav-link">3. Validación inicial (FormRequests)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#4-logicas-complejas-explicadas" class="nav-link">4. Lógicas complejas explicadas</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#5-listado-y-catalogo-rest-api" class="nav-link">5. Listado y catálogo REST API</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="documentacion-del-backend-laravel">Documentación del Backend (Laravel)</h1>
+<p>Este documento detalla la estructura, las reglas de negocio y los Endpoints de la API REST que conforma el Backend de Proxi Markt.</p>
+<hr />
+<h2 id="1-patron-de-arquitectura">1. Patrón de arquitectura</h2>
+<p>El Backend de la aplicación está construido con <strong>Laravel 11</strong> y opera exclusivamente como una <strong>API REST Stateless</strong> (Sin estado).</p>
+<ul>
+<li><strong>Autenticación con Token (Sanctum):</strong> La aplicación no utiliza cookies de sesión estandar de PHP. La seguridad recae sobre <code>Laravel Sanctum</code>. Tras un login exitoso, la API emite un <em>Bearer Token</em> (JWT) que el cliente debe incluir en las cabeceras HTTP (<code>Authorization: Bearer &lt;TKN&gt;</code>) de cada petición posterior que requiera autenticación.</li>
+<li><strong>Transacciones DB:</strong> Gran parte de las operaciones críticas (gestión de stock, estados de chats) utilizan el motor de transacciones propio de Laravel (<code>DB::beginTransaction()</code>, <code>DB::commit()</code>, <code>DB::rollBack()</code>). Si alguna inserción falla en el proceso, la base de datos deshace todos los cambios, garantizando integridad referencial ante fallos imprevistos.</li>
+</ul>
+<hr />
+<h2 id="2-modelos-de-eloquent-tablas-principales">2. Modelos de Eloquent (tablas principales)</h2>
+<p>El ORM de Laravel (<em>Eloquent</em>) gestiona la representación y relaciones de las tablas de MySQL:</p>
+<ul>
+<li><code>User.php</code> (<code>usuarios</code>): Representa cualquier actor del sistema, actúe de vendedor o comprador. La columna <code>contrasenya</code> se enmascara automáticamente en la respuesta HTTP (<code>$hidden</code>). En él residen numerosas relaciones como el catálogo de productos u ofertas asociadas.</li>
+<li><code>Producto.php</code> (<code>productos</code>): Unidad principal de venta. Depende obligatoriamente de un usuario propietario (productor) y una categoría clasificatoria.</li>
+<li><code>Categoria.php</code> (<code>categorias</code>): Taxonomía sencilla de los productos.</li>
+<li><code>PuntoEntrega.php</code> (<code>puntos_entrega</code>): Refleja puntos en un mapa asociados a un productor mediante coordenadas.</li>
+<li><code>CompraVenta.php</code> (<code>compraventas</code>): Tabla pivote transaccional. Registra el interés de compra de un usuario B sobre un artículo de un usuario A.</li>
+<li><code>Chat.php</code> y <code>Mensajes.php</code> (<code>chats</code>, <code>mensajes</code>): El modelo Chat es el "sobre" o sala que une a 2 usuarios interesados en un producto particular, mientras que la tabla Mensajes almacena el historial cronológico enviado entre ambos.</li>
+<li><code>Valoracion.php</code> (<code>valoraciones</code>): Tabla que persiste asíncronamente un "Rate" tras la finalización de una compraventa.</li>
+</ul>
+<hr />
+<h2 id="3-validacion-inicial-formrequests">3. Validación inicial (<code>FormRequests</code>)</h2>
+<p>Para mantener los controladores limpios y con una única responsabilidad, la validación de los datos entrantes (Request payload JSON) se realiza previamente dentro del directorio <code>app/Http/Requests</code>.</p>
+<ul>
+<li><code>LoginUserRequest.php</code>: Valida campos básicos (<code>email</code>, <code>contrasenya</code>).</li>
+<li><code>UserRequest.php</code>: Efectúa las comprobaciones de registro como la confirmación redundante de contraseñas y, sobre todo, asegura de antemano que el email entrante no exista con un filtro <code>unique:usuarios,email</code>.</li>
+<li><code>PuntosEntregaRequest.php</code>: Forza que la longitud y latitud enviadas mantengan un tipo flotante válido EPSG y no desajusten las queries matemáticas visuales al mapa.</li>
+<li><code>StoreValoracionRequest.php</code>: Revisa que las estrellas evaluativas cumplan el rango exigido para el sistema.</li>
+</ul>
+<hr />
+<h2 id="4-logicas-complejas-explicadas">4. Lógicas complejas explicadas</h2>
+<p>Para comprender correctamente el código del controlador, se detallan los algoritmos específicos o acercamientos técnicos y el porqué se tomaron esas decisiones.</p>
+<h3 id="sistema-de-doble-stock-en-compraventacontrollerphp">Sistema de "doble stock" en <code>CompraVentaController.php</code></h3>
+<p>Cuando un usuario crea una compra, la API <strong>no resta</strong> directamente la cantidad seleccionada en la columna general de <code>stock_total</code> del producto. Simplemente suma esa cifra a la columna intermedia aislada <code>stock_reserva</code>.</p>
+<ul>
+<li><strong>Motivo Técnico:</strong> Esto soluciona problemas de cancelación cruzada. El <code>stock_reserva</code> inhabilita que otro usuario pueda agotar esa mercancía y una columna extra visual MySQL define el <code>stock_real</code>. Solo si el vendedor concluye y pulsa Completado en la transacción, el sistema descontará para siempre todo ese material apartándolo tanto de reserva como del almacén maestro (<code>stock_total</code>).</li>
+</ul>
+<h3 id="radios-de-busqueda-geografica-puntoentregacontrollerphp">Radios de búsqueda geográfica (<code>PuntoEntregaController.php</code>)</h3>
+<p>Cuando el cliente solicita ver puntos alrededor de su finca (<code>puntosRadio</code>), el controlador utiliza una consulta genérica pura en Raw-SQL usando <code>6371 * acos(cos...</code>.</p>
+<ul>
+<li><strong>Motivo Técnico:</strong> Implementa nativamente la <strong>Fórmula de Haversine</strong>. Filtrar radialmente calculando todas las distancias desde lenguaje de servidor (PHP) hacia millones de registros agotaría de forma ineficiente y perjudicial el ancho de banda y memoria RAM base de la instancia. Depositar este trabajo numérico estricto del perímetro sobre el motor interno de MySQL es inmensamente más fluido.</li>
+</ul>
+<h3 id="busqueda-de-salas-bi-direccionales-mensajescontrollerphp">Búsqueda de salas bi-direccionales (<code>MensajesController.php</code>)</h3>
+<p>En la función de guardado <code>store()</code>, existe un voluminoso bloque con sentencias asimétricas anidadas tipo OR: O Tú fuiste "Comprador" y Él "Vendedor" o a la inversa Él "Comprador" y Tú "Vendedor".</p>
+<ul>
+<li><strong>Motivo Técnico:</strong> Garantiza la sala <em>única</em> de mensajería para esa combinación <code>Producto - Vendedor - Interesado</code>. El sistema no diferencia de cara al listado de qué parte de la mesa propuso arrancar formalmente a tipear el mensaje inicial.</li>
+</ul>
+<h3 id="volcado-del-gestor-multipart-file-productocontrollerphp">Volcado del gestor multipart file (<code>ProductoController.php</code>)</h3>
+<p>Las capturas guardadas durante el Upload son transferidas como imágenes físicas dentro del directorio <code>/public/storage/productos</code> y en BBDD solo se almacena un String referencial de la URL.</p>
+<ul>
+<li><strong>Motivo Técnico:</strong> Convertir e incorporar blobs puros base64 incrustados en celdas de MySQL encarece y ralentiza las lecturas. Externalizar esta gestión a la lectura rápida de un servidor Web como Apache es la práctica estándar en la industria.</li>
+</ul>
+<hr />
+<h2 id="5-listado-y-catalogo-rest-api">5. Listado y catálogo REST API</h2>
+<h3 id="endpoints-rutas-publicas">Endpoints (rutas públicas)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Método</th>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Acción / Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>POST</strong></td>
+<td style="text-align: left;"><code>/api/login</code></td>
+<td style="text-align: left;">Recibe <code>email</code>, <code>contrasenya</code> y devuelve el JWT de Sanctum.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POST</strong></td>
+<td style="text-align: left;"><code>/api/register</code></td>
+<td style="text-align: left;">Recibe payload validado por UserRequest y crea cuenta nueva.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/productos</code></td>
+<td style="text-align: left;">Devuelve listado estructurado general. Adminte parámetros en URI (<code>?search=Tomate</code>, <code>?categorias=Verde</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/productos/{id}</code></td>
+<td style="text-align: left;">Información unificada visual detallada de un producto en base de datos.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/categorias</code></td>
+<td style="text-align: left;">Enumeración general al catálogo taxonómico.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/puntos/{id}/productos</code></td>
+<td style="text-align: left;">Listado delimitado a qué unidades persisten dentro de este punto exclusivo.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="endpoints-privados-protectos-precisan-cabecera-authorization-bearer-tkn">Endpoints privados protectos (precisan cabecera: <code>Authorization: Bearer &lt;TKN&gt;</code>)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Método</th>
+<th style="text-align: left;">Endpoint</th>
+<th style="text-align: left;">Acción / Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/datosuser</code></td>
+<td style="text-align: left;">Objeto User general del token + puntuación agregada asíncrona generada dinámicamente (<code>loadAvg</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PUT</strong></td>
+<td style="text-align: left;"><code>/api/usuarios/{usuario}/ubicacion</code></td>
+<td style="text-align: left;">Define y formaliza las long/lat base de referencia geoidal del usuario inicial.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POST</strong></td>
+<td style="text-align: left;"><code>/api/productos</code></td>
+<td style="text-align: left;">Creación C.R.U.D nueva alta inventario. Configurado para aglutinar formato Multipart Form y archivos en su petición.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PUT</strong></td>
+<td style="text-align: left;"><code>/api/productos/{id}</code></td>
+<td style="text-align: left;">Edición de variables numéricas, stockaje y permuta de foto.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DELETE</strong></td>
+<td style="text-align: left;"><code>/api/productos/{id}</code></td>
+<td style="text-align: left;">Purga C.R.U.D de persistencia física lógica en base.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/usuarios/{usuario}/productos</code></td>
+<td style="text-align: left;">Extracción individual personal limitando visuales ajenos.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/puntos_radio/{radio}</code></td>
+<td style="text-align: left;">Extracción perimetral de resultados próximos utilizando directivas de localización matemáticas referenciadas contra input de URIs.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POST</strong></td>
+<td style="text-align: left;"><code>/api/puntos</code></td>
+<td style="text-align: left;">Añade delegación operativa espacial nueva al dueño genérico.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>DELETE</strong></td>
+<td style="text-align: left;"><code>/api/puntos/{id}</code></td>
+<td style="text-align: left;">Destrucción de nodo.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POST</strong></td>
+<td style="text-align: left;"><code>/api/compraventa/{producto}</code></td>
+<td style="text-align: left;">Abertura transaccional. Inicia estado <em>Pendiente</em> y desplaza inventario hacia <code>stock_reserva</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PUT</strong></td>
+<td style="text-align: left;"><code>/api/mis-comandas/{comanda_id}</code></td>
+<td style="text-align: left;">Cambia flag del enumerado. Completar transacciones aniquila inventariado.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/mis-comandas</code></td>
+<td style="text-align: left;">Tabulación masiva mixta donde Vendedor / Comprador resulta unificado sobre listado general indexado.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POST</strong></td>
+<td style="text-align: left;"><code>/api/enviar-mensaje</code></td>
+<td style="text-align: left;">Agrega nueva cadena JSON a Inbox generativo o unificado paralelo. Si integra red tipo Pusher eleva Websocket difusivo (<code>MessageSent</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/chat/{id}</code></td>
+<td style="text-align: left;">Obtener Blob de sala ordenado cronológicamente.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>PUT</strong></td>
+<td style="text-align: left;"><code>/api/chats/{id}/leer</code></td>
+<td style="text-align: left;">Depuración y limpieza de contadores temporales locales (Notificaciones Badge rojas).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/mis-chats</code></td>
+<td style="text-align: left;">Tablera Listada rápida (solo el último <code>message.text</code> por elemento).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>POST</strong></td>
+<td style="text-align: left;"><code>/api/valoraciones/{compraventa}</code></td>
+<td style="text-align: left;">Puntuador de ratio de confianza (Se requiere que haya cruzado con anterioridad el flag estado como <code>Completado</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>GET</strong></td>
+<td style="text-align: left;"><code>/api/dashboard</code></td>
+<td style="text-align: left;">Pantalla Métrica Estadística sumatoria.</td>
+</tr>
+</tbody>
+</table></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Documentación de la base de datos y sistema de Proxi Markt">
+        
         
         
         <link rel="shortcut icon" href="img/favicon.ico">
-        <title>Proxi Markt Documentation</title>
+        <title>Presentación y onboarding - Proxi Markt</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/fontawesome.min.css" rel="stylesheet">
         <link href="css/brands.min.css" rel="stylesheet">
@@ -21,10 +21,10 @@
         <script>hljs.highlightAll();</script> 
     </head>
 
-    <body class="homepage">
+    <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href=".">Proxi Markt Documentation</a>
+                <a class="navbar-brand" href=".">Proxi Markt</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,17 +34,66 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="." class="nav-link active" aria-current="page">Inicio</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Información general</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="." class="dropdown-item active" aria-current="page">Presentación y onboarding</a>
+</li>
+                                    
+<li>
+    <a href="arquitectura/" class="dropdown-item">Arquitectura del proyecto</a>
+</li>
+                                    
+<li>
+    <a href="documentacion_iniciar_proyecto/" class="dropdown-item">Iniciar y desplegar (paso a paso)</a>
+</li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="documentacion_iniciar_proyecto/" class="nav-link">Iniciar proyecto</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Modelado de datos</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="documentacio_bd/" class="dropdown-item">Base de datos y entidad-relación</a>
+</li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="documentacio_bd/" class="nav-link">Base de Datos</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Desarrollo técnico</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="documentacion_backend/" class="dropdown-item">Documentación REST Backend (Laravel)</a>
+</li>
+                                    
+<li>
+    <a href="documentacion_componentes/" class="dropdown-item">Documentación UI Frontend (Vue)</a>
+</li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="documentacion_prototipo/" class="nav-link">Prototipo</a>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Infraestructura Cloud (AWS)</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="aws_free_tier/Guia_Despliegue_AWS/" class="dropdown-item">Guía de despliegue (Free Tier)</a>
+</li>
+                                    
+<li>
+    <a href="aws_free_tier/Despliegue%20de%20ProxiMarkt%20en%20AWS/" class="dropdown-item">Post-Mortem y arquitectura</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Diseño</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="documentacion_prototipo/" class="dropdown-item">Prototipo visual</a>
+</li>
+                                </ul>
                             </li>
                         </ul>
 
@@ -60,7 +109,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="documentacion_iniciar_proyecto/" class="nav-link">
+                                <a rel="next" href="arquitectura/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -82,13 +131,17 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#proxi-markt" class="nav-link">Proxi Markt</a>
+            <li class="nav-item" data-bs-level="1"><a href="#documentacion-de-proxi-markt" class="nav-link">Documentación de Proxi Markt</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#caracteristicas" class="nav-link">Características</a>
+            <li class="nav-item" data-bs-level="2"><a href="#caracteristicas-principales" class="nav-link">Características principales</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#inicio-rapido" class="nav-link">Inicio rápido</a>
+            <li class="nav-item" data-bs-level="2"><a href="#mapa-de-documentacion" class="nav-link">Mapa de documentación</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#inicio-rapido-desarrollo-local" class="nav-link">Inicio rápido (desarrollo local)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -99,33 +152,53 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="proxi-markt">Proxi Markt</h1>
-<p>Esta aplicación pretende conectar a los agricultores, principalmente, con el mercado local. Ofrecer una plataforma de comercio justo libre de intermediarios.</p>
-<h2 id="caracteristicas">Características</h2>
+<h1 id="documentacion-de-proxi-markt">Documentación de Proxi Markt</h1>
+<p><strong>Proxi Markt</strong> es una plataforma web desarrollada para conectar directamente a productores locales (sector primario) con los consumidores, fomentando el comercio de proximidad y eliminando plataformas intermediarias.</p>
+<p>Esta documentación técnica está dirigida a desarrolladores que deseen contribuir, comprender o desplegar el proyecto. Reúne toda la información necesaria sobre la arquitectura, la base de datos, la API backend y el cliente frontend de la aplicación.</p>
+<h2 id="caracteristicas-principales">Características principales</h2>
 <ul>
-<li>Permite compraventa directa sin interacción.</li>
-<li>Permite chatear entre usuarios para acordar detalles de compraventa.</li>
-<li>Sistema de confianza basado en valoraciones.</li>
-<li>Mantener un historial de compraventas.</li>
-<li>Funcionalidad para descubrir productores cercanos.</li>
+<li><strong>Compraventa P2P:</strong> Flujo de transacciones directas gestionadas mediante estados (Pendiente, En curso, Cancelado, Completado).</li>
+<li><strong>Chat en Tiempo Real:</strong> Sistema de mensajería asíncrona integrado para la negociación directa sobre los artículos en venta.</li>
+<li><strong>Valoraciones Bidireccionales:</strong> Sistema de reseñas (1 a 5 estrellas) entre usuarios una vez que la compraventa se ha completado.</li>
+<li><strong>Historial de Pedidos:</strong> Registro persistente de compras, ventas y estados.</li>
+<li><strong>Geoposicionamiento:</strong> Integración de mapas para descubrir puntos de entrega e instalaciones de productores cercanos calculados mediante distancia real.</li>
 </ul>
-<h2 id="inicio-rapido">Inicio rápido</h2>
-<p>Se trata de un monorepo con backend en Laravel y frontend en Vue. Para la persistencia de datos se usa MySQL y para la documentación se usa Mkdocs con Github Pages.</p>
-<p>Los pasos a seguir para iniciar el proyecto son:</p>
+<hr />
+<h2 id="mapa-de-documentacion">Mapa de documentación</h2>
+<p>Te recomendamos seguir el siguiente orden de lectura para comprender el proyecto de forma progresiva:</p>
 <ol>
-<li>Clona el repositorio con <code>git clone https://github.com/eliseumarmon/proxi-markt.git</code></li>
-<li>En la carpeta raíz y ejecuta <code>docker compose up --build</code></li>
-<li>Entra en el contenedor de php con <code>docker compose exec -it php bash</code></li>
-<li>Una vez dentro del contenedor ejecuta los siguientes comandos:</li>
-<li><code>composer install</code> -&gt; instala todas las dependencias del proyecto</li>
-<li><code>php artisan migrate</code> -&gt; genera las tablas necesarias para el funcionamiento correcto de Laravel.</li>
-<li><code>php artisan storage:link</code> -&gt; enlaza la carpeta de imagenes del backend con el frontend.</li>
-<li>(Opcional) si quieres datos de prueba para testear el funcionamiento usar <code>php artisan db:seed</code></li>
-<li>Desde la raíz del proyecto, otra vez, ejecuta <code>cd frontend</code></li>
-<li>Instala dependencias de Vue con: <code>npm install</code></li>
-<li>Inicia el frontend con <code>npm run dev</code> (desarrollo).</li>
+<li><strong><a href="arquitectura/">Arquitectura del Proyecto</a>:</strong> Visión general del ecosistema. Flujo entre el cliente Vue, la API Laravel y el esquema de despliegue sobre Amazon Web Services (AWS).</li>
+<li><strong><a href="documentacio_bd/">Modelo de Datos (Entidad-Relación)</a>:</strong> Esquema de la base de datos relacional MySQL y diagrama de todas las entidades involucradas.</li>
+<li><strong><a href="documentacion_backend/">Backend - API y Lógica (Laravel)</a>:</strong> Detalle de la arquitectura REST Stateless, rutas protegidas por Sanctum, validaciones cruzadas y explicación de flujos complejos (Reserva de stock, Haversine, etc).</li>
+<li><strong><a href="documentacion_componentes/">Frontend - Interfaz SPA (Vue.js)</a>:</strong> Desglose del ciclo de los componentes reactivos, gestión del estado de sesión (<code>useAuth</code>), interceptores de Axios y diagramas de flujos.</li>
+<li><strong><a href="aws_free_tier/Despliegue%20de%20ProxiMarkt%20en%20AWS/">Infraestructura Cloud (AWS Free Tier)</a>:</strong> Manuales paso a paso y documentos <em>Post-Mortem</em> con las decisiones y resoluciones de problemas implementando el despliegue del proyecto mediante S3, CloudFront, EC2 y RDS.</li>
+<li><strong><a href="documentacion_iniciar_proyecto/">Guía de Instalación Local</a>:</strong> Instrucciones paso a paso para desplegar e iniciar el proyecto localmente utilizando Docker Compose y Vite para desarrollo.</li>
 </ol>
-<p><a href="documentacion_iniciar_proyecto/">Detalles para iniciar el proyecto desde 0</a></p></div>
+<h2 id="inicio-rapido-desarrollo-local">Inicio rápido (desarrollo local)</h2>
+<p>Si ya estás familiarizado con la estructura global y solo deseas levantar el entorno de desarrollo local, sigue estos comandos:</p>
+<ol>
+<li>
+<p>Clona el repositorio e inicia los contenedores de Docker (Base de datos y Backend):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>--build<span class="w"> </span>-d
+</span></code></pre></div>
+</li>
+<li>
+<p>Accede a la instancia de PHP para instalar dependencias y configurar la base de datos:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>php<span class="w"> </span>bash
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>composer<span class="w"> </span>install
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>php<span class="w"> </span>artisan<span class="w"> </span>migrate
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>php<span class="w"> </span>artisan<span class="w"> </span>storage:link
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Opcional (Poblar la base de datos con información de prueba): php artisan db:seed</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>En una nueva terminal, abre la carpeta <code>frontend/</code>, instala los paquetes de Node e inicia el servidor de desarrollo Vite:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>frontend
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>npm<span class="w"> </span>install
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>npm<span class="w"> </span>run<span class="w"> </span>dev
+</span></code></pre></div>
+</li>
+</ol></div>
             </div>
         </div>
 
@@ -205,8 +278,3 @@
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.6.1
-Build Date UTC : 2026-01-27 10:44:10.612000+00:00
--->

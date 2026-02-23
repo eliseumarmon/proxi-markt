@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Prototipo visual - Proxi Markt</title>
+        <title>Arquitectura del proyecto - Proxi Markt</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Información general</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Información general</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -43,7 +43,7 @@
 </li>
                                     
 <li>
-    <a href="../arquitectura/" class="dropdown-item">Arquitectura del proyecto</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Arquitectura del proyecto</a>
 </li>
                                     
 <li>
@@ -87,11 +87,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Diseño</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Diseño</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Prototipo visual</a>
+    <a href="../documentacion_prototipo/" class="dropdown-item">Prototipo visual</a>
 </li>
                                 </ul>
                             </li>
@@ -104,12 +104,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../aws_free_tier/Despliegue%20de%20ProxiMarkt%20en%20AWS/" class="nav-link">
+                                <a rel="prev" href=".." class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../documentacion_iniciar_proyecto/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -131,9 +131,17 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#prototipo" class="nav-link">Prototipo</a>
+            <li class="nav-item" data-bs-level="1"><a href="#arquitectura-del-proyecto" class="nav-link">Arquitectura del proyecto</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#descripcion-general" class="nav-link">Descripción general</a>
+            <li class="nav-item" data-bs-level="2"><a href="#1-vision-general" class="nav-link">1. Visión general</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2-diagrama-logico-de-arquitectura-software" class="nav-link">2. Diagrama lógico de arquitectura (software)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3-diagrama-de-infraestructura-cloud-native-aws" class="nav-link">3. Diagrama de infraestructura cloud native (AWS)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -144,94 +152,88 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="prototipo">Prototipo</h1>
-<h2 id="descripcion-general">Descripción general</h2>
-<p>ProxiMarkt es una plataforma donde se pueden vender y comprar productos como frutas y verduras del mercado local de forma sostenible.</p>
-<h3 id="tecnologias-usadas">Tecnologías usadas</h3>
-<p>Frontend: HTML, CSS, JavaScript con Vue
-Backend: PHP con Laravel</p>
-<h3 id="estilos">Estilos</h3>
-<h4 id="paleta-de-colores">Paleta de colores</h4>
-<p><img alt="Paleta de colores" src="../img/paleta_colores.png" /></p>
-<p>En corcondancia con la intencionalidad de la plataforma, la paleta de colores se centra en ser sencilla y enfocada en tonalidades de verdes para darle un toque natural y minimalista.</p>
+<h1 id="arquitectura-del-proyecto">Arquitectura del proyecto</h1>
+<p>Este documento detalla la arquitectura de alto nivel de Proxi Markt, incluyendo los distintos componentes de software, la forma en que se comunican, y la infraestructura que los soporta.</p>
+<h2 id="1-vision-general">1. Visión general</h2>
+<p>El proyecto <strong>Proxi Markt</strong> está diseñado siguiendo una arquitectura cliente-servidor de tipo <strong>Single Page Application (SPA)</strong>, completamente desacoplada de su API y basada en los principios REST.</p>
+<p>El código está dividido en dos grandes bloques (Monorepo):</p>
+<ol>
+<li><strong>Frontend:</strong> Desarrollado con Vue 3 y Vite.</li>
+<li><strong>Backend:</strong> Desarrollado con Laravel 11 y PHP 8.3.</li>
+<li><strong>Base de Datos:</strong> MySQL 8.</li>
+</ol>
 <hr />
-<h4 id="logos">Logos</h4>
-<ul>
-<li>El color de fondo es: #4ca626.</li>
-<li>Color de letra: #FFFFFF.</li>
-<li>Tipografía es: Clear Sans.</li>
+<h2 id="2-diagrama-logico-de-arquitectura-software">2. Diagrama lógico de arquitectura (software)</h2>
+<p>El siguiente esquema representa cómo interactifica el usuario final con las capas lógicas del sistema:</p>
+<div class="mermaid">sequenceDiagram
+    autonumber
+    actor Usuario
+    participant Navegador (Vue SPA)
+    participant Servidor Web (Axios / Axios Interceptors)
+    participant API REST (Laravel Sanctum)
+    participant Base de Datos (MySQL)
+
+    Usuario-&gt;&gt;Navegador (Vue SPA): Visita la web / Accede
+    Navegador (Vue SPA)-&gt;&gt;Servidor Web (Axios / Axios Interceptors): Solicita login
+    Servidor Web (Axios / Axios Interceptors)-&gt;&gt;API REST (Laravel Sanctum): POST /api/login
+    API REST (Laravel Sanctum)-&gt;&gt;Base de Datos (MySQL): Verifica Credenciales
+    Base de Datos (MySQL)--&gt;&gt;API REST (Laravel Sanctum): OK
+    API REST (Laravel Sanctum)--&gt;&gt;Servidor Web (Axios / Axios Interceptors): Retorna Token Bearer
+    Servidor Web (Axios / Axios Interceptors)--&gt;&gt;Navegador (Vue SPA): Guarda en Local Storage y actualiza UI global
+
+    Usuario-&gt;&gt;Navegador (Vue SPA): Solicita ver puntos cercanos (Mapa)
+    Navegador (Vue SPA)-&gt;&gt;Servidor Web (Axios / Axios Interceptors): Inyecta Bearer automáticamente
+    Servidor Web (Axios / Axios Interceptors)-&gt;&gt;API REST (Laravel Sanctum): GET /api/puntos_radio/5
+    API REST (Laravel Sanctum)-&gt;&gt;Base de Datos (MySQL): Consulta GIS/Coordenadas
+    Base de Datos (MySQL)--&gt;&gt;API REST (Laravel Sanctum): Retorna Puntos
+    API REST (Laravel Sanctum)--&gt;&gt;Navegador (Vue SPA): JSON con puntos</div>
+<hr />
+<h2 id="3-diagrama-de-infraestructura-cloud-native-aws">3. Diagrama de infraestructura cloud native (AWS)</h2>
+<p>En entornos de producción (Producción AWS Free Tier), el sistema abandona el tradicional monolito para apostar por un despliegue de microservicios segregados usando AWS:</p>
+<div class="mermaid">graph TD
+    %% Estilos
+    classDef user fill:#f9f,stroke:#333,stroke-width:4px;
+    classDef cloudfront fill:#e1aaba,stroke:#bc4b51,stroke-width:2px;
+    classDef s3 fill:#f4bc94,stroke:#e76f51,stroke-width:2px;
+    classDef ec2 fill:#c1e2b3,stroke:#2a9d8f,stroke-width:2px;
+    classDef rds fill:#b5d8f6,stroke:#457b9d,stroke-width:2px;
+    classDef internet fill:#eee,stroke:#999,stroke-width:1px,stroke-dasharray: 5, 5;
+
+    Usuario((👩‍🌾 Usuario Final)):::user
+
+    subgraph AWS_Cloud [Nube AWS - Entorno Seguro]
+
+        CF[🌍 Amazon CloudFront&lt;br/&gt;CDN &amp; Proxy Inverso + SSL]:::cloudfront
+        S3[(🪣 Amazon S3&lt;br/&gt;ProxiMarkt Frontend)]:::s3
+
+        subgraph VPC [Amazon VPC Privada]
+            EC2[💻 Amazon EC2 / Ubuntu&lt;br/&gt;Laravel API REST + Storage]:::ec2
+            RDS[(🗄️ Amazon RDS&lt;br/&gt;Base de Datos MySQL)]:::rds
+        end
+
+        %% Conexiones
+        Usuario -- "HTTPS: Visitando web" --&gt; CF
+        Usuario -- "HTTPS: Descarga Fotos y Peticiones API" --&gt; CF
+
+        CF -- "Reglas (/*) (OAC Privado)" --&gt; S3
+        CF -- "Reglas (/api/*, /storage/*)" --&gt; EC2
+
+        EC2 -- "Puerto 3306 Interno" --&gt; RDS
+
+    end
+
+    class AWS_Cloud internet;</div>
+<h3 id="explicacion-del-flujo-de-infraestructura">Explicación del flujo de infraestructura</h3>
+<ol>
+<li><strong>Amazon S3 (Almacenamiento Estático):</strong> Custodia los archivos HTML, CSS y JS ya compilados por Vite. Está configurado de forma hermética (<code>Block public access</code>) y solo autoriza las subcargas desde herramientas del desarrollador, y las descargas a CloudFront.</li>
+<li><strong>Amazon CloudFront (Edge Network):</strong> Es el corazón del despliegue. Todos los usuarios entran mediante un certificado SSL autogestionado en el "borde" de red. CloudFront hace dos cosas vitales:<ul>
+<li>Entrega la SPA estática instantáneamente cacheadola en servidores de todo el mundo.</li>
+<li>Actúa como un <strong>Reverse Proxy</strong>: Todas las peticiones que empiecen por <code>/api</code> o <code>/storage</code> son interceptadas y transferidas con los Host Headers correctos al servidor de EC2 mediante HTTP asíncrono. Esto elude los odiados errores <em>Mixed Content</em> del navegador.</li>
 </ul>
-<p>Actualmente existen dos variantes para el logotipo. Una con fuente y otra sin fuente, para adaptarlos a diferentes escenarios. En el futuro se plantea realizar otras versiones (negativo, contraste, etc.)</p>
-<table>
-<thead>
-<tr>
-<th>Pequeño</th>
-<th>Grande</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img alt="Logo pequeño" src="../img/logo_peq.png" /></td>
-<td><img alt="Logo grande" src="../img/logo_gr.png" /></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="diseno-del-prototipo">Diseño del prototipo</h3>
-<h4 id="pantalla-de-registro">Pantalla de registro</h4>
-<p><img alt="Inicio de sesión" src="../img/registro.png" /></p>
-<p>Formará parte de la página principal y podremos rellenar los campos de registro para poder crear una cuenta y poder entrar a la aplicación.</p>
-<hr />
-<h4 id="inicio-sesion">Inicio sesión</h4>
-<p><img alt="Registrarse" src="../img/inicio_sesion.png" /></p>
-<p>Esta será la pagina de inicio, donde vamos a poder iniciar sesión si ya tenemos creada una cuenta. Se validarán las credenciales del usuario que se creó anteriormente y nos dejará entrar si están escritas correctamente.</p>
-<hr />
-<h4 id="dashboard">Dashboard</h4>
-<p><img alt="Dashboard" src="../img/dashboard.png" /></p>
-<p>Tendremos un panel de control con información de nuestra cuenta personal, como por ejemplo: mis productos, stock total, ventas pendientes y ingresos.</p>
-<p>Además tendremos información como las ventas recientes, productos con mayor stock y las compras recientes del usuario.</p>
-<hr />
-<h4 id="radio-de-busqueda">Radio de búsqueda</h4>
-<p><img alt="Rango de búsqueda" src="../img/rango.png" /></p>
-<p>Podremos modificar la distancia del rango de búsqueda para que depende de los kilómetros nos salgan unos productos u otros.</p>
-<hr />
-<h4 id="productos">Productos</h4>
-<p><img alt="Productos" src="../img/productos.png" /></p>
-<p>En el apartado de productos tendremos una serie de tarjetas de productos disponibles y su información más relevante, estas tarjetas dependerán de el rango de busqueda que hayamos seleccionado anteriormente. Tendrá un botón para saber más detalles sobre ese producto.</p>
-<p>Dispondrá de un buscador donde pondrás lo que quieras buscar por nombre y un botón para poder filtrar por categoría.</p>
-<hr />
-<h4 id="mapas">Mapas</h4>
-<p><img alt="Mapa" src="../img/mapa.png" /></p>
-<p>Al darle al mapa tendremos un mini mapa que nos dindicará donde nos encontramos nosotros según nuestra ubicación y los productos más cercanos según el rango introducido anteriormente.</p>
-<p><img alt="Mapa producto" src="../img/mapa_producto.png" /></p>
-<p>Al apretarle a uno de los productos del mapa se nos abrirá ese mismo producto en en otra página donde sabremos sus detalles y podremos rellenar un formulario para comprarlo.</p>
-<hr />
-<h4 id="publicar">Publicar</h4>
-<p><img alt="Publicar producto" src="../img/publicar.png" /></p>
-<p>Para publicar un producto tendremos que rellenar un formulario con información relevante, por ejemplo: el nombre del producto, una descripción breve y su precio entre otras cosas.</p>
-<p>En cualquier momente podremos cancelar la creación del producto o si vemos que está todo correcto publicarlo y de manera automática ya le saldrá al resto de compradores.</p>
-<p>Al publicar el producto se actualizará el apartado del mis productos del dashboard.</p>
-<hr />
-<h4 id="mi-cuenta">Mi cuenta</h4>
-<h5 id="mis-productos">Mis productos</h5>
-<p><img alt="Vista general de la cuenta y mis productos" src="../img/mi_cuenta.png" /></p>
-<p>En el apartado "Mi Cuenta" podremos visualizar la información relevante del propietario de la cuenta y las valoraciones que le ha hecho la gente.</p>
-<p>Por defecto estará seleccionada la opción "Mis Productos" en el submenú de infromación del usuario. Aquí veremos información sobre los productos que hayan sido publicados, su stock, la fecha de publicación, el precio y un botón con más detalles del producto.</p>
-<h5 id="mis-compras">Mis compras</h5>
-<p><img alt="Mis compras" src="../img/mis_compras.png" /></p>
-<p>Este apartado del submenú nos mostrará las compras que hayamos hecho y información relevante como el estado del pedido, la cantidad, el precio y quien es el vendedor entre otras cosas.</p>
-<h5 id="mis-ventas">Mis ventas</h5>
-<p><img alt="Mis ventas" src="../img/mis_ventas.png" /></p>
-<p>En "Mis ventas" podremos ver los productos que hayamos vendido y su estado, además de la información relevante comentada en el párrafo anterior.</p>
-<h5 id="valoraciones">Valoraciones</h5>
-<p><img alt="Valoraciones" src="../img/valoraciones.png" /></p>
-<p>Por último tendremos el apartado "Valoraciones" donde podremos ver las valoraciones que nos han hecho los compradores. Podremos ver el nombre del dueño de la valoración, las estrellas, un comentario sobre el producto y la atención, la fecha y que producto nos ha comprado para poder dejarnos esa valoración.</p>
-<h4 id="chat">Chat</h4>
-<p>Se establece como mecanismo principal de comunicación entre compradores y vendedores. Permitiendo acordar cosas que no estén integradas como opciones dentro de la aplicación. Puntes de entrega diferentes, regateos de precio, etc.</p>
-<p>Por un lado tenemos la vista de todos los chats abiertos.</p>
-<p><img alt="Vista general de chasts" src="../img/centro_de_mensajes.png" /></p>
-<p>El interior de los chats es donde se muestran los mensajes entre usuarios. Los mensajes son almacenados en la base de datos. Es una implementación temporal ya que se planea realizar un websocket para comunicación online en tiempo real.</p>
-<p><img alt="conversacion" src="../img/conversacion.png" /></p></div>
+</li>
+<li><strong>Amazon EC2 (Cómputo Backend):</strong> Ejecuta Ubuntu 24 con Apache + PHP 8.3. Solo expone puertos estándar y procesa el enrutamiento API de Laravel. Las fotos enviadas (<code>FormData</code>) se guardan aquí bajo disco (Stateful, temporal).</li>
+<li><strong>Amazon RDS (Persistencia de Datos):</strong> Servidor maestro de Bases de Datos <code>db.t3.micro</code>. Carece de IP pública, conectado internamente mediante Security Groups únicamente a la máquina EC2 que lo invoque.</li>
+</ol></div>
             </div>
         </div>
 
