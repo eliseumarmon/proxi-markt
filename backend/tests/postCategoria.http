@@ -1,0 +1,27 @@
+POST http://localhost:8080/api/categorias
+Content-Type: "application/json"
+
+{
+    "nombre_categoria": "Fruta"
+}
+###
+POST http://localhost:8080/api/categorias
+Content-Type: "application/json"
+
+{
+    "nombre_categoria": "Verdura"
+}
+###
+POST http://localhost:8080/api/categorias
+Content-Type: "application/json"
+
+{
+    "nombre_categoria": "Derivados de animales"
+}
+###
+POST http://localhost:8080/api/categorias
+Content-Type: "application/json"
+
+{
+    "nombre_categoria": "Otros productos"
+}

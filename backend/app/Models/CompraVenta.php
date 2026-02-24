@@ -17,28 +17,30 @@ class CompraVenta extends Model
         'id_comprador',
         'id_vendedor',
         'id_punto',
-        'cantidad_total',
-        'estado' 
+        'cantidad',
+        'estado',
+        'precio',
+        'fecha_prevista'
     ];
 
-    
-    public function producto()
-    {
+
+    public function producto() {
         return $this->belongsTo(Producto::class, 'id_producto', 'id');
     }
 
-    public function comprador()
-    {
+    public function comprador() {
         return $this->belongsTo(User::class, 'id_comprador', 'id');
     }
 
-    public function vendedor()
-    {
+    public function vendedor() {
         return $this->belongsTo(User::class, 'id_vendedor', 'id');
     }
 
-    public function puntoEntrega()
-    {
+    public function puntoEntrega() {
         return $this->belongsTo(PuntoEntrega::class, 'id_punto', 'id');
+    }
+
+    public function valoraciones() {
+        return $this->hasMany(Valoracion::class, 'id_venta');
     }
 }

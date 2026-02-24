@@ -2,6 +2,7 @@ name: proxi_markt
 services:
   mysql:
     image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password --log-bin-trust-function-creators=1
     env_file:
       - ./docker/database/.env.database
     volumes:

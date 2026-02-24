@@ -3,13 +3,18 @@ node_modules/
 backend/vendor/
 
 # Ignorar archivos de configuración sensible
-.env
-backend/.env
-docker/.env.app
-docker/database/.env.database
+.env*
+!.env.example
 
 # Ignorar compilaciones y temporales
 frontend/dist/
 storage/*.key
 .DS_Store
 repomix-output.*
+
+# MkDocs
+site/
+.venv/
+__pycache__/
+
+/produccion/.env

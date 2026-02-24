@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     //activa el metodo createtoken
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'usuarios';
     protected $fillable = [
@@ -18,11 +19,23 @@ class User extends Authenticatable
         'email',
         'contrasenya',
         'telefono',
+        'direccion',
+        'longitud',
+        'latitud'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'contrasenya'
     ];
 
     //esta es la columna clave que el createtoken es fija
-    public function getAuthPassword()
-    {
+    public function getAuthPassword() {
         return $this->contrasenya;
+    }
+
+    public function valoracionesRecibidas() {
+        return $this->hasMany(Valoracion::class, 'id_valorado');
     }
 }

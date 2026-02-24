@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Producto;
+use App\Models\PuntoEntrega;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,13 +15,28 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
-        // User::factory(10)->create();
+    public function run(): void {
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $this->call(CategoriaSeeder::class);
+
+        User::factory(10)->create();
+
+        $usuarios = User::all();
+
+        foreach ($usuarios as $usuario) {
+
+            $puntos = PuntoEntrega::factory(rand(1,3))->create([
+                'id_usuario' => $usuario->id,
+            ]);
+
+            // $puntos = PuntoEntrega::where('id_usuario','=', $usuario->id)->get();
+
+            foreach ($puntos as $punto) {
+                Producto::factory(rand(1,5))->create([
+                    'id_usuario' => $usuario->id,
+                    'id_puntoentrega' => $punto->id
+                ]);
+            }
+        }
     }
 }

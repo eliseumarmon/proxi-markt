@@ -1,0 +1,43 @@
+site_name: Proxi Markt
+site_description: Documentación de la base de datos y sistema de Proxi Markt
+
+# Extensiones de Markdown
+markdown_extensions:
+  - admonition 
+  - attr_list 
+  - pymdownx.details 
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite 
+  - pymdownx.snippets 
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+
+# Configuración de navegación
+nav:
+  - Información general:
+    - Presentación y onboarding: index.md
+    - Arquitectura del proyecto: arquitectura.md
+    - Iniciar y desplegar (paso a paso): documentacion_iniciar_proyecto.md
+  - Modelado de datos:
+    - Base de datos y entidad-relación: documentacio_bd.md
+  - Desarrollo técnico:
+    - Documentación REST Backend (Laravel): documentacion_backend.md
+    - Documentación UI Frontend (Vue): documentacion_componentes.md
+  - Infraestructura Cloud (AWS):
+    - Guía de despliegue (Free Tier): aws_free_tier/Guia_Despliegue_AWS.md
+    - Post-Mortem y arquitectura: aws_free_tier/Despliegue de ProxiMarkt en AWS.md
+  - Diseño:
+    - Prototipo visual: documentacion_prototipo.md
+
+# Plugins adicionales
+plugins:
+  - search
+
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js

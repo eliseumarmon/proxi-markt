@@ -1,19 +1,133 @@
-# Base de Dades: ProxiMarkt 🛒🍅
+# Base de datos
 
-## Descripció general
+## Descripción general
 
-La base de dades de ProxiMarkt servix per a guardar i organitzar tota la informació que necessita la plataforma per a funcionar bé. El seu objectiu és fer possible la comunicació entre compradors i venedors i gestionar coses com els productes, les reserves o els punts de lliurament.
+La base de datos permite guardar y organizar toda la información que necesita la plataforma para su correcto funcionamiento. Su objetivo principal es mantener y relacionar la información de usuarios y productos principalmente. Que son el corazón de la aplicación. Permite guardar chats y mensajes entre usuarios.
 
 - Motor: Mysql
-- Versió: 8
+- Versión: 8
 
-## Diagrama Entitat - Relació amb atributs
+## Diagrama entidad - relación con atributos
 
-![Diagrama Entitat Relació amb atributs](diagrama_mermaid/diagrama_oscuro.svg)
+```mermaid
+---
+config:
+  layout: elk
+  theme: neutral
+---
+erDiagram
+ direction LR
+ USUARIOS {
+  int id PK ""  
+  string nombre_usuario  "NN"  
+  string email  "NN, U"  
+  string contrasenya  "NN"  
+  string telefono  "NN, U"  
+  string direccion  ""  
+  decimal longitud  ""  
+  decimal latitud  ""  
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ PUNTOS_ENTREGA {
+  int id PK ""  
+  int id_usuario FK ""  
+  decimal longitud  "NN"  
+  decimal latitud  "NN"  
+  string nombre_punto  "NN"  
+  string direccion_punto  ""  
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ PRODUCTOS {
+  int id PK ""  
+  int id_categoria FK ""  
+  int id_usuario FK ""  
+  int id_puntoentrega FK ""  
+  string nombre_producto  "NN"  
+  text descripcion  ""  
+  decimal precio  "NN"  
+  int stock_total  "NN"  
+  int stock_reserva  "NN"  
+  int stock_real  "VIRTUAL"  
+  string imagen  ""  
+  enum estado  "default 'disponible'"  
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ CHATS {
+  int id PK ""  
+  int id_comprador FK "NN, U1"  
+  int id_vendedor FK "NN, U1"  
+  int id_producto FK "NN, U1"  
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ MENSAJES {
+  int id PK ""  
+  int id_chat FK "NN"  
+  int id_envio FK "NN"  
+  text contenido  "NN"  
+  boolean leido "default false"
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ COMPRAVENTAS {
+  int id PK ""  
+  int id_producto FK "NN"  
+  int id_comprador FK "NN"  
+  int id_vendedor FK "NN"  
+  int id_punto FK ""  
+  int cantidad  "NN"  
+  decimal precio  "NN"  
+  decimal precio_total  "VIRTUAL"  
+  date fecha_prevista  ""  
+  enum estado  "default 'pendiente'"  
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ VALORACIONES {
+  int id PK ""  
+  int id_venta FK "NN, U1"  
+  int id_valorador FK "NN, U1"  
+  int id_valorado FK "NN, U1"  
+  tinyint valoracion  "NN"  
+  text comentario  ""  
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ CATEGORIAS {
+  int id PK ""  
+  string nombre_categoria  "NN"  
+  timestamp created_at  "NN"  
+  timestamp updated_at  ""  
+ }
+
+ USUARIOS||--o{PUNTOS_ENTREGA:"registra"
+ USUARIOS||--o{PRODUCTOS:"vende"
+ USUARIOS||--o{CHATS:"participa"
+ USUARIOS||--o{MENSAJES:"envía"
+ USUARIOS||--o{COMPRAVENTAS:"participa"
+ USUARIOS||--o{VALORACIONES:"evalúa"
+ CATEGORIAS||--o{PRODUCTOS:"clasifica"
+ PUNTOS_ENTREGA||--o{PRODUCTOS:"entrega_en"
+ PUNTOS_ENTREGA||--o{COMPRAVENTAS:"punto_encuentro"
+ PRODUCTOS||--o{CHATS:"referencia"
+ PRODUCTOS||--o{COMPRAVENTAS:"se_vende"
+ CHATS||--o{MENSAJES:"contiene"
+ COMPRAVENTAS||--o{VALORACIONES:"calificada_por"
+```
 
 ### Relaciones
 
-#### Chats - Mensajes
+#### Chats - mensajes
 
 ```mermaid
 ---
@@ -27,7 +141,7 @@ flowchart LR
 
 Cada mensaje pertenece a un único chat; un chat puede contener varios mensajes.
 
-#### Mensajes - Usuarios
+#### Mensajes - usuarios
 
 ```mermaid
 ---
@@ -41,7 +155,7 @@ flowchart LR
 
 Cada mensaje es enviado por un único usuario; un usuario puede enviar muchos mensajes.
 
-#### Usuarios - Puntos_entrega
+#### Usuarios - puntos_entrega
 
 ```mermaid
 ---
@@ -55,7 +169,7 @@ flowchart LR
 
 Cada punto de entrega es asignado por un usuario; un usuario puede asignarse varios puntos de entrega.
 
-#### Usuarios - Productos
+#### Usuarios - productos
 
 ```mermaid
 ---
@@ -69,7 +183,7 @@ flowchart LR
 
 Un usuario puede publicar varios productos; cada producto pertenece a un único usuario.
 
-#### Chats - Productos
+#### Chats - productos
 
 ```mermaid
 ---
@@ -83,7 +197,7 @@ flowchart LR
 
 Cada chat está asociado a un único producto; un producto puede tener varios chats simuláneos (mismo vendedor, diferentes compradores).
 
-#### Categorías - Productos
+#### Categorías - productos
 
 ```mermaid
 ---
@@ -99,7 +213,7 @@ Cada producto pertenece a una categoría; una categoría puede tener muchos prod
 
 En un futuro se espera implementar que un producto pertenezca a varias categorías. E incluso que una categoría pueda tener subcategorías.
 
-#### Productos - Compraventas
+#### Productos - compraventas
 
 ```mermaid
 ---
@@ -113,7 +227,7 @@ flowchart LR
 
 Cada producto puede generar varias compraventas; cada compraventa corresponde a un único producto.
 
-#### Compraventas - Reseñas
+#### Compraventas - reseñas
 
 ```mermaid
 ---
@@ -127,7 +241,7 @@ flowchart LR
 
 Una compraventa puede generar un máximo de 2 reseñas (comprador y vendedor); cada reseña pertenece a una única compraventa.
 
-#### Puntos_entrega - Compraventas
+#### Puntos_entrega - compraventas
 
 ```mermaid
 ---
@@ -141,7 +255,7 @@ flowchart LR
 
 Una compraventa puede tener lugar en un único punto de entrega. En un punto de entrega ocurren muchas operaciones de compraventa.
 
-#### Usuarios - Compraventas
+#### Usuarios - compraventas
 
 ```mermaid
 ---
@@ -158,7 +272,7 @@ Un único usuario con rol de comprador participa en la compraventa.
 Un único usuario con rol de vendedor participa en la compraventa.
 Cada usuario puede realizar muchas compraventas.
 
-#### Usuarios - Reseñas
+#### Usuarios - reseñas
 
 ```mermaid
 ---
@@ -175,7 +289,7 @@ En cada reseña participa un único usuario reseñador.
 En cada reseña participa un único usuario reseñado.
 Un usuario puede tener muchas reseñas.
 
-#### Usuarios - Chats
+#### Usuarios - chats
 
 ```mermaid
 ---
@@ -196,18 +310,17 @@ Los usuarios pueden tener muchos chats.
 #### **Tabla usuarios**
 
 ```sql
-CREATE TABLE USUARIOS(
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_usuario VARCHAR(255) UNIQUE NOT NULL,
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     contrasenya VARCHAR(255) NOT NULL,
-    telefono VARCHAR(20) UNIQUE NOT NULL, 
+    telefono VARCHAR(20) UNIQUE NOT NULL,
     direccion VARCHAR(255),
-    longitud DECIMAL(10,8),
-    latitud DECIMAL(10,8),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    puntuacio DOUBLE DEFAULT 0
+    longitud DECIMAL(12, 8),
+    latitud DECIMAL(12, 8),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 ```
@@ -215,110 +328,135 @@ CREATE TABLE USUARIOS(
 #### **Tabla categorias**
 
 ```sql
-CREATE TABLE CATEGORIAS(
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_categoria VARCHAR(255) NOT NULL 
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_categoria VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+#### **Tabla puntos de entrega**
+
+```sql
+CREATE TABLE puntos_entrega (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    longitud DECIMAL(12, 8) NOT NULL,
+    latitud DECIMAL(12, 8) NOT NULL,
+    nombre_punto VARCHAR(255) NOT NULL,
+    direccion_punto VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
 );
 ```
 
 #### **Tabla productos**
 
 ```sql
-CREATE TABLE PRODUCTOS(
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_categoria INT,
+    id_usuario INT,
+    id_puntoentrega INT,
     nombre_producto VARCHAR(255) NOT NULL,
     descripcion TEXT,
-    precio DECIMAL(10,2) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
     stock_total INT NOT NULL DEFAULT 0,
     stock_reserva INT NOT NULL DEFAULT 0,
-    stock_real INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    stock_real INT AS (stock_total - stock_reserva) STORED,
     imagen VARCHAR(255),
-    id_categoria INT,
-    estado ENUM('agotado', 'reservado', 'disponible'), 
-    FOREIGN KEY (id_categoria) REFERENCES CATEGORIAS(id_categoria)
+    estado ENUM('agotado', 'disponible') DEFAULT 'disponible',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_categoria) REFERENCES categorias (id),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id),
+    FOREIGN KEY (id_puntoentrega) REFERENCES puntos_entrega (id)
 );
 ```
 
-#### **Tabla chat**
+#### **Tabla chats**
 
 ```sql
-CREATE TABLE CHATS(
-    id_chat INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE chats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     id_comprador INT,
     id_vendedor INT,
     id_producto INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_comprador) REFERENCES USUARIOS(id_usuario),
-    FOREIGN KEY (id_vendedor) REFERENCES USUARIOS(id_usuario),
-    FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto),
-    UNIQUE (id_comprador, id_vendedor, id_producto)
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_comprador) REFERENCES usuarios (id),
+    FOREIGN KEY (id_vendedor) REFERENCES usuarios (id),
+    FOREIGN KEY (id_producto) REFERENCES productos (id),
+    UNIQUE (
+        id_comprador,
+        id_vendedor,
+        id_producto
+    )
 );
 ```
 
 #### **Tabla mensajes**
 
 ```sql
-CREATE TABLE MENSAJES(
-    id_mensaje INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE mensajes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     id_chat INT,
     id_envio INT,
     contenido TEXT NOT NULL,
-    FOREIGN KEY (id_chat) REFERENCES CHAT(id_chat),
-    FOREIGN KEY (id_envio) REFERENCES USUARIOS(id_usuario)
-);
-```
-
-#### **Tabla puntos entrega**
-
-```sql
-CREATE TABLE PUNTOS_ENTREGA(
-    id_punto INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
-    longitud DECIMAL(10,8) NOT NULL,
-    latitud DECIMAL(10,8) NOT NULL,
-    nombre_punto VARCHAR(255) NOT NULL,
-    direccion_punto VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+    leido BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_chat) REFERENCES chats (id),
+    FOREIGN KEY (id_envio) REFERENCES usuarios (id)
 );
 ```
 
 #### **Tabla compraventas**
 
 ```sql
-CREATE TABLE COMPRAVENTAS(
-    id_compraventa INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE compraventas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     id_producto INT,
     id_comprador INT,
     id_vendedor INT,
-    cantidad_total INT NOT NULL,
     id_punto INT,
-    estado ENUM('pendiente', 'en curso', 'completado', 'cancelado'),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto),
-    FOREIGN KEY (id_vendedor) REFERENCES USUARIOS(id_usuario),
-    FOREIGN KEY (id_comprador) REFERENCES USUARIOS(id_usuario),
-    FOREIGN KEY (id_punto) REFERENCES PUNTOS_ENTREGA(id_punto)
+    cantidad INT NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    precio_total DECIMAL(10, 2) AS (precio * cantidad) STORED,
+    fecha_prevista DATE,
+    estado ENUM(
+        'pendiente',
+        'en curso',
+        'completado',
+        'cancelado',
+        'valorado'
+    ) DEFAULT 'pendiente',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_producto) REFERENCES productos (id),
+    FOREIGN KEY (id_comprador) REFERENCES usuarios (id),
+    FOREIGN KEY (id_vendedor) REFERENCES usuarios (id),
+    FOREIGN KEY (id_punto) REFERENCES puntos_entrega (id)
 );
 ```
 
 #### **Tabla valoraciones**
 
 ```sql
-CREATE TABLE VALORACIONES(
-    id_valoracion INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE valoraciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     id_venta INT,
-    id_resenyador INT,
-    id_resenyado INT,
-    valoracion ENUM('1','2','3','4','5') NOT NULL,
+    id_valorador INT,
+    id_valorado INT,
+    valoracion TINYINT NOT NULL,
     comentario TEXT,
-    fecha DATETIME DEFAULT CURRENT_TIMESTAMP, 
-    FOREIGN KEY (id_venta) REFERENCES COMPRAVENTAS(id_compraventa),
-    FOREIGN KEY (id_resenyador) REFERENCES USUARIOS(id_usuario),
-    FOREIGN KEY (id_resenyado) REFERENCES USUARIOS(id_usuario),
-    UNIQUE (id_venta, id_resenyador, id_resenyado)
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_venta) REFERENCES compraventas (id),
+    FOREIGN KEY (id_valorador) REFERENCES usuarios (id),
+    FOREIGN KEY (id_valorado) REFERENCES usuarios (id),
+    UNIQUE (id_venta, id_valorador)
 );
 ```

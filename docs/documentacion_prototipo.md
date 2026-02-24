@@ -1,4 +1,4 @@
-# Prototipo: ProxiMarkt 🛒🍅
+# Prototipo
 
 ## Descripción general
 
@@ -33,7 +33,7 @@ Actualmente existen dos variantes para el logotipo. Una con fuente y otra sin fu
 
 ---
 
-### Prototipo
+### Diseño del prototipo
 
 #### Pantalla de registro
 

@@ -1,89 +1,113 @@
 ---
 config:
   layout: elk
-  theme: dark
+  theme: neutral
 ---
-classDiagram
-direction TB
-    class USUARIOS {
-	    +int id_usuario PK
-	    +string nombre_usuario NOT NULL
-	    +string email NOT NULL
-	    +string contrasenya NOT NULL
-	    +string telefono NOT NULL
-	    +string direccion
-	    +decimal longitud
-	    +decimal latitud
-	    +double puntuacio
-    }
+erDiagram
+	direction LR
+	USUARIOS {
+		int id PK ""  
+		string nombre_usuario  "NN"  
+		string email  "NN, U"  
+		string contrasenya  "NN"  
+		string telefono  "NN, U"  
+		string direccion  ""  
+		decimal longitud  ""  
+		decimal latitud  ""  
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    class CATEGORIAS {
-	    +int id_categoria PK
-	    +string nombre_categoria NOT NULL
-    }
+	PUNTOS_ENTREGA {
+		int id PK ""  
+		int id_usuario FK ""  
+		decimal longitud  "NN"  
+		decimal latitud  "NN"  
+		string nombre_punto  "NN"  
+		string direccion_punto  ""  
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    class PRODUCTOS {
-	    +int id_producto PK
-	    +int id_categoria FK NOT NULL
-	    +string nombre_producto NOT NULL
-	    +decimal precio NOT NULL
-	    +int stock_total NOT NULL
-	    +enum estado NOT NULL
-    }
+	PRODUCTOS {
+		int id PK ""  
+		int id_categoria FK ""  
+		int id_usuario FK ""  
+		int id_puntoentrega FK ""  
+		string nombre_producto  "NN"  
+		text descripcion  ""  
+		decimal precio  "NN"  
+		int stock_total  "NN"  
+		int stock_reserva  "NN"  
+		int stock_real  "VIRTUAL"  
+		string imagen  ""  
+		enum estado  "default 'disponible'"  
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    class CHAT {
-	    +int id_chat PK
-	    +int id_comprador FK NOT NULL
-	    +int id_vendedor FK NOT NULL
-	    +int id_producto FK NOT NULL
-    }
+	CHATS {
+		int id PK ""  
+		int id_comprador FK "NN, U1"  
+		int id_vendedor FK "NN, U1"  
+		int id_producto FK "NN, U1"  
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    class MENSAJES {
-	    +int id_mensaje PK
-	    +int id_chat FK NOT NULL
-	    +int id_envio FK NOT NULL
-	    +text contenido NOT NULL
-    }
+	MENSAJES {
+		int id PK ""  
+		int id_chat FK "NN"  
+		int id_envio FK "NN"  
+		text contenido  "NN"  
+		boolean leido "default false"
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    class PUNTOS_ENTREGA {
-	    +int id_punto PK
-	    +int id_usuario FK NOT NULL
-	    +decimal longitud NOT NULL
-	    +decimal latitud NOT NULL
-	    +string nombre_punto NOT NULL
-    }
+	COMPRAVENTAS {
+		int id PK ""  
+		int id_producto FK "NN"  
+		int id_comprador FK "NN"  
+		int id_vendedor FK "NN"  
+		int id_punto FK ""  
+		int cantidad  "NN"  
+		decimal precio  "NN"  
+		decimal precio_total  "VIRTUAL"  
+		date fecha_prevista  ""  
+		enum estado  "default 'pendiente'"  
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    class COMPRAVENTAS {
-	    +int id_compraventa PK
-	    +int id_producto FK NOT NULL
-	    +int id_comprador FK NOT NULL
-	    +int id_vendedor FK NOT NULL
-	    +int id_punto FK NOT NULL
-	    +int cantidad_total NOT NULL
-	    +enum estado NOT NULL
-    }
+	VALORACIONES {
+		int id PK ""  
+		int id_venta FK "NN, U1"  
+		int id_valorador FK "NN, U1"  
+		int id_valorado FK "NN, U1"  
+		tinyint valoracion  "NN"  
+		text comentario  ""  
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    class VALORACIONES {
-	    +int id_valoracion PK
-	    +int id_venta FK NOT NULL
-	    +int id_resenyador FK NOT NULL
-	    +int id_resenyado FK NOT NULL
-	    +enum valoracion NOT NULL
-	    +text comentario
-    }
+	CATEGORIAS {
+		int id PK ""  
+		string nombre_categoria  "NN"  
+		timestamp created_at  "NN"  
+		timestamp updated_at  ""  
+	}
 
-    USUARIOS "1" -- "0..*" PRODUCTOS : publica
-    CATEGORIAS "1" -- "0..*" PRODUCTOS : clasifica
-    USUARIOS "1" -- "0..*" PUNTOS_ENTREGA : asigna
-    USUARIOS "1" -- "0..*" CHAT : escribe (comprador)
-    USUARIOS "1" -- "0..*" CHAT : recibe (vendedor)
-    PRODUCTOS "1" -- "0..*" CHAT : motiva
-    CHAT "1" -- "0..*" MENSAJES : contiene
-    USUARIOS "1" -- "0..*" MENSAJES : envía (id_envio)
-    USUARIOS "1" -- "0..*" COMPRAVENTAS : compra (comprador)
-    USUARIOS "1" -- "0..*" COMPRAVENTAS : vende (vendedor)
-    PRODUCTOS "1" -- "0..*" COMPRAVENTAS : objeto_de
-    PUNTOS_ENTREGA "1" -- "0..*" COMPRAVENTAS : tiene_lugar
-    COMPRAVENTAS "1" -- "0..*" VALORACIONES : genera
-    USUARIOS "1" -- "0..*" VALORACIONES : deja (resenyador)
-    USUARIOS "1" -- "0..*" VALORACIONES : obtiene (resenyado)
+	USUARIOS||--o{PUNTOS_ENTREGA:"registra"
+	USUARIOS||--o{PRODUCTOS:"vende"
+	USUARIOS||--o{CHATS:"participa"
+	USUARIOS||--o{MENSAJES:"envía"
+	USUARIOS||--o{COMPRAVENTAS:"participa"
+	USUARIOS||--o{VALORACIONES:"evalúa"
+	CATEGORIAS||--o{PRODUCTOS:"clasifica"
+	PUNTOS_ENTREGA||--o{PRODUCTOS:"entrega_en"
+	PUNTOS_ENTREGA||--o{COMPRAVENTAS:"punto_encuentro"
+	PRODUCTOS||--o{CHATS:"referencia"
+	PRODUCTOS||--o{COMPRAVENTAS:"se_vende"
+	CHATS||--o{MENSAJES:"contiene"
+	COMPRAVENTAS||--o{VALORACIONES:"calificada_por"
