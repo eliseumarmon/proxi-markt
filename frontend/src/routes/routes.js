@@ -11,6 +11,7 @@ import Mapa from "../components/Mapa.vue";
 import DetalleProducto from "../components/DetalleProducto.vue";
 import Principal from "../components/Principal.vue";
 import EditarProducto from "../components/EditarProducto.vue";
+import AnadirCategoria from "../components/AnadirCategoria.vue";
 
 const routes = [
     {
@@ -74,6 +75,11 @@ const routes = [
         path: "/mapa",
         name: "mapa",
         component: Mapa,
+    },
+    {
+        path: "/categorias",
+        name: "categorias",
+        component: AnadirCategoria,
     },
 ];
 

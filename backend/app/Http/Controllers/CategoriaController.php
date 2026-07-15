@@ -10,6 +10,14 @@ class CategoriaController extends Controller
 {
     // Función para guardar una nueva categoría en la base de datos
     public function store(Request $request) {
+        if ($request->user()?->role !== 'administrador') {
+            return response()->json(["message" => "No autorizado"], 403);
+        }
+
+        $request->validate([
+            "nombre_categoria" => "required|string|max:255",
+        ]);
+
         try {
             // Intentamos crear un nuevo registro en la base de datos usando el modelo Categoria
             Categoria::create([
