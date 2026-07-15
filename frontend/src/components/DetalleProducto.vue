@@ -5,10 +5,12 @@ import api from '@/api/axios';
 import NavBar from "@/components/NavBar.vue";
 import { useAuth } from '@/composables/useAuth';
 import Footer from "./Footer.vue";
+import { storageUrl } from "@/utils/storage";
 
 const props = defineProps(['id']);
 const producto = ref(null);
 const { usuario, fetchUsuario, loading, setLoading } = useAuth();
+const favorito = ref(false);
 
 const toastVisible = ref(false);
 const toastMensaje = ref("");
@@ -29,6 +31,7 @@ const obtenerProducto = async () => {
 
 const crearCompraventa = async (datosCompra) => {
     setLoading(true);
+    const mensajeLimpio = datosCompra.mensaje?.trim();
     const payload = {
         id_producto: producto.value.id,
         id_vendedor: producto.value.id_usuario,
@@ -39,15 +42,23 @@ const crearCompraventa = async (datosCompra) => {
     }
 
     try {
-        if (datosCompra.mensaje) {
-            const datosChat = {
-                id_vendedor: producto.value.id_usuario,
-                id_producto: producto.value.id,
-                contenido: datosCompra.mensaje
-            }
-            await api.post('/enviar-mensaje', datosChat);
-        }
         await api.post(`/compraventa/${props.id}`, payload);
+
+        if (mensajeLimpio) {
+            try {
+                const datosChat = {
+                    id_vendedor: producto.value.id_usuario,
+                    id_producto: producto.value.id,
+                    contenido: mensajeLimpio
+                }
+                await api.post('/enviar-mensaje', datosChat);
+            } catch (errMensaje) {
+                console.error("Compra guardada, pero falló el mensaje:", errMensaje);
+                lanzarToast("Compra realizada. El mensaje no se pudo enviar.");
+                return;
+            }
+        }
+
         lanzarToast("¡Solicitud correcta!");
     } catch (err) {
         lanzarToast("Solicitud incorrecta");
@@ -57,9 +68,32 @@ const crearCompraventa = async (datosCompra) => {
     }
 }
 
+const cambiarFavorito = async () => {
+    try {
+        if (favorito.value === true) {
+            await api.post(`/favorito/${producto.value.id}`);
+            lanzarToast("Producto guardado en favoritos");
+        } else if (favorito.value === false) {
+            await api.delete(`/favorito/${producto.value.id}`);
+            lanzarToast("Producto eliminado de favoritos");
+        }
+    } catch (error) {
+        console.error("Error gestionando favorito:", error);
+        lanzarToast("No se pudo actualizar favoritos");
+    }
+}
+
+const obtenerfavoritos = async () => {
+    const response = await api.get(`/favorito/${producto.value.id}`);
+    favorito.value = response.data.es_favorito;
+}
+
 onMounted(async () => {
     await fetchUsuario();
-    if (usuario.value?.id) obtenerProducto()
+    if (usuario.value?.id) {
+        await obtenerProducto();
+        await obtenerfavoritos();
+    }
 });
 </script>
 
@@ -77,7 +111,7 @@ onMounted(async () => {
                     <span class="badge-overlay" v-if="producto.categoria">
                         {{ producto.categoria.nombre_categoria }}
                     </span>
-                    <img :src="`http://localhost:8080/storage/${producto.imagen}`" :alt="producto.nombre_producto" />
+                    <img :src="storageUrl(producto.imagen)" :alt="producto.nombre_producto" />
                 </div>
 
                 <div class="description-section">
@@ -108,6 +142,11 @@ onMounted(async () => {
                         <span class="label">Precio:</span>
                         <p class="price">{{ producto.precio }}€</p>
                     </div>
+                </div>
+
+                <div>
+                    <label for="favorito">Guardar favorito: </label>
+                    <input v-model="favorito" type="checkbox" name="favorito" id="favorito" @change="cambiarFavorito"><br><br>
                 </div>
 
                 <div class="form-container">

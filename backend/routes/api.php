@@ -9,6 +9,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\ValoracionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FavoritosController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de puntos de entrega
@@ -86,5 +87,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Ruta de Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index']);
-});
 
+    // Rutas de favoritos
+    Route::get('/favoritosuser', [FavoritosController::class, 'favoritosporuser']);
+    Route::post('/favorito/{id_producto}', [FavoritosController::class, 'store']);
+    Route::delete('/favorito/{id_producto}', [FavoritosController::class, 'destroy']);
+    Route::get('/favorito/{id_producto}', [FavoritosController::class, 'sacarfavorito']);
+});
