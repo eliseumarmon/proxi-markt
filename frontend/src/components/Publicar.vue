@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import axios from 'axios';
 import api from '@/api/axios';
+import { leafletPin } from '@/utils/leafletPin';
 
 const router = useRouter()
 const { usuario, fetchUsuario } = useAuth();
@@ -81,7 +82,7 @@ const iniciarMapa = () => {
         attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    let marcadorTemporal = L.marker(centroInicial, { opacity: 0 }).addTo(map);
+    let marcadorTemporal = L.marker(centroInicial, { icon: leafletPin, opacity: 0 }).addTo(map);
 
     map.on('click', async (e) => {
         nuevaLatitud.value = e.latlng.lat;

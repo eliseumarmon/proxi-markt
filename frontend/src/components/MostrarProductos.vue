@@ -1,4 +1,5 @@
 <script setup>
+import { storageUrl } from "@/utils/storage";
 const props = defineProps({
     productos: {
         type: Array,
@@ -29,7 +30,7 @@ const cambiarpagina = (pagina) => {
         <div v-if="productos && productos.length > 0" class="grid-productos">
             <div v-for="producto in productos" :key="producto.id" class="card-producto">
                 <div class="imagen-contenedor">
-                    <img :src="producto.imagen ? `http://localhost:8080/storage/${producto.imagen}` : 'https://via.placeholder.com/150'"
+                    <img :src="producto.imagen ? storageUrl(producto.imagen) : 'https://via.placeholder.com/150'"
                         alt="Imagen producto">
                     <span class="badge-estado" :class="producto.estado">{{ producto.estado }}</span>
                 </div>

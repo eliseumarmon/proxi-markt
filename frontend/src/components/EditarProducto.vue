@@ -5,6 +5,7 @@ import NavBar from './NavBar.vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import Footer from "./Footer.vue";
+import { storageUrl } from "@/utils/storage";
 
 const router = useRouter();
 
@@ -161,7 +162,7 @@ onMounted(async () => {
                     <label>Imagen del producto</label>
 
                     <div class="preview-container" v-if="imagenPreview || formulario.imagen">
-                        <img :src="imagenPreview || `http://localhost:8080/storage/${formulario.imagen}`"
+                        <img :src="imagenPreview || storageUrl(formulario.imagen)"
                             alt="Vista previa" class="foto-preview" />
                         <p class="texto-ayuda-foto">{{ imagenPreview ? 'Nueva imagen seleccionada' : 'Imagen actual' }}
                         </p>

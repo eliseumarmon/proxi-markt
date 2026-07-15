@@ -5,6 +5,7 @@ import { useAuth } from '@/composables/useAuth.js';
 import axios from 'axios';
 import api from '@/api/axios';
 import NavBar from './NavBar.vue'
+import { leafletPin } from '@/utils/leafletPin';
 import MostrarProductos from './MostrarProductos.vue'
 import MisVentas from './MisVentas.vue';
 import MisCompras from './MisCompras.vue';
@@ -70,7 +71,7 @@ const guardarPuntoEntrega = async () => {
         }).addTo(map);
 
         layerPuntos = L.layerGroup().addTo(map);
-        marcadorTemporal = L.marker(centroInicial, { opacity: 0 }).addTo(map);
+        marcadorTemporal = L.marker(centroInicial, { icon: leafletPin, opacity: 0 }).addTo(map);
         map.on('click', onMapClick);
     }
 
@@ -90,7 +91,7 @@ const cargarMarcadores = () => {
     puntosEntrega.value.forEach(punto => {
         const lat = parseFloat(punto.latitud);
         const lng = parseFloat(punto.longitud)
-        L.marker([lat, lng])
+        L.marker([lat, lng], { icon: leafletPin })
             .addTo(layerPuntos)
             .bindPopup(punto.nombre_punto);
     });
