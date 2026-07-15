@@ -1,6 +1,7 @@
 <script setup>
 import api from '@/api/axios';
 import { onMounted, ref } from 'vue';
+import { storageUrl } from "@/utils/storage";
 
 const props = defineProps({
     eleccion: {
@@ -48,7 +49,7 @@ onMounted(() => misCompras())
         <div v-for="elemento in mostrar" :key="elemento.id" class="elemento-item">
 
             <div class="imagen-contenedor">
-                <img :src="elemento.producto.imagen ? `http://localhost:8080/storage/${elemento.producto.imagen}` : 'https://via.placeholder.com/150'"
+                <img :src="elemento.producto.imagen ? storageUrl(elemento.producto.imagen) : 'https://via.placeholder.com/150'"
                     alt="Imagen producto">
             </div>
 

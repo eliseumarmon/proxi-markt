@@ -3,6 +3,7 @@ import { ref, onMounted, nextTick } from 'vue';
 import axios from 'axios';
 import api from '@/api/axios';
 import L from 'leaflet';
+import { leafletPin } from '@/utils/leafletPin';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 
@@ -60,7 +61,7 @@ const inicializarMapa = async () => {
         attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    markerseleccion = L.marker(centroInicial).addTo(map);
+    markerseleccion = L.marker(centroInicial, { icon: leafletPin }).addTo(map);
 
     map.on('click', async (e) => {
         const { lat, lng } = e.latlng;
@@ -71,7 +72,7 @@ const inicializarMapa = async () => {
         if (markerseleccion) {
             markerseleccion.setLatLng([lat, lng]);
         } else {
-            markerseleccion = L.marker([lat, lng]).addTo(map);
+            markerseleccion = L.marker([lat, lng], { icon: leafletPin }).addTo(map);
         }
 
         // 2. Centrar ligeramente el mapa (opcional)

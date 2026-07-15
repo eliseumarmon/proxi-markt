@@ -11,8 +11,6 @@
 }
 
 body {
-  zoom: 0.7;
-  -webkit-zoom:0.7;
-  -moz-zoom:0.7;
+    min-height: 100vh;
 }
 </style>

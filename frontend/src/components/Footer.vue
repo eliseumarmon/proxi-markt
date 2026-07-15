@@ -21,7 +21,7 @@
 
       <div class="bloque contacto">
         <h4>Ayuda y Contacto</h4>
-        <img src="../assets/iconos/manual.png" alt="icono-manual" class="icono"><a href="../../ProxiMarkt.pdf" download="Manual_Usuario_ProxiMarkt.pdf">Manual de usuario de uso</a>
+        <img src="../assets/iconos/manual.png" alt="icono-manual" class="icono"><a :href="manualPdf" download="Manual_Usuario_ProxiMarkt.pdf">Manual de usuario de uso</a>
         <img src="../assets/iconos/email.png" alt="icono-email" class="icono"><a href="mailto:mercadoproximidad@gmail.com">mercadoproximidad@gmail.com</a>
         <img src="../assets/iconos/whatsapp.png" alt="icono-whatsapp" class="icono"><a href="tel:+34900000000">+34 900 000 000</a>
       </div>
@@ -29,6 +29,9 @@
     </div>
   </footer>
 </template>
+<script setup>
+import manualPdf from '@/assets/ProxiMarkt.pdf'
+</script>
 
 <style scoped>
 .pie-pagina-principal {
