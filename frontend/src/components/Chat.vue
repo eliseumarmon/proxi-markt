@@ -6,6 +6,7 @@ import api from "@/api/axios";
 const props = defineProps(['id_receptor', 'id_producto', 'chatid', 'mi_id']);
 const mensajes = ref([]);
 const nuevoMensaje = ref("");
+const enviando = ref(false);
 let polling = null;
 
 const bajarMensajes = ref(null);
@@ -61,24 +62,29 @@ const cargarMensajes = async () => {
 };
 
 const enviarMensaje = async () => {
-    // per a que el mensatge este bonico sense espais inneccesaris
-    if (!nuevoMensaje.value.trim()) return;
+    const contenido = nuevoMensaje.value.trim();
+    if (!contenido || enviando.value) return;
+
+    // Limpiamos el input inmediatamente para que el usuario vea el envío al instante.
+    nuevoMensaje.value = "";
+    enviando.value = true;
+
     try {
         //peticio al backend
         await api.post('/enviar-mensaje', {
             id_chat: props.chatid,   // id del chat actual
             id_vendedor: props.id_receptor, // a qui li arriba el mensatge
             id_producto: props.id_producto, // el producte del que estem parlant
-            contenido: nuevoMensaje.value   // el mensatge que senvia
+            contenido   // el mensatge que senvia
         });
-
-        //netejar el mensatge
-        nuevoMensaje.value = "";
-
+    } catch (e) {
+        // Si falla el envío, restauramos el texto para no perderlo.
+        nuevoMensaje.value = contenido;
+        console.error("Error al enviar mensaje:", e);
+    } finally {
+        enviando.value = false;
         //tornar a carregar els mensatges per a que el nou aparega
         cargarMensajes();
-    } catch (e) {
-        console.error("Error al enviar mensaje:", e);
     }
 };
 

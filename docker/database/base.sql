@@ -9,6 +9,7 @@ CREATE TABLE usuarios (
     direccion VARCHAR(255),
     longitud DECIMAL(12, 8),
     latitud DECIMAL(12, 8),
+    role enum('usuario', 'administrador') default 'usuario',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ModalRadio from './ModalRadio.vue';
 import { useAuth } from '@/composables/useAuth';
@@ -11,6 +11,10 @@ const isModalOpen = ref(false);
 const emit = defineEmits(['cambiar-radio']);
 const { usuario, fetchUsuario, estarAutenticado, logout } = useAuth();
 const radioActual = ref(Number(localStorage.getItem('distancia_guardada')) || 10);
+
+const isAdmin = computed(() => {
+    return (usuario.value?.role || '').toString().toLowerCase() === 'administrador';
+});
 
 const tieneNotificacion = ref(false); 
 const tieneComandas = ref(false);
@@ -134,6 +138,12 @@ onUnmounted(() => {
                         <router-link to="/cuenta">
                             <img class="logos-nav" src="../assets/iconos/mi_cuenta_verde.png" alt="icon">
                             <span>Mi cuenta</span>
+                        </router-link>
+                    </li>
+                    <li v-if="isAdmin">
+                        <router-link to="/categorias">
+                            <img class="logos-nav" src="../assets/iconos/manual.png" alt="icon">
+                            <span>Crear categoria</span>
                         </router-link>
                     </li>
                 </ul>
