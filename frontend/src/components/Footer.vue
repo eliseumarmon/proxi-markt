@@ -21,6 +21,7 @@
 
       <div class="bloque contacto">
         <h4>Ayuda y Contacto</h4>
+        <img src="../assets/iconos/manual.png" alt="icono-incidencias" class="icono icono-incidencias"><router-link :to="{ name: 'incidencias' }" class="link-incidencias">Reportar incidencia</router-link>
         <img src="../assets/iconos/manual.png" alt="icono-manual" class="icono"><a :href="manualPdf" download="Manual_Usuario_ProxiMarkt.pdf">Manual de usuario de uso</a>
         <img src="../assets/iconos/email.png" alt="icono-email" class="icono"><a href="mailto:mercadoproximidad@gmail.com">mercadoproximidad@gmail.com</a>
         <img src="../assets/iconos/whatsapp.png" alt="icono-whatsapp" class="icono"><a href="tel:+34900000000">+34 900 000 000</a>
@@ -215,15 +216,28 @@ import manualPdf from '@/assets/ProxiMarkt.pdf'
         margin-top: -8px;
     }
 
-    .contacto img[alt="icono-manual"] {
+    .contacto .icono-manual {
         grid-row: 4;
         grid-column: 1 / -1;
         margin-top: 10px;
     }
 
-    .contacto a:not([href*="mailto"]):not([href*="tel"]) { 
+    .contacto .link-manual { 
         grid-row: 5; 
         grid-column: 1 / -1; 
+        font-size: 10px;
+        margin-top: -8px;
+    }
+
+    .contacto .icono-incidencias {
+        grid-row: 6;
+        grid-column: 1 / -1;
+        margin-top: 10px;
+    }
+
+    .contacto .link-incidencias {
+        grid-row: 7;
+        grid-column: 1 / -1;
         font-size: 10px;
         margin-top: -8px;
     }

@@ -121,3 +121,13 @@ CREATE TABLE valoraciones (
     FOREIGN KEY (id_valorado) REFERENCES usuarios (id),
     UNIQUE (id_venta, id_valorador)
 );
+
+CREATE TABLE incidencias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    mensaje TEXT,
+    estado ENUM('en revision', 'aceptada', 'rechazada') DEFAULT 'en revision',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
+);

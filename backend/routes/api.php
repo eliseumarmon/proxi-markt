@@ -9,6 +9,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\ValoracionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IncidenciasController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de puntos de entrega
@@ -86,6 +87,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Ruta de Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
+    // Rutas de incidencias
+    Route::get('/incidencias', [IncidenciasController::class, 'index']);
+    Route::apiResource('/incidencias', IncidenciasController::class)->only([
+        'store', 'update'
+    ]);
     // Ruta de categorías admin
     Route::post("/categorias", [CategoriaController::class, "store"]);
 });
