@@ -18,6 +18,15 @@ Este archivo debe mantenerse ligero. La documentación extensa vive en `docs/`.
 - Hay cambios locales pendientes traidos desde `origin/despliegue` que no son puramente de despliegue. Revisar siempre `git status --short --branch` antes de tocar nada.
 - El despliegue AWS/Azure/Traefik se considera histórico; el nuevo objetivo es VPS.
 
+## Stack rápido
+
+- Backend: PHP 8.2, Laravel 12, API REST, Eloquent, Sanctum, Reverb instalado, PHPUnit, Pint y Faker.
+- Frontend: Vue 3, Vite 7, Vue Router, Axios, Bootstrap 5, Bootstrap Icons y Leaflet.
+- Infra local: Docker Compose con MySQL 8, PHP-FPM y Nginx; backend en `8080` y Vite en `5173`.
+- BD: MySQL inicializada desde `docker/database/base.sql`; no usar `migrate:fresh` sin revisar el esquema real.
+- Dominio: marketplace de proximidad con productos, puntos de entrega, mapa, compraventas, chat, valoraciones, stock y dashboard.
+- Tiempo real/pagos: Reverb está instalado; Redis, presencia, notificaciones avanzadas y Stripe test están en roadmap, no cerrados.
+
 ## Normas rápidas
 
 - Crear ramas cortas desde `main`:
