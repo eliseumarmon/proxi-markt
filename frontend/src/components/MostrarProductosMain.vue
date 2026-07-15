@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { storageUrl } from "@/utils/storage";
 const props = defineProps({
     productos: {
         type: Array,
@@ -7,16 +8,18 @@ const props = defineProps({
     },
     usuario: {
         type: Object,
-        required: true
+        default: () => ({})
     }
 });
 
 const productosAjenos = computed(() => {
-    return props.productos.filter((producto) => producto.id_usuario !== props.usuario.id);
+    const miId = props.usuario?.id;
+    if (!miId) return props.productos;
+    return props.productos.filter((producto) => producto.id_usuario != miId);
 });
 
 const calcularKm = (latVendedor, lngVendedor) => {
-    if (!props.usuario.latitud || !latVendedor || !lngVendedor) return '--';
+    if (!props.usuario?.latitud || !latVendedor || !lngVendedor) return '--';
 
     const miLat = parseFloat(props.usuario.latitud);
     const miLng = parseFloat(props.usuario.longitud);
@@ -39,7 +42,7 @@ const calcularKm = (latVendedor, lngVendedor) => {
                 <router-link :to="{ name: 'detalle-productos', params: { id: producto.id } }" class="carta-link">
 
                     <div class="imagen-contenedor">
-                        <img :src="producto.imagen ? `http://localhost:8080/storage/${producto.imagen}` : 'https://via.placeholder.com/400x300'"
+                        <img :src="producto.imagen ? storageUrl(producto.imagen) : 'https://via.placeholder.com/400x300'"
                             alt="Imagen producto" class="imagen-producto">
                         <span class="categoria">{{ producto.categoria?.nombre_categoria || 'Sin categoría' }}</span>
                     </div>

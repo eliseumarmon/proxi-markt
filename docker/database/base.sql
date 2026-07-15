@@ -9,6 +9,7 @@ CREATE TABLE usuarios (
     direccion VARCHAR(255),
     longitud DECIMAL(12, 8),
     latitud DECIMAL(12, 8),
+    role enum('usuario', 'administrador') default 'usuario',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -130,4 +131,14 @@ CREATE TABLE favoritos (
     FOREIGN KEY (id_usuario) REFERENCES usuarios (id) ON DELETE CASCADE,
     FOREIGN KEY (id_producto) REFERENCES productos (id) ON DELETE CASCADE,
     UNIQUE (id_usuario, id_producto)
+ );
+  
+CREATE TABLE incidencias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    mensaje TEXT,
+    estado ENUM('en revision', 'aceptada', 'rechazada') DEFAULT 'en revision',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
 );

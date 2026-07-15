@@ -10,8 +10,10 @@ const storageBaseUrl = (() => {
 
 export const storageUrl = (path) => {
     if (!path || path === "0") return storageDefaultProductUrl();
-    
-    const cleanPath = (path.startsWith('productos/') || path.startsWith('http')) 
+    if (path.startsWith('http')) return path;
+    if (path.startsWith('/storage/')) return path;
+
+    const cleanPath = path.startsWith('productos/')
         ? path 
         : `productos/${path}`;
 
@@ -20,6 +22,6 @@ export const storageUrl = (path) => {
 
 export const storageDefaultProductUrl = () => {
     return storageBaseUrl
-        ? `${storageBaseUrl}/storage/productos/default.jpg`
-        : "/storage/productos/default.jpg";
+        ? `${storageBaseUrl}/storage/productos/default.png`
+        : "/storage/productos/default.png";
 };

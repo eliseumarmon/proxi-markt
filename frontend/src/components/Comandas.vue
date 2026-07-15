@@ -1,15 +1,15 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import axios from "axios";
+import api from "@/api/axios";
 import NavBar from "./NavBar.vue";
 import Footer from "./Footer.vue";
 import ValoracionForm from "./ValoracionForm.vue";
 import { useAuth } from "@/composables/useAuth";
+import { storageUrl, storageDefaultProductUrl } from "@/utils/storage";
 
 const comandas = ref([]);
 const cargando = ref(true);
 const { usuario, fetchUsuario } = useAuth();
-const token = localStorage.getItem("token");
 const aValorar = ref(null);
 
 const toastVisible = ref(false);
@@ -25,13 +25,7 @@ const lanzarToast = (mensaje) => {
 
 const obtenerComandas = async () => {
     try {
-        const response = await axios.get("http://localhost:8080/api/mis-comandas", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-        });
+        const response = await api.get("/mis-comandas");
         comandas.value = response.data.datos;
     } catch (error) {
         console.error("Error al cargar:", error);
@@ -50,18 +44,10 @@ const historialComandas = computed(() => {
 
 const actualizarComanda = async (id, nuevoEstado) => {
     try {
-        await axios.put(`http://localhost:8080/api/mis-comandas/${id}`,
-            { estado: nuevoEstado },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: "application/json"
-                }
-            });
+        await api.put(`/mis-comandas/${id}`, { estado: nuevoEstado });
         const comandaEncontrada = comandas.value.find(c => c.id === id);
         if (comandaEncontrada) comandaEncontrada.estado = nuevoEstado;
     } catch (err) {
-        lanzarToast("Ha ocurrido un error al actualizar la comanda.");
         lanzarToast("Ha ocurrido un error al actualizar la comanda.");
         console.error(err);
     }
@@ -95,7 +81,7 @@ const getNombreContraparte = (comanda) => {
 };
 
 const getUrlImagen = (rutaRelativa) => {
-    return rutaRelativa ? `http://localhost:8080/storage/${rutaRelativa}` : "http://localhost:8080/storage/productos/default.png";
+    return rutaRelativa ? storageUrl(rutaRelativa) : storageDefaultProductUrl();
 };
 
 const postValoracion = async (idCompraventa, datos) => {

@@ -10,6 +10,7 @@ use App\Http\Controllers\MensajesController;
 use App\Http\Controllers\ValoracionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoritosController;
+use App\Http\Controllers\IncidenciasController;
 use Illuminate\Support\Facades\Route;
 
 // Rutas de puntos de entrega
@@ -25,7 +26,6 @@ Route::get('/productos/{id}', [ProductoController::class, 'show']);
 // Rutas de categorías
 
 Route::get('/categorias', [CategoriaController::class, 'index']);
-Route::post("/categorias", [CategoriaController::class, "store"]); // se debería envolver en autenticación basada en rol administrador
 
 // Rutas de usuarios públicas
 
@@ -93,4 +93,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/favorito/{id_producto}', [FavoritosController::class, 'store']);
     Route::delete('/favorito/{id_producto}', [FavoritosController::class, 'destroy']);
     Route::get('/favorito/{id_producto}', [FavoritosController::class, 'sacarfavorito']);
+    // Rutas de incidencias
+    Route::get('/incidencias', [IncidenciasController::class, 'index']);
+    Route::apiResource('/incidencias', IncidenciasController::class)->only([
+        'store', 'update'
+    ]);
+    // Ruta de categorías admin
+    Route::post("/categorias", [CategoriaController::class, "store"]);
 });

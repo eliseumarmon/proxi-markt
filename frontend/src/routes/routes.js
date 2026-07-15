@@ -11,6 +11,9 @@ import Mapa from "../components/Mapa.vue";
 import DetalleProducto from "../components/DetalleProducto.vue";
 import Principal from "../components/Principal.vue";
 import EditarProducto from "../components/EditarProducto.vue";
+import Incidencias from "../components/Incidencias.vue";
+import IncidenciasAdmin from "../components/IncidenciasAdmin.vue";
+import AnadirCategoria from "../components/AnadirCategoria.vue";
 
 const routes = [
     {
@@ -74,6 +77,19 @@ const routes = [
         path: "/mapa",
         name: "mapa",
         component: Mapa,
+    },
+    {
+        path: "/incidencias",
+        name: "incidencias",
+        component: Incidencias,
+    },
+    {
+        path: "/incidenciasadmin",
+        name: "IncidenciasAdmin",
+        component: IncidenciasAdmin,
+        path: "/categorias",
+        name: "categorias",
+        component: AnadirCategoria,
     },
 ];
 

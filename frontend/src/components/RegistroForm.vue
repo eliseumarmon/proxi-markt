@@ -74,7 +74,7 @@ const enviarInfo = async () => {
 
         lanzarToast("¡Cuenta creada con éxito! Ahora puedes iniciar sesión.");
         setTimeout(() => {
-            router.push('/login');
+            router.push('/auth');
         }, 2000);
 
     } catch (error) {
