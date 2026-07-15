@@ -3,55 +3,76 @@
 // Importamos los modelos y herramientas de Laravel que vamos a necesitar
 namespace App\Http\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
 use App\Models\CompraVenta;
 use App\Models\Producto;
+use App\Models\PuntoEntrega;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class CompraVentaController extends Controller
 {
     // Función para crear una nueva reserva de compra
     public function store(Request $request, Producto $producto) {
-        // 1. Verificamos que los datos que nos envían sean correctos y válidos
-        $compraVentaValidada = $request->validate([
-            'id_vendedor' => 'required|exists:usuarios,id|not_in:' . Auth::id(), // El vendedor debe existir, y NO puede ser el mismo usuario que está comprando
-            'id_punto' => 'required|exists:puntos_entrega,id', // El punto de entrega debe existir en nuestra base de datos
-            'fecha_prevista' => 'required|date', // La fecha debe ser una fecha válida
-            'cantidad' => "required|integer|min:1|lte:{$producto->stock_real}", // La cantidad debe ser al menos 1, y no puede superar el stock real que tiene el producto
+        $datosValidados = $request->validate([
+            'fecha_prevista' => 'required|date',
+            'cantidad' => 'required|integer|min:1',
         ]);
 
-        // Intentamos hacer todo el proceso de guardado
         try {
-            /* Iniciamos una Transacción. Esto es una red de seguridad: si algo falla a mitad 
-            del proceso, Laravel deshará todos los cambios para no dejar datos a medias. */
-            DB::beginTransaction();
+            $resultado = DB::transaction(function () use ($producto, $datosValidados) {
+                $productoBloqueado = Producto::whereKey($producto->id)->lockForUpdate()->firstOrFail();
+                $compradorId = Auth::id();
 
-            // Añadimos a los datos validados la información que faltaba:
-            $compraVentaValidada['id_comprador'] = Auth::id(); // El ID del usuario conectado
-            $compraVentaValidada['id_producto'] = $producto->id; // El ID del producto
-            $compraVentaValidada['precio'] = $producto->precio; // El precio actual del producto
+                if ((int) $productoBloqueado->id_usuario === (int) $compradorId) {
+                    return response()->json([
+                        'message' => 'No puedes comprar tu propio producto.'
+                    ], 422);
+                }
 
-            // Creamos el registro de la compra-venta en la base de datos
-            CompraVenta::create($compraVentaValidada);
+                $puntoPerteneceAlVendedor = PuntoEntrega::where('id', $productoBloqueado->id_puntoentrega)
+                    ->where('id_usuario', $productoBloqueado->id_usuario)
+                    ->exists();
 
-            // Aumentamos el "stock reservado" del producto para que nadie más lo pueda comprar
-            $producto->increment('stock_reserva', $request->cantidad);
+                if (!$puntoPerteneceAlVendedor) {
+                    return response()->json([
+                        'message' => 'El punto de entrega no pertenece al vendedor del producto.'
+                    ], 422);
+                }
 
-            // Si todo ha ido bien. Guardamos los cambios definitivamente en la base de datos.
-            DB::commit();
+                if ((int) $datosValidados['cantidad'] > (int) $productoBloqueado->stock_real) {
+                    return response()->json([
+                        'message' => 'No hay stock suficiente para reservar esa cantidad.'
+                    ], 422);
+                }
 
-            // Devolvemos un mensaje de éxito (El código 201 es para indicar el estado: Creado).
+                $compraVenta = CompraVenta::create([
+                    'id_comprador' => $compradorId,
+                    'id_vendedor' => $productoBloqueado->id_usuario,
+                    'id_producto' => $productoBloqueado->id,
+                    'id_punto' => $productoBloqueado->id_puntoentrega,
+                    'cantidad' => $datosValidados['cantidad'],
+                    'precio' => $productoBloqueado->precio,
+                    'fecha_prevista' => $datosValidados['fecha_prevista'],
+                ]);
+
+                $productoBloqueado->increment('stock_reserva', $datosValidados['cantidad']);
+
+                return $compraVenta;
+            });
+
+            if ($resultado instanceof JsonResponse) {
+                return $resultado;
+            }
+
             return response()->json([
                 'message' => 'Reserva creada correctamente',
-                'data' => $compraVentaValidada
+                'data' => $resultado
             ], 201);
 
-        } catch (Exception $err) {
-            // Si algo falló en el 'try', anulamos cualquier cambio que se haya intentado hacer en la BD
-            DB::rollBack();
-            // Devolvemos el mensaje de error (El código 500 es para indicar el estado: Error de servidor)
+        } catch (Throwable $err) {
             return response()->json(['message' => $err->getMessage()], 500);
         }
     }
@@ -106,7 +127,7 @@ class CompraVentaController extends Controller
     // Función interna (no se llama por ruta directa) para ajustar el stock según el estado de la venta
     public function completarVenta(CompraVenta $compraventa) {
         // Buscamos el producto de esta compraventa
-        $producto = Producto::find($compraventa->id_producto);
+        $producto = Producto::whereKey($compraventa->id_producto)->lockForUpdate()->firstOrFail();
 
         // Miramos en qué estado se ha quedado la transacción
         switch ($compraventa->estado) {
@@ -121,6 +142,7 @@ class CompraVentaController extends Controller
                 break;
             case 'en curso':
             case 'pendiente':
+            case 'valorado':
                 // Si está en curso o pendiente, no hacemos nada con el stock por ahora
                 break;
             default:
@@ -136,12 +158,29 @@ class CompraVentaController extends Controller
             'estado' => 'required|string|in:pendiente,en curso,cancelado,completado,valorado'
         ]);
 
+        $userId = Auth::id();
+
+        if ((int) $compraventa->id_comprador !== (int) $userId && (int) $compraventa->id_vendedor !== (int) $userId) {
+            return response()->json(['message' => 'No autorizado para actualizar esta compraventa.'], 403);
+        }
+
+        $nuevoEstado = $request->estado;
+        $estadoActual = $compraventa->estado;
+
+        if ($nuevoEstado === $estadoActual) {
+            return response()->json(['message' => 'La compraventa ya está en ese estado.'], 200);
+        }
+
+        if (!$this->transicionPermitida($compraventa, $nuevoEstado, $userId)) {
+            return response()->json(['message' => 'Transición de estado no permitida.'], 422);
+        }
+
         try {
             // Iniciamos otra vez la red de seguridad de la base de datos
             DB::beginTransaction();
             
             // Actualizamos el estado de la transacción con el nuevo estado
-            $compraventa->update(['estado' => $request->estado]);
+            $compraventa->update(['estado' => $nuevoEstado]);
             
             // Llamamos a la función de arriba para que ajuste el stock si es necesario
             $this->completarVenta($compraventa);
@@ -152,11 +191,25 @@ class CompraVentaController extends Controller
             // Y devolvemos mensaje de éxito para indicar que ha ido todo bien.
             return response()->json(['message' => 'Actualización de stock correcta.'], 201);
             
-        } catch (Exception $err) {
+        } catch (Throwable $err) {
             // Si algo falla, deshacemos los cambios para evitar errores en el stock en la base de datos
             DB::rollback();
             // Y devolvemos el error
             return response()->json(['message' => $err->getMessage()]);
         }
+    }
+
+    private function transicionPermitida(CompraVenta $compraventa, string $nuevoEstado, int $userId): bool {
+        $esVendedor = (int) $compraventa->id_vendedor === (int) $userId;
+        $esComprador = (int) $compraventa->id_comprador === (int) $userId;
+
+        return match ($compraventa->estado) {
+            'pendiente' => ($esVendedor && in_array($nuevoEstado, ['en curso', 'cancelado'], true))
+                || ($esComprador && $nuevoEstado === 'cancelado'),
+            'en curso' => ($esVendedor && in_array($nuevoEstado, ['completado', 'cancelado'], true))
+                || ($esComprador && $nuevoEstado === 'cancelado'),
+            'completado' => $nuevoEstado === 'valorado',
+            default => false,
+        };
     }
 }

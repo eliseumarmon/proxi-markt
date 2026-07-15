@@ -24,6 +24,16 @@ class UserController extends Controller
 
     // Función para actualizar los datos de ubicación de un usuario concreto
     public function updateLocation(Request $request, User $usuario) {
+        if ((int) $request->user()->id !== (int) $usuario->id) {
+            return response()->json(['message' => 'No autorizado para actualizar esta ubicación.'], 403);
+        }
+
+        $request->validate([
+            'direccion' => 'nullable|string|max:255',
+            'latitud' => 'required|numeric|between:-90,90',
+            'longitud' => 'required|numeric|between:-180,180',
+        ]);
+
         /* 1. Actualizamos directamente el registro del usuario en la base de datos
         pasándole un array con los nuevos valores recibidos en la petición ($request) */
         $usuario->update([

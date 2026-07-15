@@ -64,6 +64,11 @@ class ChatController extends Controller
     {
         // Volvemos a obtener el ID del usuario actual
         $usuarioId = Auth::id();
+        $chat = Chat::findOrFail($id);
+
+        if ((int) $chat->id_comprador !== (int) $usuarioId && (int) $chat->id_vendedor !== (int) $usuarioId) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
         
         // Buscamos en la tabla de Mensajes aquellos que cumplan esto:
         Mensajes::where('id_chat', $id) // Que pertenezcan a este chat específico (id del chat)

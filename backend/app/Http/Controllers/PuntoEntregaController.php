@@ -19,6 +19,10 @@ class PuntoEntregaController extends Controller
      * Listar puntos de entrega de un vendedor específico
      */
     public function puntosPorVendedor(Request $request, User $usuario) {
+        if ((int) $request->user()->id !== (int) $usuario->id) {
+            return response()->json(['message' => 'No autorizado para consultar estos puntos de entrega.'], 403);
+        }
+
         $puntos = PuntoEntrega::where('id_usuario', $usuario->id)->get();
         return response()->json($puntos);
     }

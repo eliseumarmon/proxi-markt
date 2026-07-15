@@ -32,6 +32,22 @@ class ValoracionController extends Controller
         // 1. Obtenemos el ID del usuario que está escribiendo la reseña (el emisor)
         $idEmisor = Auth::id();
 
+        if ($compraventa->estado !== 'completado') {
+            return response()->json([
+                'message' => 'Solo se pueden valorar compraventas completadas.'
+            ], 422);
+        }
+
+        $valoracionExistente = Valoracion::where('id_venta', $compraventa->id)
+            ->where('id_valorador', $idEmisor)
+            ->exists();
+
+        if ($valoracionExistente) {
+            return response()->json([
+                'message' => 'Ya has valorado esta compraventa.'
+            ], 422);
+        }
+
         /* 2. Identificamos automáticamente quién es el receptor de la valoración.
         Si el usuario actual (emisor) es el comprador, entonces el receptor debe ser el vendedor.
         Si no es el comprador, significa que es el vendedor, por lo que el receptor será el comprador.
