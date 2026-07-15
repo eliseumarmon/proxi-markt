@@ -1,135 +1,181 @@
-# ProxiMarkt: Mercat de Proximitat
+# ProxiMarkt
 
-## Projecte Intermodular 2025-2026
+ProxiMarkt es una plataforma web para conectar productores locales con consumidores, facilitando la venta de productos de proximidad, la gestión de puntos de entrega, solicitudes de compra, chat, valoraciones y seguimiento de comandas.
 
-Cicle Formatiu de Grau Superior: Desenvolupament d’Aplicacions Web (DAW) - 2n Curs
+## Estado actual del proyecto
 
-Integrants:
+Este proyecto nació originalmente como un trabajo académico desarrollado en equipo durante el ciclo de Desarrollo de Aplicaciones Web. Actualmente se mantiene como proyecto personal de portfolio, con el objetivo de evolucionarlo hacia un marketplace más completo, mantenible y desplegable en producción.
 
-* Álvarez Calle, Inés
-* Camarena Ureña, David
-* Grau Andrés, Jordi
-* Martínez Monrabal, Eliseu
-* Mogort Brines, Carlos
+La versión actual está siendo revisada y reorganizada para mejorar:
 
----
+- seguridad y autorización en backend;
+- despliegue en VPS;
+- arquitectura del chat y flujo de compraventa;
+- pagos de prueba con Stripe;
+- perfil público de vendedores y métricas de confianza;
+- componentes reutilizables y experiencia responsive;
+- documentación técnica y datos de demo.
 
-### Mòduls implicats
+## Origen académico
 
-1. Desenvolupament web en entorn client (DWEC)
-2. Desenvolupament web en entorn servidor (DWES)
-3. Desplegament d’aplicacions web (DAW)
-4. Disseny d’interfícies web (DIW)
-5. Projecte Intermodular
-6. Itinerari Personal per a l'Ocupabilitat II
-7. Sostenibilitat Aplicada al Sistema Productiu (SASP)
-8. Digitalització Aplicada al Sistema Productiu (DASP)
+La primera versión de ProxiMarkt fue desarrollada como proyecto intermodular de 2º curso del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web.
 
-## 1.Descripció i Objectius del Projecte
+Participantes del proyecto original:
 
-Seguint l’Aprenentatge Basat en Projectes (ABP), es planteja el desenvolupament complet d’una aplicació web anomenada ProxiMarkt. Aquesta plataforma ha de servir per connectar productors i comerços locals amb els seus clients, afavorint el comerç de proximitat.
-El producte final ha de ser una plataforma (aplicació web/app i servidor) que permeta la geolocalització i la compra-venda de productes de proximitat.
+- Álvarez Calle, Inés
+- Camarena Ureña, David
+- Grau Andrés, Jordi
+- Martínez Monrabal, Eliseu
+- Mogort Brines, Carlos
 
-## Funcionalitats Clau
+Esa etapa sirvió para construir la base funcional: autenticación, productos, mapas, puntos de entrega, compras, chat, valoraciones, dashboard y documentación inicial.
 
-El sistema haurà de demostrar les competències de DAW implementant les següents funcionalitats essencials:
+A partir de esta fase, el proyecto continúa como una evolución individual orientada a portfolio profesional y mejora técnica progresiva.
 
-1. **Punts d'entrega:** Els venedors seran els responsables d’establir els punts d’entrega en mà. Aquestes ubicacions poden ser, per exemple, a la granja, un mercat local o un altre punt d'acord entre comprador i venedor.
-2. **Xat integrat:** Permet la comunicació directa entre venedors i compradors per coordinar la comanda i, si es desitja, acordar altres detalls, com l'entrega a domicili.
-3. **Notificacions:** Els usuaris rebran actualitzacions sobre l'estat de les comandes, confirmacions d'acceptació, i notificacions quan arribi el moment d'anar a recollir els productes.
+## Funcionalidades actuales
 
-**NOTA:** El pagament es farà en efectiu o per un altre mètode acordat entre comprador i venedor fora de l'aplicació, en el mateix moment de la recollida.
+- Registro, login y sesión de usuario con Laravel Sanctum.
+- Catálogo de productos de proximidad.
+- Publicación y edición de productos con imagen, categoría, precio y stock.
+- Puntos de entrega asociados a vendedores.
+- Mapa con Leaflet para buscar puntos cercanos.
+- Solicitudes de compra y gestión de comandas.
+- Chat entre comprador y vendedor.
+- Sistema de valoraciones.
+- Favoritos.
+- Gestión básica de categorías e incidencias.
+- Dashboard inicial de actividad.
 
-## Actors implicats
+## Stack técnico
 
-### Agricultors/Venedors
+Backend:
 
-L'agricultor o venedor és qui ofereix els productes per vendre a través de l'aplicació.
+- PHP 8.2
+- Laravel 12
+- Laravel Sanctum
+- Laravel Reverb instalado
+- MySQL 8
+- Eloquent ORM
+- PHPUnit
+- Laravel Pint
 
-Accions possibles de l'Agricultor/Venedor:
+Frontend:
 
-1. **Crear un perfil de venedor:** Els agricultors poden crear el seu perfil, incloent la seva ubicació i els productes que ofereixen.
-2. **Publicar productes:** Poden afegir els productes a la plataforma amb descripcions, fotos, preus i quantitats disponibles.
-3. **Gestionar l'inventari:** Actualitzen la quantitat de productes segons la disponibilitat.
-4. **Establir punts d'entrega:** Els venedors defineixen els punts d'entrega en mà per a cada producte, com ara la seva granja, mercat local, o algun punt acordat. Poden incloure informació com adreces concretes o llocs de trobada específics.
-5. **Acceptar comandes:** Quan un comprador fa una reserva, el venedor pot acceptar o rebutjar la comanda segons la disponibilitat.
-6. **Comunicar-se amb el comprador:** Si el comprador vol acordar una entrega a domicili o altres detalls específics, poden parlar-ho a través de la comunicació interna de l'aplicació.
-7. **Valorar els compradors:** Després de la transacció, el venedor pot deixar una valoració per ajudar a establir la confiança dins de la comunitat.
+- Vue 3
+- Vite 7
+- Vue Router
+- Axios
+- Bootstrap 5
+- Bootstrap Icons
+- Leaflet
 
-### Compradors
+Infraestructura local:
 
-Els compradors són usuaris que volen adquirir productes locals directament dels agricultors.
+- Docker Compose
+- Nginx
+- PHP-FPM
+- MySQL
 
-Accions possibles del Comprador:
+## Ejecución local
 
-1. **Crear un perfil de comprador:** Els compradors poden crear el seu perfil amb la seva informació personal i ubicació.
-2. **Buscar productes:** Podran cercar els productes disponibles segons la categoria, preu, o localització.
-3. **Realitzar una reserva de producte:** Poden reservar els productes que els interessin, indicant la quantitat i el punt d’entrega establert pel venedor.
-4. **Posar-se en contacte amb el venedor:** Si volen acordar una entrega a domicili o discutir altres detalls (com el temps o el lloc exacte de la recollida), poden comunicar-se amb el venedor a través de l'aplicació.
-5. **Valoració del venedor, el producte i l'entrega:** Un cop completada la transacció, el comprador pot deixar una valoració sobre l’experiència de compra, d'entrega i del producte.
+Backend y base de datos:
 
-## 2. Desplegament
+```bash
+docker compose up -d --build
+docker compose exec php composer install
+docker compose exec php php artisan key:generate --force
+docker compose exec php php artisan storage:link
+```
 
-L'aplicació s'haurà de desplegar i configurar en un entorn de producció. Ja siga en Azure, AWS o servidor dedicat. A més s'haurà de fer la comunicació via https, tindre un sistema de control de sessions i intentar protegir la informació el màxim possible.
+Frontend:
 
-## 3. Presentació i documentació
+```bash
+cd frontend
+npm install
+VITE_BACKEND_URL=http://127.0.0.1:8080 npm run dev -- --host 127.0.0.1
+```
 
-En la data que es determine, s'haurà de tindre el projecte desplegat de forma que siga accessible públicament. A més, es farà una presentació de l'aplicació que serà avaluada.
+URLs habituales:
 
-A banda, tot el desenvolupament s'allotjarà en un github amb la documentació corresponent (descripció, manual, posada en funcionament,...)
+- Frontend: `http://127.0.0.1:5173/`
+- Backend/API: `http://127.0.0.1:8080/`
 
-## 4. Metodologia de Treball (SCRUM)
+## Base de datos
 
-El projecte s’aborda de manera integradora durant 240 hores (8 setmanes). El grup es dividirà en equips de desenvolupament i s’aplicarà la metodologia àgil SCRUM. El professorat tindrà el rol de Product Owner, mentre que un component del grup exercirà de Scrum Master.
-El treball es dividirà en Sprints d’una setmana de durada, amb reunions de Sprint Planning, Daily Scrum, Sprint Review i Sprint Retrospective.
+La base de datos local se inicializa con MySQL desde:
 
-## 5. Integració de l'Itinerari Personal per a l'Ocupabilitat II (IPO II)
+```text
+docker/database/base.sql
+```
 
-Per assegurar el desenvolupament de les competències d'emprenedoria, anàlisi de l'entorn i inserció laboral, l'equip de desenvolupament haurà de realitzar un conjunt d'activitats vinculades a IPE II.
+Importante: las tablas principales de la aplicación todavía dependen de ese SQL inicial, no de migraciones Laravel completas. No ejecutar `php artisan migrate:fresh` sin revisar antes el estado real del esquema.
 
-L'equip haurà de validar la idea de negoci a través de diverses activitats:
+Seeders:
 
-1. **Anàlisi de l'Entorn Socio-Productiu:** Identificar els problemes de les persones destinatàries potencials del projecte (productors i consumidors). Analitzar els principals components de l'entorn general (PESTEL) i específic (DAFO) i el seu impacte en la idea emprendedora.
-2. **Model de Negoci i Viabilitat:** Dissenyar un model de negoci derivat de la idea emprendedora. Aquest model haurà d'incorporar valors ètics i socials i alinear-se amb els objectius de les polítiques relacionades amb la sostenibilitat (promovent l'economia circular i del bé comú).
-3. **Viabilitat Econòmica:** Analitzar la rentabilitat de la proposta, valorant la inversió, els costos i els beneficis esperats. Consultar i comparar les diferents formes jurídiques que es poden aplicar a la proposta (Empresari Individual, Societat Limitada, etc.) i prendre una decisió raonada. Identificar les obligacions administratives, fiscals i comptables bàsiques derivades.
-4. **Imatge corporativa:** l'aplicació transmetra la idea d'imatge corporativa a través d'elements com el logotip, els colors, la tipografia i el disseny, i que ajuden a transmetre els valors, la identitat i la missió de la marca. En el desenvolupament, aquesta imatge s'aplicarà a través de l'encaix de tots els materials visuals i l'experiència de l'usuari a l'aplicació, creant una identitat coherent i reconeixible que es veja reflectida en cada interacció amb el públic.
-5. **Marketing i Prototipat:** Experimentar amb la posada en pràctica d'estratègies de màrqueting clàssiques i digitals per desenvolupar destreses en tècniques de comunicació i venda.
+```bash
+docker compose exec php php artisan db:seed --force
+```
 
-## 6. Desenvolupament de Competències Personals i Socials
+Usuario demo local:
 
-Aquestes activitats s'avaluaran de forma continuada (Observació directa del treball en equip) durant els Daily Scrums i la resta de reunions:
+```text
+demo@proximarkt.test / 1234
+```
 
-1. **Treball en Equip i Lideratge:** Participar activament en l'establiment d'objectius i en la presa de decisions, cooperant i compartint el lideratge.
-2. **Comunicació i Presentació:** Incorporar tècniques i recursos de presentació i comunicació, tant orals com escrits, adequats per a una comunicació efectiva.
-3. **Gestió del Temps i Resolució de Conflictes:** Aplicar estratègies per a la gestió del temps disponible per aconseguir els objectius de l'equip. Reaccionar de forma flexible i positiva davant conflictes i situacions noves.
+Los usuarios generados por `UserFactory` usan la contraseña `1234`.
 
-## 7. Producte Final i Avaluació
+## Roadmap actual
 
-El lliurament del projecte requerirà tant els components tècnics com la documentació tècnica i empresarial:
+El objetivo es convertir ProxiMarkt en un marketplace de confianza. La prioridad actual es:
 
-1. **Aplicació ProxiMarkt Funcional:** Servidor, API REST (DWES), Interfície responsive amb mapes i filtres (DWEC/DIW), i desplegament en entorn de producció (DAW).
-2. **Documentació Tècnica:** Incloent l'estructura, el disseny de la base de dades, les proves de funcionalitat i la documentació de posada en funcionament.
-3. **Pla d'Empresa (Memòria Projecte):** Incorporant la Matriu DAFO, l'Anàlisi de l'Entorn, la Guia d'Estil/Marca Corporativa i l'Estudi de Viabilitat Econòmica i Jurídica.
-4. **Presentació Final:** Defensa del projecte davant el professorat (Sprint 8).
+1. Seguridad crítica, dependencias vulnerables y tests mínimos de autorización.
+2. Despliegue VPS limpio y documentado.
+3. Refactor de chat/compraventa como flujo profesional: chat por pedido, estados, cierre, acciones rápidas y widget.
+4. Tiempo real con Reverb/WebSockets, Redis, presencia y notificaciones.
+5. Pagos de prueba con Stripe.
+6. Perfil público de vendedor, valoraciones y métricas de confianza.
+7. Componentes UI reutilizables, responsive y mini design system.
+8. Dashboard con métricas útiles.
+9. Calendario agrícola y reservas anticipadas como feature diferencial.
 
-## 8. Grups
+Más detalle en:
 
-| Grup | Alumnes |
-| --- | --- |
-| 1 | Daniel, Frank, Joel Ortiz, Paco |
-| 2 | Pablo, Sonia, Manu, Iván |
-| 3 | David, Inés, Eliseu, Jordi, Carlos |
-| 4 | Sergi, Arnau, Joel Fuster, Marc |
+- [docs/roadmap_portfolio.md](docs/roadmap_portfolio.md)
+- [docs/backlog_producto.md](docs/backlog_producto.md)
+- [docs/estado_local.md](docs/estado_local.md)
+- [docs/flujo_git.md](docs/flujo_git.md)
 
-## 9. Sprints
+## Documentación
 
-| Sprint | Data | Tasques |
-| --- | --- | --- |
-| 1 | 18 Desembre | Prototip i creació inicial de la base de dades |
-| 2 | 9 Gener | Gestió d'usuaris, login i mapes |
-| 3 | 16 Gener | Gestió de vendes (venedor) |
-| 4 | 23 Gener | Gestió de comandes (comprador) |
-| 5 | 30 Gener | Filtre de productes i búsqueda |
-| 6 | 6 Febrer | Comunicacions i valoracions |
-| 7 | 13 Febrer | Desplegament i proves |
-| 8 | 20 Febrer | Entrega i exposicions |
+La documentación técnica vive en `docs/` y puede publicarse con MkDocs.
+
+Configuración principal:
+
+```text
+mkdocs.yml
+```
+
+Publicación manual:
+
+```bash
+mkdocs gh-deploy
+```
+
+La rama `gh-pages` se usa para servir la documentación generada por GitHub Pages.
+
+## Flujo Git
+
+El flujo recomendado para esta etapa del proyecto es:
+
+- `main`: versión estable, demostrable y desplegable.
+- `feature/*`: nuevas funcionalidades.
+- `fix/*`: correcciones.
+- `deploy/*`: despliegue e infraestructura.
+- `refactor/*`: reorganización interna sin cambio funcional.
+- `docs/*`: documentación.
+
+No se usa `develop` como flujo principal.
+
+## Licencia y uso
+
+Este repositorio se mantiene como proyecto personal de portfolio y aprendizaje. Si se reutiliza código, documentación o ideas del proyecto, se recomienda citar el origen y respetar el trabajo del equipo original.
