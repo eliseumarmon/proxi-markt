@@ -24,7 +24,6 @@ Route::get('/productos/{id}', [ProductoController::class, 'show']);
 // Rutas de categorías
 
 Route::get('/categorias', [CategoriaController::class, 'index']);
-Route::post("/categorias", [CategoriaController::class, "store"]); // se debería envolver en autenticación basada en rol administrador
 
 // Rutas de usuarios públicas
 
@@ -86,5 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Ruta de Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index']);
-});
 
+    // Ruta de categorías admin
+    Route::post("/categorias", [CategoriaController::class, "store"]);
+});
