@@ -12,6 +12,7 @@ import MisCompras from './MisCompras.vue';
 import ValoracionView from './ValoracionView.vue';
 import Footer from './Footer.vue';
 import ValoracionEstrellas from './ValoracionEstrellas.vue';
+import MostrarProductosMain from './MostrarProductosMain.vue';
 
 let map = null;
 let layerPuntos = null;
@@ -27,6 +28,7 @@ const productosUser = ref([])
 const eleccionActual = ref('productos');
 const pagination = ref({});
 const paginaActual = ref(1);
+const productosfavoritos = ref([]);
 
 const toastVisible = ref(false);
 const toastMensaje = ref("");
@@ -227,11 +229,20 @@ const cambiarSeccion = async (seccion) => {
     eleccionActual.value = seccion;
 };
 
+const productosfavs = async() => {
+    const response = await api.get('/favoritosuser');
+    productosfavoritos.value = [];
+    for(let i = 0; i < response.data.data.length; i++){
+        productosfavoritos.value.push(response.data.data[i].producto);
+    }
+}
+
 onMounted(async () => {
     await fetchUsuario();
     if (usuario.value?.id) {
         cargarPuntos();
         cargarProductosUser();
+        productosfavs();
     }
 });
 
@@ -345,6 +356,11 @@ onUnmounted(() => {
                                 class="iconoSubNav">Mis Valoraciones
                         </button>
                     </li>
+                    <li>
+                        <button :class="{ active: eleccionActual === 'favoritos' }" @click="cambiarSeccion('favoritos')">
+                            <img src="../assets/iconos/manzana.png" alt="manzana" class="iconoSubNav">Favoritos
+                        </button>
+                    </li> 
                 </ul>
             </div>
 
@@ -355,6 +371,7 @@ onUnmounted(() => {
                 <MisCompras v-else-if="eleccionActual === 'compras'" :eleccion="'compras'" />
                 <MisVentas v-else-if="eleccionActual === 'ventas'" :eleccion="'ventas'" />
                 <ValoracionView v-else-if="eleccionActual === 'valoraciones'" />
+                <MostrarProductosMain :productos="productosfavoritos" :pagination="pagination" :paginaActual="paginaActual" v-else-if="eleccionActual === 'favoritos'"/>
             </div>
         </div>
         <div v-if="toastVisible" class="toast-notificacion">

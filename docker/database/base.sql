@@ -122,6 +122,17 @@ CREATE TABLE valoraciones (
     UNIQUE (id_venta, id_valorador)
 );
 
+CREATE TABLE favoritos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_producto INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_producto) REFERENCES productos (id) ON DELETE CASCADE,
+    UNIQUE (id_usuario, id_producto)
+ );
+  
 CREATE TABLE incidencias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT,
