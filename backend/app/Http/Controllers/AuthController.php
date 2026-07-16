@@ -62,7 +62,11 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         // Identificamos al usuario actual y eliminamos su token para que ya no pueda hacer nada.
-        $request->user()->currentAccessToken()->delete();
+        $token = $request->user()->currentAccessToken();
+
+        if ($token) {
+            $token->delete();
+        }
 
         /* Confirmamos que la sesión se ha cerrado correctamente
         (El código 200 es para indicar el estado: OK) */
