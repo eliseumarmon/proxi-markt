@@ -88,6 +88,7 @@ Este documento conserva el backlog detallado. `AGENTS.md` debe permanecer ligero
 - Revisar paginacion y extraer un componente comun con estados disabled, aria labels y mejor comportamiento movil.
 - Corregir la paginacion de productos propios: alinear el tamano de pagina con la cuadricula visual para evitar una primera pagina con huecos y una segunda pagina con pocos productos.
 - Mejorar accesibilidad: labels asociados, `aria-label` en botones de icono, foco visible, navegacion por teclado y roles adecuados en modales.
+- Anadir tooltips o texto descriptivo accesible a los iconos cuando la interfaz se muestra compacta, para que sus acciones sigan siendo comprensibles en pantallas pequenas.
 - Revisar textos `alt`: iconos decorativos con `alt=""` y productos/logos con descripciones utiles.
 - Convertir elementos clicables que son `div` en `button` o `router-link` semanticos cuando correspondan.
 - Anadir cierre de menus/modales con Escape y click fuera, especialmente nav movil, menu de usuario, filtros y modales.
