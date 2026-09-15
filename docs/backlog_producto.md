@@ -63,6 +63,7 @@ Este documento conserva el backlog detallado. `AGENTS.md` debe permanecer ligero
 - No confiar en guards frontend como seguridad real; mantenerlos solo para UX y reforzar siempre en backend.
 - Corregir el interceptor global de respuestas `401`: no debe redirigir ni ocultar el feedback de credenciales invalidas en login/registro; reservar el cierre de sesion para peticiones protegidas.
 - Mejorar el manejo de errores de API para no mostrar mensajes genericos cuando el backend devuelva validaciones concretas.
+- Restringir la ruta y la vista de edicion de producto en frontend: si el producto no pertenece al usuario autenticado, no cargar el formulario y redirigir con un aviso de permisos; mantener la comprobacion backend como seguridad definitiva.
 - Extraer el CSS repetido de los componentes Vue a un archivo general compartido y dejar los estilos locales solo para casos especificos.
 - Crear componentes compartidos para formularios, botones, toasts, estados vacios, paginacion y modales.
 - Aislar los elementos visuales reutilizables en componentes Vue: tarjetas, badges, metric cards, headers de seccion, acciones, loaders y empty states.
