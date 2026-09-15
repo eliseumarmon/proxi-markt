@@ -155,6 +155,9 @@ Este documento conserva el backlog detallado. `AGENTS.md` debe permanecer ligero
 ## Confianza y seguridad de marketplace
 
 - Permitir reportar productos, usuarios, mensajes y compraventas.
+- Definir un plazo de caducidad para valorar una compraventa completada; una vez vencido, retirar la accion de valorar y rechazarla tambien en backend.
+- Permitir editar una valoracion propia durante un periodo limitado, conservando la fecha de modificacion y bloqueando cambios fuera de plazo.
+- Permitir reportar valoraciones falsas, abusivas o publicadas para danar la reputacion, con motivo, estado de revision y resolucion de moderacion.
 - Crear flujo de moderacion para reportes con estados y resolucion.
 - Moderar imagenes y descripciones de productos antes o despues de publicarlas.
 - Crear una vista publica de perfil de usuario/vendedor con nombre, puntuacion total, valoraciones recibidas y productos disponibles a la venta, sin exponer email, telefono, direccion privada ni coordenadas sensibles.
