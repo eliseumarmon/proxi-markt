@@ -85,6 +85,7 @@ Este documento conserva el backlog detallado. `AGENTS.md` debe permanecer ligero
 - Deshabilitar botones durante acciones asincronas para evitar dobles envios en publicar, comprar, valorar, crear puntos y enviar mensajes.
 - Anadir debounce a busqueda y filtros de productos para evitar peticiones en cada pulsacion.
 - Revisar paginacion y extraer un componente comun con estados disabled, aria labels y mejor comportamiento movil.
+- Corregir la paginacion de productos propios: alinear el tamano de pagina con la cuadricula visual para evitar una primera pagina con huecos y una segunda pagina con pocos productos.
 - Mejorar accesibilidad: labels asociados, `aria-label` en botones de icono, foco visible, navegacion por teclado y roles adecuados en modales.
 - Revisar textos `alt`: iconos decorativos con `alt=""` y productos/logos con descripciones utiles.
 - Convertir elementos clicables que son `div` en `button` o `router-link` semanticos cuando correspondan.
