@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\PuntoEntrega;
-use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
@@ -61,6 +60,12 @@ class ProductoController extends Controller
 
         $user = $request->user();
 
+        if (!PuntoEntrega::where('id', $validado['id_puntoentrega'])->where('id_usuario', $user->id)->exists()) {
+            return response()->json([
+                'message' => 'El punto de entrega seleccionado no pertenece al usuario autenticado.'
+            ], 422);
+        }
+
         $validado['id_usuario'] = $user->id;
         $validado['estado'] = $validado['estado'] ?? 'disponible';
 
@@ -92,6 +97,10 @@ class ProductoController extends Controller
     public function update(Request $request, $id) {
         $producto = Producto::findOrFail($id);
 
+        if ((int) $producto->id_usuario !== (int) $request->user()->id) {
+            return response()->json(['message' => 'No autorizado para actualizar este producto.'], 403);
+        }
+
         $data = $request->validate([
             'nombre_producto' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
@@ -101,8 +110,14 @@ class ProductoController extends Controller
             'imagen' => 'nullable|image|max:2048'
         ]);
 
+        if (!PuntoEntrega::where('id', $data['id_puntoentrega'])->where('id_usuario', $request->user()->id)->exists()) {
+            return response()->json([
+                'message' => 'El punto de entrega seleccionado no pertenece al usuario autenticado.'
+            ], 422);
+        }
+
         if ($request->hasFile('imagen')) {
-            if ($producto->imagen) {
+            if ($producto->imagen && $producto->imagen !== 'productos/default.png') {
                 Storage::disk('public')->delete($producto->imagen);
             }
 
@@ -120,6 +135,10 @@ class ProductoController extends Controller
     public function destroy($id) {
 
         $producto = Producto::findOrFail($id);
+
+        if ((int) $producto->id_usuario !== (int) request()->user()->id) {
+            return response()->json(['message' => 'No autorizado para eliminar este producto.'], 403);
+        }
 
         $producto->delete();
 

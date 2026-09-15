@@ -21,10 +21,17 @@ const tieneComandas = ref(false);
 const menuMovilAbierto = ref(false);
 let intervaloNotificacion = null;
 
-const cerrarSesion = () => {
+const cerrarSesion = async () => {
     if (intervaloNotificacion) clearInterval(intervaloNotificacion);
-    logout();
-    router.push('/');
+
+    try {
+        await api.post('/logout');
+    } catch (error) {
+        console.error('No se pudo cerrar la sesión en el servidor.', error);
+    } finally {
+        logout();
+        router.push('/');
+    }
 };
 
 const confirmarNuevoRadio = (valor) => {

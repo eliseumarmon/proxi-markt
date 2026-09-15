@@ -38,6 +38,10 @@ Route::post('/login', [AuthController::class, 'loginUser'])
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    // Rutas auth protegidas
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
     // Rutas productos protegidas
 
     Route::apiResource('productos', ProductoController::class)->only([
