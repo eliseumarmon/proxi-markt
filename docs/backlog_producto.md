@@ -21,7 +21,7 @@ Este documento conserva el backlog detallado. `AGENTS.md` debe permanecer ligero
 - Proteger `ProductoController@update` y `ProductoController@destroy` para que solo el propietario pueda editar o borrar sus productos.
 - Proteger `UserController@updateLocation` para que un usuario solo pueda actualizar su propia ubicacion.
 - Proteger `CompraVentaController@actualizarEstado` para que solo comprador/vendedor autorizados puedan cambiar estados.
-- Definir transiciones validas de estados de compraventa (`pendiente`, `en curso`, `cancelado`, `completado`, `valorado`) y bloquear cambios incoherentes.
+- Definir transiciones validas de estados de compraventa (`pendiente`, `en curso`, `cancelado`, `completado`) y bloquear cambios incoherentes.
 - Corregir `CompraVentaController@store` para no confiar en `id_vendedor` ni `id_punto` enviados por el frontend; derivarlos/validarlos desde el producto y el punto real.
 - Validar que el comprador no pueda comprar su propio producto.
 - Validar que el punto de entrega pertenezca al vendedor del producto.
@@ -61,6 +61,7 @@ Este documento conserva el backlog detallado. `AGENTS.md` debe permanecer ligero
 - Revisar variables de entorno del frontend (`env.development`, `env.production`, `.env.*`) y dejar una convencion unica.
 - Unificar `VITE_BACKEND_URL` y `VITE_API_URL`; ahora `vite.config.js` usa una y los env antiguos usan otra.
 - No confiar en guards frontend como seguridad real; mantenerlos solo para UX y reforzar siempre en backend.
+- Corregir el interceptor global de respuestas `401`: no debe redirigir ni ocultar el feedback de credenciales invalidas en login/registro; reservar el cierre de sesion para peticiones protegidas.
 - Mejorar el manejo de errores de API para no mostrar mensajes genericos cuando el backend devuelva validaciones concretas.
 - Extraer el CSS repetido de los componentes Vue a un archivo general compartido y dejar los estilos locales solo para casos especificos.
 - Crear componentes compartidos para formularios, botones, toasts, estados vacios, paginacion y modales.
@@ -91,7 +92,7 @@ Este documento conserva el backlog detallado. `AGENTS.md` debe permanecer ligero
 - Mejorar el chat: estado enviando, error de envio visible, agrupacion por fecha, separador de mensajes no leidos y scroll controlado.
 - Refactorizar el chat en una arquitectura modular: vista `ChatView`, componentes reutilizables (`ChatList`, `ChatListItem`, `ChatWindow`, `ChatHeader`, `MessageList`, `MessageBubble`, `MessageComposer`, `ChatEmptyState`) y composable `useChat`.
 - Asociar cada chat a una compraventa concreta para que varias compras del mismo producto generen hilos independientes y no se mezclen mensajes de pedidos distintos.
-- Definir cierre/archivo automatico de chats cuando la compraventa llegue a estados finales (`completado`, `cancelado`, `valorado`), manteniendo historial sin tratarlos como chats activos.
+- Definir cierre/archivo automatico de chats cuando la compraventa llegue a estados finales (`completado`, `cancelado`), manteniendo historial sin tratarlos como chats activos.
 - Mostrar cabecera contextual del pedido dentro del chat: producto, cantidad, precio total, fecha prevista, estado de la compraventa y punto de entrega.
 - Anadir acciones rapidas en el chat segun rol y estado: aceptar/cancelar/preparar como vendedor, cancelar/confirmar recogida/valorar como comprador.
 - Anadir mensajes de sistema en el chat para eventos importantes: solicitud creada, estado cambiado, pedido completado, chat cerrado o incidencia abierta.
