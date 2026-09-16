@@ -54,7 +54,7 @@ Esta es una de las piezas principales de portfolio. El chat debe dejar de ser un
 - Refactorizar frontend en arquitectura modular: `ChatView`, `ChatList`, `ChatListItem`, `ChatWindow`, `ChatHeader`, `MessageList`, `MessageBubble`, `MessageComposer`, `ChatEmptyState` y composable `useChat`.
 - Asociar cada chat a una compraventa concreta.
 - Permitir varias compras del mismo producto sin mezclar mensajes: cada solicitud debe tener su propio hilo.
-- Definir cierre/archivo automatico del chat cuando la compraventa llegue a estados finales (`completado`, `cancelado`, `valorado`).
+- Definir cierre/archivo automatico del chat cuando la compraventa llegue a estados finales (`completado`, `cancelado`).
 - Mostrar cabecera contextual del pedido dentro del chat: producto, cantidad, precio total, fecha prevista, estado y punto de entrega.
 - Anadir acciones rapidas segun rol y estado: aceptar, cancelar, preparar, confirmar recogida y valorar.
 - Anadir mensajes de sistema: solicitud creada, cambio de estado, pedido completado, chat cerrado e incidencia abierta.

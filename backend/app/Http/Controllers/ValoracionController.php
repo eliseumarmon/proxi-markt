@@ -63,10 +63,6 @@ class ValoracionController extends Controller
             'comentario' => $request->comentario // El texto de la reseña
         ]);
 
-        /* Nota del código: Esta línea está comentada. Si se descomentara, serviría para 
-        cambiar automáticamente el estado de la transacción a 'valorado' una vez guardada la reseña. */
-        // $compraventa::update(['estado' => 'valorado']);
-        
         // 4. Devolvemos la respuesta en formato JSON confirmando que todo ha ido bien.
         return response()->json(['status' => 'success']);
     }

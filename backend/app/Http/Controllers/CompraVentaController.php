@@ -110,7 +110,7 @@ class CompraVentaController extends Controller
             ->with(['producto', 'comprador', 'vendedor']) // Traemos toda la info relacionada
             // Además, comprobamos si el usuario actual ya ha valorado esta transacción
             ->withExists([
-                'valoraciones as ya_valorado' => function ($query) use ($userId) {
+                'valoraciones as he_valorado' => function ($query) use ($userId) {
                     $query->where('id_valorador', $userId);
                 }
             ])
@@ -142,12 +142,11 @@ class CompraVentaController extends Controller
                 break;
             case 'en curso':
             case 'pendiente':
-            case 'valorado':
                 // Si está en curso o pendiente, no hacemos nada con el stock por ahora
                 break;
             default:
                 // Si el estado es un diferente, lanzamos un error
-                throw new Exception('Estado de transacción erróneo o no procesable.');
+                throw new \LogicException('Estado de transacción erróneo o no procesable.');
         }
     }
 
@@ -155,7 +154,7 @@ class CompraVentaController extends Controller
     public function actualizarEstado(Request $request, CompraVenta $compraventa) {
         // Verificamos que el estado que nos envían sea válido
         $request->validate([
-            'estado' => 'required|string|in:pendiente,en curso,cancelado,completado,valorado'
+            'estado' => 'required|string|in:pendiente,en curso,cancelado,completado'
         ]);
 
         $userId = Auth::id();
@@ -208,7 +207,6 @@ class CompraVentaController extends Controller
                 || ($esComprador && $nuevoEstado === 'cancelado'),
             'en curso' => ($esVendedor && in_array($nuevoEstado, ['completado', 'cancelado'], true))
                 || ($esComprador && $nuevoEstado === 'cancelado'),
-            'completado' => $nuevoEstado === 'valorado',
             default => false,
         };
     }

@@ -107,12 +107,40 @@ class SecurityDomainRulesTest extends TestCase
             'comentario' => 'Todo perfecto.',
         ])->assertOk();
 
+        $this->assertSame('completado', $purchase->fresh()->estado);
+
         $this->postJson("/api/valoraciones/{$purchase->id}", [
             'valoracion' => 4,
             'comentario' => 'Duplicada.',
         ])->assertUnprocessable();
 
         $this->assertDatabaseCount('valoraciones', 1);
+    }
+
+    public function test_completed_purchase_cannot_transition_to_rated_state(): void
+    {
+        $seller = $this->createUser('seller@example.test');
+        $buyer = $this->createUser('buyer@example.test');
+        $point = $this->createPoint($seller);
+        $productId = $this->createProduct($seller, $point);
+        $purchase = CompraVenta::create([
+            'id_comprador' => $buyer->id,
+            'id_vendedor' => $seller->id,
+            'id_producto' => $productId,
+            'id_punto' => $point->id,
+            'cantidad' => 1,
+            'precio' => 5.50,
+            'fecha_prevista' => '2026-08-01',
+            'estado' => 'completado',
+        ]);
+
+        Sanctum::actingAs($buyer);
+
+        $this->putJson("/api/mis-comandas/{$purchase->id}", [
+            'estado' => 'valorado',
+        ])->assertUnprocessable();
+
+        $this->assertSame('completado', $purchase->fresh()->estado);
     }
 
     private function createSchema(): void

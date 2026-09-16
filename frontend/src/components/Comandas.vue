@@ -89,10 +89,11 @@ const postValoracion = async (idCompraventa, datos) => {
     if (!token) return;
     try {
         await api.post(`/valoraciones/${idCompraventa}`, datos);
-        lanzarToast("Valoración realizada con éxito.")
+        const comandaValorada = comandas.value.find(c => c.id === idCompraventa);
+        if (comandaValorada) comandaValorada.he_valorado = true;
+        lanzarToast("Valoración realizada con éxito.");
         aValorar.value = null;
     } catch (err) {
-        lanzarToast("Algo ha ido mal.");
         lanzarToast("Algo ha ido mal.");
         console.log(err);
     }
@@ -197,10 +198,9 @@ onMounted(async () => {
                 </div>
 
                 <div class="acciones">
-                    <button v-if="item.estado == 'completado'" :disabled="item.ya_valorado" class="btn-accion valorar"
+                    <button v-if="item.estado == 'completado' && !item.he_valorado" class="btn-accion valorar"
                         @click="abrirModalValoracion(item.id)">
-                        <span v-if="item.ya_valorado == false">Valorar</span>
-                        <span v-else>Valorado</span>
+                        Valorar
                     </button>
                 </div>
 
