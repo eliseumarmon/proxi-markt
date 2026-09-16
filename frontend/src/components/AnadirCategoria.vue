@@ -3,19 +3,12 @@ import api from '@/api/axios';
 import { ref } from 'vue';
 import NavBar from './NavBar.vue';
 import Footer from "./Footer.vue";
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const nombrecategoria = ref('');
 
-const toastVisible = ref(false);
-const toastMensaje = ref('');
-
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
 
 const nuevacategoria = async () => {
     try {
@@ -23,11 +16,11 @@ const nuevacategoria = async () => {
             nombre_categoria: nombrecategoria.value
         });
         if (respuesta.status === 201) {
-            lanzarToast('Categoria insertada correctamente');
+            toast.success('Categoría insertada correctamente');
             nombrecategoria.value = '';
         }
     } catch (error) {
-        lanzarToast(error.response?.data?.message || 'No se pudo insertar la categoria');
+        toast.error(error.response?.data?.message || 'No se pudo insertar la categoría');
     }
 };
 </script>
@@ -51,14 +44,10 @@ const nuevacategoria = async () => {
                     required
                 />
 
-                <button type="submit" class="boton-enviar">Guardar categoria</button>
+                <BaseButton type="submit" class="form-action">Guardar categoría</BaseButton>
             </form>
         </section>
     </main>
-
-    <div v-if="toastVisible" class="toast-notificacion">
-        {{ toastMensaje }}
-    </div>
 
     <Footer />
 </template>
@@ -132,36 +121,9 @@ const nuevacategoria = async () => {
     box-shadow: 0 0 0 3px rgba(76, 166, 38, 0.15);
 }
 
-.boton-enviar {
+.form-action {
     margin-top: 8px;
     align-self: flex-end;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(90deg, #4CA626 0%, #009B58 100%);
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 11px 18px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.boton-enviar:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(76, 166, 38, 0.25);
-}
-
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #1F2937;
-    color: #FFFFFF;
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-    z-index: 2000;
 }
 
 @media (max-width: 767px) {
@@ -178,7 +140,7 @@ const nuevacategoria = async () => {
         font-size: 24px;
     }
 
-    .boton-enviar {
+    .form-action {
         width: 100%;
     }
 }

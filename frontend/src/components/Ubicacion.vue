@@ -6,6 +6,8 @@ import L from 'leaflet';
 import { leafletPin } from '@/utils/leafletPin';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const router = useRouter()
 
@@ -15,16 +17,7 @@ const longitud = ref(null);
 const direccion = ref('');
 const cargando = ref(false);
 
-const toastVisible = ref(false);
-const toastMensaje = ref("");
-
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
 
 let map = null;
 let markerseleccion = null;
@@ -98,7 +91,7 @@ const inicializarMapa = async () => {
                 ].filter(Boolean).join(", ");
             }
         } catch (error) {
-            lanzarToast("La dirección no es válida");
+            toast.warning("La dirección no es válida");
             console.error("Error al obtener dirección:", error);
         }
     });
@@ -120,13 +113,13 @@ const guardarUbicacion = async () => {
             ...usuario.value,
             ...datos
         };
-        lanzarToast("Dirección actualizada correctamente.");
+        toast.success("Dirección actualizada correctamente.");
         // console.log("Respuesta:", respuesta.data);
         setTimeout(() => {
             router.push('/cuenta');
         }, 2000);
     } catch (error) {
-        lanzarToast("Hubo un error al guardar los datos.");
+        toast.error("Hubo un error al guardar los datos.");
         console.error("Error al guardar:", error.response?.data);
 
     } finally {
@@ -146,7 +139,7 @@ const cancelar = () => {
 
 const obtenerUbicacionActual = () => {
     if (!navigator.geolocation) {
-        lanzarToast("Tu navegador no soporta geolocalización");
+        toast.warning("Tu navegador no soporta geolocalización");
         return;
     }
 
@@ -189,7 +182,7 @@ const obtenerUbicacionActual = () => {
     }, (error) => {
         let mensaje = "No se pudo obtener tu ubicación.";
         if (error.code === 1) mensaje = "Por favor, permite el acceso a la ubicación en tu navegador.";
-        lanzarToast(mensaje);
+        toast.error(mensaje);
     }, {
         enableHighAccuracy: true,
         timeout: 10000
@@ -217,32 +210,29 @@ onMounted(async () => {
                     <p class="address-text">{{ direccion }}</p>
 
                     <div class="button-group">
-                        <button @click="cancelar" :disabled="cargando" class="boton-secondary">
+                        <BaseButton variant="danger" class="location-action" :disabled="cargando" @click="cancelar">
                             Cancelar
-                        </button>
+                        </BaseButton>
 
-                        <button @click="obtenerUbicacionActual" type="button" class="boton-geo-inline"
-                            :disabled="cargando">
+                        <BaseButton variant="secondary" class="location-action" :disabled="cargando"
+                            @click="obtenerUbicacionActual">
                             📍 Mi ubicación
-                        </button>
+                        </BaseButton>
 
-                        <button @click="guardarUbicacion" :disabled="cargando || !latitud" class="boton-primary">
-                            <span v-if="!cargando">Guardar</span>
-                            <span v-else>...</span>
-                        </button>
+                        <BaseButton class="location-action" :loading="cargando" :disabled="!latitud"
+                            @click="guardarUbicacion">
+                            {{ cargando ? 'Guardando...' : 'Guardar' }}
+                        </BaseButton>
                     </div>
                 </div>
 
                 <div v-else class="empty-state">
                     <p>Haz clic en el mapa o usa el botón:</p>
-                    <button @click="obtenerUbicacionActual" type="button" class="btn-geo-grande">
+                    <BaseButton size="lg" class="detect-location" @click="obtenerUbicacionActual">
                         📍 Detectar mi ubicación actual
-                    </button>
+                    </BaseButton>
                 </div>
             </div>
-        </div>
-        <div v-if="toastVisible" class="toast-notificacion">
-            {{ toastMensaje }}
         </div>
     </div>
 </template>
@@ -314,58 +304,9 @@ onMounted(async () => {
     flex-wrap: wrap;
 }
 
-.boton-primary,
-.boton-secondary,
-.boton-geo-inline {
+.location-action {
     flex: 1;
-    padding: 12px 5px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
-    border: none;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     min-width: 110px;
-}
-
-.boton-secondary {
-    background-color: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
-}
-
-.boton-secondary:hover:not(:disabled) {
-    background-color: #fca5a5;
-    color: #ffffff;
-}
-
-.boton-geo-inline {
-    background-color: #FFFFFF;
-    color: #4CA626;
-    border: 1px solid #4CA626;
-}
-
-.boton-geo-inline:hover:not(:disabled) {
-    background-color: #f0f7ed;
-}
-
-.boton-primary {
-    background-color: #4CA626;
-    color: white;
-}
-
-.boton-primary:hover:not(:disabled) {
-    background-color: #3d851e;
-}
-
-.boton-primary:disabled,
-.boton-secondary:disabled,
-.boton-geo-inline:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
 }
 
 .empty-state {
@@ -375,41 +316,12 @@ onMounted(async () => {
     padding: 20px;
 }
 
-.btn-geo-grande {
+.detect-location {
     margin-top: 15px;
-    background-color: #4CA626;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s;
-}
-
-.btn-geo-grande:hover {
-    background-color: #3d851e;
 }
 
 .animate-in {
     animation: fadeIn 0.4s ease-out;
-}
-
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    z-index: 99999;
-    animation: subida 0.3s ease-out;
-}
-
-@keyframes subida {
-    from { transform: translateY(20px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes fadeIn {

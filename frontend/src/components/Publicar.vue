@@ -8,6 +8,8 @@ import { useAuth } from '@/composables/useAuth';
 import axios from 'axios';
 import api from '@/api/axios';
 import { leafletPin } from '@/utils/leafletPin';
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const router = useRouter()
 const { usuario, fetchUsuario } = useAuth();
@@ -24,6 +26,7 @@ const imagen = ref(null);
 const imagenPreview = ref(null);
 
 const cargando = ref(false);
+const publicando = ref(false);
 const errores = ref({});
 
 const mostrarModalPunto = ref(false);
@@ -34,16 +37,7 @@ const nuevaLongitud = ref(null);
 const cargandoNuevoPunto = ref(false);
 let map = null;
 
-const toastVisible = ref(false);
-const toastMensaje = ref("");
-
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
 
 const guardarImagen = (event) => {
     const file = event.target.files[0];
@@ -120,7 +114,7 @@ const iniciarMapa = () => {
 
 const guardarNuevoPunto = async () => {
     if (!nuevoPuntoNombre.value || !nuevaLatitud.value) {
-        alert("Por favor, pon un nombre y selecciona una ubicación en el mapa.");
+        toast.warning("Por favor, pon un nombre y selecciona una ubicación en el mapa.");
         return;
     }
 
@@ -146,7 +140,7 @@ const guardarNuevoPunto = async () => {
 
         mostrarModalPunto.value = false;
     } catch (error) {
-        alert("Error al crear punto: " + (error.response?.data?.message || error.message));
+        toast.error("Error al crear punto: " + (error.response?.data?.message || error.message));
     } finally {
         cargandoNuevoPunto.value = false;
     }
@@ -162,7 +156,7 @@ const intentarPublicar = () => {
     if (!categoria.value) errores.value.categoria = true;
 
     if (puntosEntrega.value.length === 0) {
-        alert("¡Atención! Para publicar, necesitas configurar dónde entregarás el producto.");
+        toast.warning("Para publicar, necesitas configurar dónde entregarás el producto.");
         abrirModalYMapa();
         return;
     }
@@ -177,6 +171,8 @@ const intentarPublicar = () => {
 }
 
 const insertarProducto = async () => {
+    publicando.value = true;
+
     try {
         const datos = new FormData();
         datos.append('nombre_producto', nombreProducto.value);
@@ -194,14 +190,16 @@ const insertarProducto = async () => {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
 
-        lanzarToast("¡Producto creado correctamente!");
+        toast.success("¡Producto creado correctamente!");
         setTimeout(() => {
             router.push('/cuenta');
         }, 2000);
 
     } catch (error) {
-        lanzarToast('No se pudo crear el producto');
+        toast.error('No se pudo crear el producto');
         console.error("Error:", error.response?.data?.message);
+    } finally {
+        publicando.value = false;
     }
 }
 
@@ -215,7 +213,7 @@ const cargarPuntos = async () => {
         const resposta = await api.get(`/usuarios/${usuario.value.id}/puntos`);
         puntosEntrega.value = resposta.data;
     } catch (err) {
-        lanzarToast("Error cargando puntos de entrega.");
+        toast.error("Error cargando puntos de entrega.");
         console.error(err.message);
     } finally {
         cargando.value = false;
@@ -291,9 +289,9 @@ onBeforeUnmount(() => {
                 <div class="campo">
                     <div class="label-con-accion">
                         <label>Punto de entrega</label>
-                        <button type="button" class="btn-link-crear" @click="abrirModalYMapa">
+                        <BaseButton variant="ghost" size="sm" @click="abrirModalYMapa">
                             + Crear nuevo punto
-                        </button>
+                        </BaseButton>
                     </div>
 
                     <p class="ayuda-texto" v-if="cargando">Cargando puntos...</p>
@@ -308,9 +306,9 @@ onBeforeUnmount(() => {
 
                     <div v-else-if="!cargando && puntosEntrega.length === 0" class="alerta-sin-puntos">
                         <p class="error-texto">⚠️ No tienes puntos de entrega configurados.</p>
-                        <button type="button" class="btn-secundario-pequeno" @click="abrirModalYMapa">
+                        <BaseButton variant="secondary" size="sm" @click="abrirModalYMapa">
                             Crear uno ahora
-                        </button>
+                        </BaseButton>
                     </div>
                     <span v-if="errores.punto && puntosEntrega.length > 0" class="texto-validacion">Selecciona un punto</span>
                 </div>
@@ -334,13 +332,14 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div class="acciones">
-                    <button type="button" class="boton-cancelar" @click="$router.go(-1)">Cancelar</button>
-                    <button type="button" class="boton-publicar" @click="intentarPublicar">Publicar producto</button>
+                    <BaseButton variant="secondary" size="lg" class="form-action" @click="$router.go(-1)">
+                        Cancelar
+                    </BaseButton>
+                    <BaseButton size="lg" class="form-action" :loading="publicando" @click="intentarPublicar">
+                        {{ publicando ? 'Publicando...' : 'Publicar producto' }}
+                    </BaseButton>
                 </div>
             </form>
-        </div>
-        <div v-if="toastVisible" class="toast-notificacion">
-            {{ toastMensaje }}
         </div>
     </div>
 
@@ -361,11 +360,11 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="modal-acciones">
-                <button @click="mostrarModalPunto = false" class="btn-modal-cancelar">Cancelar</button>
-                <button @click="guardarNuevoPunto" class="btn-modal-guardar"
-                    :disabled="!nuevoPuntoNombre || !nuevaLatitud || cargandoNuevoPunto">
+                <BaseButton variant="secondary" size="sm" @click="mostrarModalPunto = false">Cancelar</BaseButton>
+                <BaseButton size="sm" :loading="cargandoNuevoPunto"
+                    :disabled="!nuevoPuntoNombre || !nuevaLatitud" @click="guardarNuevoPunto">
                     {{ cargandoNuevoPunto ? 'Guardando...' : 'Guardar Punto' }}
-                </button>
+                </BaseButton>
             </div>
         </div>
     </div>
@@ -463,17 +462,6 @@ textarea {
     margin-bottom: 8px;
 }
 
-.btn-link-crear {
-    background: none;
-    border: none;
-    color: #00A859;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
-}
-
 .alerta-sin-puntos {
     background-color: #FFF5F5;
     border: 1px dashed #FC8181;
@@ -481,16 +469,6 @@ textarea {
     border-radius: 8px;
     text-align: center;
     margin-bottom: 20px;
-}
-
-.btn-secundario-pequeno {
-    background-color: white;
-    border: 1px solid #CBD5E0;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
-    margin-top: 8px;
 }
 
 .modal-overlay {
@@ -533,28 +511,6 @@ textarea {
     margin-top: 10px;
 }
 
-.btn-modal-cancelar {
-    background: transparent;
-    border: 1px solid #E2E8F0;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.btn-modal-guardar {
-    background: #00A859;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.btn-modal-guardar:disabled {
-    background: #9AE6B4;
-    cursor: not-allowed;
-}
-
 .input-modal {
     margin-bottom: 15px;
 }
@@ -584,27 +540,8 @@ textarea {
     margin-top: 20px;
 }
 
-.boton-cancelar {
+.form-action {
     flex: 1;
-    padding: 14px;
-    background: white;
-    border: 1px solid #E2E8f0;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.boton-publicar {
-    flex: 1;
-    padding: 14px;
-    background: linear-gradient(90deg, #4CA626 0%, #009B58 100%);
-    border: none;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.boton-publicar:hover {
-    background: linear-gradient(to right, #00A650, #008F44);
 }
 
 .zona-upload {
@@ -689,20 +626,4 @@ textarea {
     opacity: 1;
 }
 
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    z-index: 99999;
-    animation: subida 0.3s ease-out;
-}
-
-@keyframes subida {
-    from { transform: translateY(20px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
-}
 </style>

@@ -6,22 +6,15 @@ import Footer from "./Footer.vue";
 import ValoracionForm from "./ValoracionForm.vue";
 import { useAuth } from "@/composables/useAuth";
 import { storageUrl, storageDefaultProductUrl } from "@/utils/storage";
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const comandas = ref([]);
 const cargando = ref(true);
 const { usuario, fetchUsuario } = useAuth();
 const aValorar = ref(null);
 
-const toastVisible = ref(false);
-const toastMensaje = ref("");
-
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
 
 const obtenerComandas = async () => {
     try {
@@ -48,7 +41,7 @@ const actualizarComanda = async (id, nuevoEstado) => {
         const comandaEncontrada = comandas.value.find(c => c.id === id);
         if (comandaEncontrada) comandaEncontrada.estado = nuevoEstado;
     } catch (err) {
-        lanzarToast("Ha ocurrido un error al actualizar la comanda.");
+        toast.error("Ha ocurrido un error al actualizar la comanda.");
         console.error(err);
     }
 }
@@ -91,10 +84,10 @@ const postValoracion = async (idCompraventa, datos) => {
         await api.post(`/valoraciones/${idCompraventa}`, datos);
         const comandaValorada = comandas.value.find(c => c.id === idCompraventa);
         if (comandaValorada) comandaValorada.he_valorado = true;
-        lanzarToast("Valoración realizada con éxito.");
+        toast.success("Valoración realizada con éxito.");
         aValorar.value = null;
     } catch (err) {
-        lanzarToast("Algo ha ido mal.");
+        toast.error("Algo ha ido mal.");
         console.log(err);
     }
 };
@@ -147,17 +140,17 @@ onMounted(async () => {
                 </div>
 
                 <div class="acciones">
-                    <button v-if="comanda.estado == 'en curso' && comanda.id_comprador !== usuario.id" 
-                            class="btn-accion finalizar" @click="actualizarComanda(comanda.id, 'completado')">
+                    <BaseButton v-if="comanda.estado == 'en curso' && comanda.id_comprador !== usuario.id"
+                            size="sm" @click="actualizarComanda(comanda.id, 'completado')">
                         Finalizar
-                    </button>
-                    <button v-else-if="comanda.id_comprador !== usuario.id" 
-                            class="btn-accion aceptar" @click="actualizarComanda(comanda.id, 'en curso')">
+                    </BaseButton>
+                    <BaseButton v-else-if="comanda.id_comprador !== usuario.id"
+                            size="sm" @click="actualizarComanda(comanda.id, 'en curso')">
                         Aceptar
-                    </button>
-                    <button class="btn-accion rechazar" @click="actualizarComanda(comanda.id, 'cancelado')">
+                    </BaseButton>
+                    <BaseButton variant="danger" size="sm" @click="actualizarComanda(comanda.id, 'cancelado')">
                         Rechazar
-                    </button>
+                    </BaseButton>
                 </div>
 
                 <div class="etiqueta-estado" :style="{ backgroundColor: getColoresEstado(comanda.estado) }">
@@ -198,10 +191,10 @@ onMounted(async () => {
                 </div>
 
                 <div class="acciones">
-                    <button v-if="item.estado == 'completado' && !item.he_valorado" class="btn-accion valorar"
+                    <BaseButton v-if="item.estado == 'completado' && !item.he_valorado" size="sm"
                         @click="abrirModalValoracion(item.id)">
                         Valorar
-                    </button>
+                    </BaseButton>
                 </div>
 
                 <div class="etiqueta-estado" :style="{ backgroundColor: getColoresEstado(item.estado) }">
@@ -213,9 +206,6 @@ onMounted(async () => {
         <ValoracionForm v-if="aValorar" :id="aValorar" @enviar-valoracion="postValoracion(aValorar, $event)"
             @cerrar="aValorar = null" />
 
-        <div v-if="toastVisible" class="toast-notificacion">
-            {{ toastMensaje }}
-        </div>
     </div>
     <Footer></Footer>
 </template>
@@ -343,19 +333,6 @@ body {
     gap: 10px;
     margin-right: 120px;
 }
-
-.btn-accion {
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: 0.2s;
-}
-
-.aceptar, .finalizar { background: #4CA626; color: white; }
-.rechazar { background: #fee2e2; color: #e74c3c; border: 1px solid #e74c3c; }
-.valorar { background: #3498db; color: white; }
 
 .etiqueta-estado {
     position: absolute;
@@ -485,23 +462,6 @@ body {
     font-weight: 700;
     text-transform: capitalize;
     white-space: nowrap;
-}
-
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    z-index: 99999;
-    animation: subida 0.3s ease-out;
-}
-
-@keyframes subida {
-    from { transform: translateY(20px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
 }
 
 @media (max-width: 768px) {

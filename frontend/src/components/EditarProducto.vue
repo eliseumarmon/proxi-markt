@@ -6,6 +6,8 @@ import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import Footer from "./Footer.vue";
 import { storageUrl } from "@/utils/storage";
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const router = useRouter();
 
@@ -14,16 +16,7 @@ const archivoImagen = ref(null);
 const imagenPreview = ref(null);
 const { usuario, fetchUsuario, loading, setLoading } = useAuth();
 
-const toastVisible = ref(false);
-const toastMensaje = ref("");
-
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
 
 const props = defineProps({
     id: {
@@ -83,13 +76,13 @@ const editarProducto = async () => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        lanzarToast("¡Producto actualizado con éxito!");
+        toast.success("¡Producto actualizado con éxito!");
         setTimeout(() => {
             router.push('/cuenta');
         }, 2000);
 
     } catch (error) {
-        lanzarToast("No se pudo actualizar el producto");
+        toast.error("No se pudo actualizar el producto");
         console.error("Error al editar:", error);
     } finally {
         setLoading(false);
@@ -180,18 +173,14 @@ onMounted(async () => {
                 </div>
 
                 <div class="contenedor-acciones">
-                    <button @click="router.back()" type="button" class="boton-cancelar">
+                    <BaseButton variant="secondary" size="lg" class="form-action" @click="router.back()">
                         Cancelar
-                    </button>
-                    <button type="submit" class="boton-actualizar" :disabled="loading">
-                        <span v-if="!loading">Actualizar Producto</span>
-                        <span v-else>Guardando cambios...</span>
-                    </button>
+                    </BaseButton>
+                    <BaseButton type="submit" size="lg" class="form-action" :loading="loading">
+                        {{ loading ? 'Guardando cambios...' : 'Actualizar producto' }}
+                    </BaseButton>
                 </div>
             </form>
-        </div>
-        <div v-if="toastVisible" class="toast-notificacion">
-            {{ toastMensaje }}
         </div>
     </div>
     <Footer></Footer>
@@ -358,63 +347,9 @@ textarea:focus {
     width: 100%;
 }
 
-.boton-actualizar,
-.boton-cancelar {
+.form-action {
     flex: 1;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s ease;
 }
-
-.boton-actualizar {
-    color: white;
-    background: linear-gradient(90deg, #4CA626 0%, #009B58 100%);
-}
-
-.boton-actualizar:hover {
-    opacity: 0.95;
-    box-shadow: 0 4px 12px rgba(76, 166, 38, 0.2);
-    transform: translateY(-1px);
-}
-
-.boton-cancelar {
-    background-color: transparent;
-    border: 2px solid #9ca3af;
-    color: #6b7280;
-}
-
-.boton-cancelar:hover {
-    background-color: #f3f4f6;
-    border-color: #6b7280;
-    color: #374151;
-}
-
-.boton-actualizar:active,
-.boton-cancelar:active {
-    transform: scale(0.98);
-}
-
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    z-index: 99999;
-    animation: subida 0.3s ease-out;
-}
-
-@keyframes subida {
-    from { transform: translateY(20px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
-}
-
 
 @media (max-width: 480px) {
     .contenedor-edicion {

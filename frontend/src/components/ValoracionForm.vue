@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import ValoracionEstrellas from './ValoracionEstrellas.vue';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const emit = defineEmits(['enviar-valoracion', 'cerrar']);
 
@@ -46,12 +47,12 @@ const enviarValoracion = () => {
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-confirmar py-2 fw-bold" :disabled="!form.valoracion">
+                            <BaseButton type="submit" block :disabled="!form.valoracion">
                                 Enviar
-                            </button>
-                            <button type="button" class="btn btn-volver py-2 fw-bold" @click="$emit('cerrar')">
+                            </BaseButton>
+                            <BaseButton variant="secondary" size="sm" block @click="$emit('cerrar')">
                                 Volver
-                            </button>
+                            </BaseButton>
                         </div>
                     </form>
                 </div>
@@ -94,28 +95,4 @@ const enviarValoracion = () => {
     resize: none;
 }
 
-.btn-confirmar {
-    background-color: #4CA626;
-    color: #FFFFFF;
-    border-radius: 8px;
-    border: none;
-}
-
-.btn-volver {
-    background-color: #B9E2A6;
-    color: #4CA626;
-    border-radius: 8px;
-    border: none;
-    font-size: 0.85rem;
-}
-
-.btn-confirmar:hover {
-    background-color: #3d861e;
-    color: white;
-}
-
-.btn-volver:hover {
-    background-color: #8BD16A;
-    color: white;
-}
 </style>

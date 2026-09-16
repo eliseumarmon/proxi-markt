@@ -13,6 +13,8 @@ import ValoracionView from './ValoracionView.vue';
 import Footer from './Footer.vue';
 import ValoracionEstrellas from './ValoracionEstrellas.vue';
 import MostrarProductosMain from './MostrarProductosMain.vue';
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 let map = null;
 let layerPuntos = null;
@@ -30,16 +32,7 @@ const pagination = ref({});
 const paginaActual = ref(1);
 const productosfavoritos = ref([]);
 
-const toastVisible = ref(false);
-const toastMensaje = ref("");
-
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
 
 // console.log(puntosEntrega)
 
@@ -133,7 +126,7 @@ async function onMapClick(e) {
         }
 
     } catch (error) {
-        lanzarToast("Punto no válido");
+        toast.warning("Punto no válido");
         console.error(error.message);
     }
 }
@@ -156,11 +149,11 @@ const crearPunto = async () => {
             longitud: longitud.value
         };
 
-        lanzarToast("Punto creado correctamente.");
+        toast.success("Punto creado correctamente.");
         puntosEntrega.value.push(nuevoPunto);
     } catch (error) {
         console.error("Error del servidor:", error.response ? error.response.data : error.message);
-        lanzarToast("Fallo al crear punto de entrega.");
+        toast.error("Fallo al crear punto de entrega.");
     }
 }
 
@@ -182,13 +175,13 @@ const eliminarPunto = async (id) => {
 
     try {
         await api.delete(`/puntos/${id}`);
-        lanzarToast("Punto eliminado correctamente.");
+        toast.success("Punto eliminado correctamente.");
         puntosEntrega.value = puntosEntrega.value.filter(p => p.id !== id);
         if (activarMapa.value && map) {
             cargarMarcadores();
         }
     } catch (error) {
-        lanzarToast("No se ha podido eliminar el punto de entrega.");
+        toast.error("No se ha podido eliminar el punto de entrega.");
         console.error("Error al eliminar:", error);
     }
 }
@@ -208,10 +201,10 @@ const cargarProductosUser = async (pagina = 1) => {
 const eliminarProducto = async (id) => {
     try {
         await api.delete('/productos/' + id);
-        lanzarToast("Producto eliminado correctamente.");
+        toast.success("Producto eliminado correctamente.");
         productosUser.value = productosUser.value.filter(p => p.id !== id);
     } catch (error) {
-        lanzarToast("No se pudo eliminar el producto.");
+        toast.error("No se pudo eliminar el producto.");
     }
 }
 
@@ -294,9 +287,9 @@ onUnmounted(() => {
             </div>
 
             <div class="contenedor-accion-superior">
-                <button @click="guardarPuntoEntrega" class="botones-perfil">
+                <BaseButton @click="guardarPuntoEntrega">
                     Crear nuevo punto de entrega
-                </button>
+                </BaseButton>
                 <router-link to="/ubicacion" class="botones-perfil">
                     Cambiar mi ubicación
                 </router-link>
@@ -309,8 +302,8 @@ onUnmounted(() => {
                     <div class="controles-mapa">
                         <input v-model="nombrePunto" placeholder="Nombre del punto (Ej: Casa)">
                         <div class="botones-flex">
-                            <button :disabled="!direccion" @click="crearPunto" class="boton-confirmar">Guardar</button>
-                            <button @click="esconderMapa" class="boton-cancelar">Cerrar</button>
+                            <BaseButton size="sm" :disabled="!direccion" @click="crearPunto">Guardar</BaseButton>
+                            <BaseButton variant="secondary" size="sm" @click="esconderMapa">Cerrar</BaseButton>
                         </div>
                     </div>
                 </div>
@@ -324,7 +317,9 @@ onUnmounted(() => {
                                 <strong>{{ punto.nombre_punto }}</strong>
                                 <p>{{ punto.direccion_punto }}</p>
                             </div>
-                            <button @click.stop="eliminarPunto(punto.id)" class="boton-borrar">Borrar</button>
+                            <BaseButton variant="danger" size="sm" @click.stop="eliminarPunto(punto.id)">
+                                Borrar
+                            </BaseButton>
                         </div>
                     </div>
                 </div>
@@ -373,9 +368,6 @@ onUnmounted(() => {
                 <ValoracionView v-else-if="eleccionActual === 'valoraciones'" />
                 <MostrarProductosMain :productos="productosfavoritos" :pagination="pagination" :paginaActual="paginaActual" v-else-if="eleccionActual === 'favoritos'"/>
             </div>
-        </div>
-        <div v-if="toastVisible" class="toast-notificacion">
-            {{ toastMensaje }}
         </div>
     </div>
     <Footer></Footer>
@@ -539,30 +531,6 @@ hr {
     border-color: #4CA626;
 }
 
-.boton-confirmar {
-    background: linear-gradient(90deg, #4CA626 0%, #009B58 100%);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.boton-confirmar:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-}
-
-.boton-cancelar,
-.boton-borrar {
-    background: #fee2e2;
-    color: #ef4444;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
 /* --- SUB-NAVEGACIÓN (ELECCIÓN) --- */
 .eleccion {
     margin-bottom: 25px;
@@ -614,23 +582,6 @@ hr {
     flex-direction: column;
     gap: 10px;
     min-height: 200px;
-}
-
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    z-index: 99999;
-    animation: subida 0.3s ease-out;
-}
-
-@keyframes subida {
-    from { transform: translateY(20px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
 }
 
 @media (max-width: 600px) {

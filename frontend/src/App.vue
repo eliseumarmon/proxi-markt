@@ -1,7 +1,10 @@
-<script setup></script>
+<script setup>
+import ToastViewport from '@/components/ui/ToastViewport.vue';
+</script>
 
 <template>
-    <router-view></router-view>
+    <router-view />
+    <ToastViewport />
 </template>
 
 <style>

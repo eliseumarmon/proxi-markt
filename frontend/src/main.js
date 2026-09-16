@@ -4,6 +4,7 @@ import router from './routes/routes.js';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'leaflet/dist/leaflet.css'
+import './styles/tokens.css'
 
 const app = createApp(App);
 

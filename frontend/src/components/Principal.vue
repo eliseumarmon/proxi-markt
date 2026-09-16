@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import NavBar from "./NavBar.vue";
 import Footer from "./Footer.vue";
+import BaseButton from '@/components/ui/BaseButton.vue';
 const router = useRouter();
 
 const irAuth = (modo) => {
@@ -28,7 +29,7 @@ const irAuth = (modo) => {
                     la compra-venta de frutas y verduras de kilómetro cero, con sistema de geolocalización avanzado y
                     gestión integral de pedidos.
                 </p>
-                <button class="boton-primario" @click="irAuth('register')">Comenzar Ahora</button>
+                <BaseButton size="lg" @click="irAuth('register')">Comenzar ahora</BaseButton>
             </div>
         </section>
 
@@ -132,7 +133,7 @@ const irAuth = (modo) => {
         <section class="seccion-llamada">
             <h2>¿Listo para Comenzar?</h2>
             <p>Únete a ProxiMarkt hoy y descubre la mejor manera de comprar y vender productos frescos locales</p>
-            <button class="boton-blanco" @click="irAuth('register')">Crear Cuenta Gratis</button>
+            <BaseButton variant="secondary" size="lg" @click="irAuth('register')">Crear cuenta gratis</BaseButton>
         </section>
     </div>
     <Footer></Footer>
@@ -262,22 +263,6 @@ header {
     color: #4A5568;
     margin-bottom: 30px;
     line-height: 1.6;
-}
-
-.boton-primario {
-    background: linear-gradient(90deg, #4CA626 0%, #009B58 100%);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.boton-primario:hover {
-    background: linear-gradient(90deg, #008F4C 0%, rgb(1, 104, 59) 100%);
 }
 
 .seccion-caracteristicas {
@@ -578,19 +563,4 @@ header {
     margin-bottom: 30px;
 }
 
-.boton-blanco {
-    background-color: white;
-    color: #4CA626;
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.boton-blanco:hover {
-    transform: scale(1.05);
-}
 </style>

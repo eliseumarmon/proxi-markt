@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from "vue";
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const fechaMinima = new Date().toISOString().split("T")[0];
 
@@ -67,8 +68,10 @@ const enviarSolicitud = async () => {
         </div>
 
         <div class="acciones">
-            <button type="reset" class="boton-cancelar">Limpiar</button>
-            <button type="submit" :disabled="ids[0] == ids[1]" class="boton-primario">Enviar solicitud</button>
+            <BaseButton type="reset" variant="secondary" size="lg" class="action-secondary">Limpiar</BaseButton>
+            <BaseButton type="submit" size="lg" class="action-primary" :disabled="ids[0] == ids[1]">
+                Enviar solicitud
+            </BaseButton>
         </div>
     </form>
 </template>
@@ -151,47 +154,11 @@ textarea {
     margin-top: 15px;
 }
 
-.boton-primario {
+.action-primary {
     flex: 2;
-    background: linear-gradient(to right, #5cb82a, #008f4c);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 14px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.1s, opacity 0.2s;
 }
 
-.boton-primario:hover {
-    opacity: 0.95;
-    transform: translateY(-1px);
-}
-
-.boton-primario:active {
-    transform: translateY(0);
-}
-
-.boton-primario:disabled {
-    background: #888;
-    cursor: not-allowed;
-}
-
-.boton-cancelar {
+.action-secondary {
     flex: 1;
-    background: white;
-    color: #888;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.boton-cancelar:hover {
-    background: #f9f9f9;
-    color: #666;
 }
 </style>

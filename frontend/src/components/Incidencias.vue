@@ -4,29 +4,22 @@ import NavBar from "./NavBar.vue";
 import Footer from "./Footer.vue";
 import { onMounted, ref } from 'vue';
 import { useAuth } from "@/composables/useAuth";
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 const { usuario, fetchUsuario } = useAuth();
 const mensaje = ref('');
-const toastVisible = ref(false);
-const toastMensaje = ref('');
-
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
 
 const enviarIncidencia = async () => {
     try {
         const enviar = await api.post('/incidencias', { mensaje: mensaje.value });
         if (enviar.status === 201) {
-            lanzarToast('Incidencia enviada correctamente');
+            toast.success('Incidencia enviada correctamente');
             mensaje.value = '';
         }
     } catch (error) {
-        lanzarToast('No se pudo enviar la incidencia');
+        toast.error('No se pudo enviar la incidencia');
     }
 };
 
@@ -57,14 +50,10 @@ onMounted(async () => {
                     required
                 ></textarea>
 
-                <button type="submit" class="boton-enviar">Enviar incidencia</button>
+                <BaseButton type="submit" class="form-action">Enviar incidencia</BaseButton>
             </form>
         </section>
     </main>
-
-    <div v-if="toastVisible" class="toast-notificacion">
-        {{ toastMensaje }}
-    </div>
 
     <Footer></Footer>
 </template>
@@ -152,36 +141,9 @@ onMounted(async () => {
     box-shadow: 0 0 0 3px rgba(76, 166, 38, 0.15);
 }
 
-.boton-enviar {
+.form-action {
     margin-top: 8px;
     align-self: flex-end;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(90deg, #4CA626 0%, #009B58 100%);
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 11px 18px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.boton-enviar:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(76, 166, 38, 0.25);
-}
-
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #1F2937;
-    color: #FFFFFF;
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-    z-index: 2000;
 }
 
 @media (max-width: 767px) {
@@ -198,7 +160,7 @@ onMounted(async () => {
         font-size: 24px;
     }
 
-    .boton-enviar {
+    .form-action {
         width: 100%;
     }
 }

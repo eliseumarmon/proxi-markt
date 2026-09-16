@@ -3,24 +3,18 @@ import api from '@/api/axios';
 import NavBar from "./NavBar.vue";
 import Footer from "./Footer.vue";
 import { onMounted, ref } from 'vue';
-const toastVisible = ref(false);
-const toastMensaje = ref('');
-const incidencias = ref([]);
+import { useToast } from '@/composables/useToast';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
-const lanzarToast = (mensaje) => {
-    toastMensaje.value = mensaje;
-    toastVisible.value = true;
-    setTimeout(() => {
-        toastVisible.value = false;
-    }, 3000);
-};
+const toast = useToast();
+const incidencias = ref([]);
 
 const cargarincidencias = async () => {
     try {
         const respuesta = await api.get('/incidencias');
         incidencias.value = respuesta.data.data ?? [];
     } catch (error) {
-        lanzarToast(error.response?.data?.message || 'Error al cargar incidencias');
+        toast.error(error.response?.data?.message || 'Error al cargar incidencias');
     }
 };
 
@@ -30,10 +24,10 @@ const actualizarincidencia = async (incidencia) => {
             estado: incidencia.estado
         });
         if (respuesta.status === 200) {
-            lanzarToast('Incidencia revisada correctamente');
+            toast.success('Incidencia revisada correctamente');
         }
     } catch (error) {
-        lanzarToast(error.response?.data?.message || 'Error al actualizar incidencias');
+        toast.error(error.response?.data?.message || 'Error al actualizar incidencias');
     }
 };
 
@@ -78,7 +72,7 @@ onMounted(async () => {
                                     </span>
                             </td>
                             <td>
-                                <button class="boton-guardar" @click="actualizarincidencia(incidencia)">Guardar</button>
+                                <BaseButton size="sm" @click="actualizarincidencia(incidencia)">Guardar</BaseButton>
                             </td>
                         </tr>
                     </tbody>
@@ -86,8 +80,6 @@ onMounted(async () => {
             </div>
         </section>
     </main>
-
-    <div v-if="toastVisible" class="toast-notificacion">{{ toastMensaje }}</div>
 
     <Footer />
 </template>
@@ -192,34 +184,6 @@ onMounted(async () => {
     padding: 8px;
     font-size: 14px;
     background-color: #FFFFFF;
-}
-
-.boton-guardar {
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(90deg, #4CA626 0%, #009B58 100%);
-    color: #FFFFFF;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 8px 12px;
-    cursor: pointer;
-}
-
-.boton-guardar:hover {
-    opacity: 0.95;
-}
-
-.toast-notificacion {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #1F2937;
-    color: #FFFFFF;
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-    z-index: 2000;
 }
 
 @media (max-width: 767px) {
