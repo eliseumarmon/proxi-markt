@@ -93,6 +93,14 @@ const routes = [
     },
 ];
 
+if (import.meta.env.DEV) {
+    routes.push({
+        path: "/dev/toasts",
+        name: "toast-playground",
+        component: () => import("../views/ToastPlaygroundView.vue"),
+    });
+}
+
 const router = createRouter({
     history: createWebHistory(),
     routes,
@@ -103,6 +111,10 @@ router.beforeEach(async (to) => {
 
     // definim les rutes que no son privaes
     const publicRoutes = ['/auth', '/'];
+
+    if (import.meta.env.DEV) {
+        publicRoutes.push('/dev/toasts');
+    }
 
     // si la ruta a la que va esta en la llista se li deixa pasar
     if (publicRoutes.includes(to.path)) {

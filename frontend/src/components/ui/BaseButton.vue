@@ -165,6 +165,9 @@ defineProps({
 
 .base-button__icon {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 @keyframes base-button-spin {
